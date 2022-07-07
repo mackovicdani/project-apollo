@@ -1,23 +1,47 @@
-# Next.js + Tailwind CSS Example
+# What is Project Apollo
 
-This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v3.0)](https://tailwindcss.com/blog/tailwindcss-v3) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
+Apollo's goal is to create a household management system using Next.js.
 
-## Deploy your own
+# Main features
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or preview live with [StackBlitz](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-tailwindcss)
+## **Automatic routine planning and assigning**
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss&project-name=with-tailwindcss&repository-name=with-tailwindcss)
+Create routines with specific repeat patterns and assign users to said tasks automatically. Features include the ability to trade routines with users, tracking area amortizations and allow priority for emergency tasks to be done.
 
-## How to use
+## **Household financial management**
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
+Keep track of every occupant's wallet as well as all purchases made by them. Automatic cost splitting for common household purchases from wallets.
+
+## **Household inventory management**
+
+Keep track of the household's inventory, be that common tools, cleaning, medical or food supplies.
+
+## **Meal planning**
+
+Store various recipies and displays whether the current household's supplies allow for its preparation.
+
+## **Common household rules book**
+
+Displays the currently in effect household rules and laws.
+
+# How to use
+
+Type the following command from the root folder:
+
+Run in development mode:
 
 ```bash
-npx create-next-app --example with-tailwindcss with-tailwindcss-app
-# or
-yarn create next-app --example with-tailwindcss with-tailwindcss-app
-# or
-pnpm create next-app --example with-tailwindcss with-tailwindcss-app
+yarn dev
 ```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+Build project:
+
+```bash
+yarn build
+```
+
+Start the application:
+
+```bash
+yarn start
+```

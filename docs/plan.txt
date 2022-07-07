@@ -1,0 +1,21 @@
+::ROUTINES::
+	Trade routines between users
+	Area amortization
+	Report emergency state of area
+
+::FINANCES::
+	Every user has one wallet
+	Track all purchases
+	Log every transaction
+		
+::INVENTORY::
+	Items
+	Recipies
+	Meal planner
+	Meal voting system
+	Barcode scanning for items
+
+::RULEBOOK::
+	Display current rules
+	Propose new rule
+	Voting for new rule proposals

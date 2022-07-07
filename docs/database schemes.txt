@@ -1,0 +1,81 @@
+::GLOBAL::
+User:
+	username
+	email
+	pass
+	salt
+	profilepic
+	wallet
+	penatly-points
+	at-house
+
+
+::ROUTINES::
+Area:
+	name
+	amortization
+	amortization-rate
+	health
+	penalty-value
+	description
+	assignees
+	days []
+	reports []
+
+Day:
+	date
+	assigned
+	status
+	comments []
+
+Comment:
+	user
+	message
+
+Report:
+	user
+	message
+
+::FINANCE::
+Wallet:
+	money
+	purchases []
+
+Transaction:
+	sender
+	recipient
+	amount
+
+Purchase:
+	user
+	date
+	inventory
+	items []
+	price
+	transactions []
+
+::HOUSE INVENTORY::
+Inventory:
+	name
+	items []
+	
+
+Item:
+	product
+	quantity
+
+
+Product:
+	name
+	type
+	category
+	package-size
+	quantity-type
+
+Recipe:
+	name
+	category
+	items []
+	description
+	prepare-time
+	portion-size
