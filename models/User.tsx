@@ -1,14 +1,17 @@
 import mongoose from "mongoose";
 import Purchase from "./Purchase";
 
-const transactionSchema = new mongoose.Schema({
-  purchaseRef: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: Purchase,
+const transactionSchema = new mongoose.Schema(
+  {
+    purchaseRef: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: Purchase,
+    },
+    amount: { type: Number, required: true },
   },
-  amount: { type: Number, required: true },
-});
+  { timestamps: true }
+);
 
 const walletSchema = new mongoose.Schema({
   money: { type: Number, required: true },
