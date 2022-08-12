@@ -69,7 +69,7 @@ export class User {
   }
 
   public getSignToken(this: DocumentType<User>) {
-    return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+    return jwt.sign({ id: this._id, name: this.name }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRE,
     });
   }
