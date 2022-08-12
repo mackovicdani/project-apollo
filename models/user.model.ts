@@ -7,6 +7,7 @@ import {
   Severity,
 } from "@typegoose/typegoose";
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 class Wallet {
   @prop({ default: 0 })
@@ -66,6 +67,13 @@ export class User {
   public async matchPasswords(this: DocumentType<User>, password: string) {
     return await bcrypt.compare(password, this.password);
   }
+
+  public getSignToken(this: DocumentType<User>) {
+    return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRE,
+    });
+  }
+
   public async addMoney(this: DocumentType<User>, amount: number) {
     this.wallet.money += amount;
     await this.save();
