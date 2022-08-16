@@ -2,7 +2,7 @@ import axios from "axios";
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import Router from "next/router";
 import { useState } from "react";
-import { signupSchema } from "./components/validation/signupSchema";
+import { signupSchema } from "../components/validation/signupSchema";
 
 interface Values {
   name: string;
