@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import User from "./User";
+import { User } from "./user.model";
 
 const commentSchema = new mongoose.Schema(
   {

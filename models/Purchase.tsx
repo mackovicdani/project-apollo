@@ -1,10 +1,8 @@
 import mongoose from "mongoose";
-import Inventory from "./Inventory";
-import User from "./User";
 
 const purchaseSchema = new mongoose.Schema(
   {
-    userRef: {
+    /* userRef: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: User,
@@ -15,7 +13,7 @@ const purchaseSchema = new mongoose.Schema(
       ref: Inventory,
     },
     items: { type: Array, required: true },
-    price: { type: Number, required: true },
+    price: { type: Number, required: true }, */
   },
   { timestamps: true }
 );
