@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import nextConnect from "next-connect";
-import auth from "./auth";
 
 export interface NextApiRequestExtended extends NextApiRequest {
   userId: number | null;
@@ -17,5 +16,5 @@ export default function getHandler() {
     onNoMatch(req, res) {
       res.status(405).json({ error: `Method ${req.method} Not Allowed` });
     },
-  }).use(auth);
+  });
 }

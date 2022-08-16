@@ -17,9 +17,8 @@ export default getHandler().post(async (req, res) => {
     if (!user) return res.status(401).json({ message: "Invalid Credentials" });
 
     const isMatch = await user?.matchPasswords(password);
-
     if (!isMatch)
-      return res.status(200).json({ message: "Invalid Credentials" });
+      return res.status(401).json({ message: "Invalid Credentials" });
 
     res.setHeader(
       "Set-Cookie",
@@ -33,7 +32,7 @@ export default getHandler().post(async (req, res) => {
     );
     return res.json({
       message: "Welcome back to the app!",
-      user: req.username,
+      user: user,
     });
   } catch (error) {
     return res.status(502).json({ message: "Database error" });
