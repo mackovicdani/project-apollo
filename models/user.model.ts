@@ -1,3 +1,4 @@
+import type { Ref } from "@typegoose/typegoose";
 import {
   DocumentType,
   getModelForClass,
@@ -6,12 +7,19 @@ import {
   prop,
   Severity,
 } from "@typegoose/typegoose";
+import { Purchase } from "./purchase.model";
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 class Wallet {
   @prop({ default: 0 })
   money: number;
+
+  @prop({ ref: () => Purchase })
+  public purchases?: Ref<Purchase>[];
+
+  @prop({ ref: () => User })
+  public sharedUsers?: Ref<User>[];
 }
 
 @pre<User>("save", async function () {
@@ -61,7 +69,7 @@ export class User {
   @prop({ default: 0 })
   public pentaltypoints: number;
 
-  @prop({ dafault: true })
+  @prop({ default: true })
   public atHouse: boolean;
 
   public async matchPasswords(this: DocumentType<User>, password: string) {
