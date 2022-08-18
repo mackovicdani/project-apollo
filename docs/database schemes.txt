@@ -40,19 +40,20 @@ Report:
 Wallet:
 	money
 	purchases []
+	sharedUsers [] ref
 
 Transaction:
 	sender
 	recipient
 	amount
+	purchase ref
 
 Purchase:
-	user
+	user ref
 	date
-	inventory
+	inventory ref
 	items []
 	price
-	transactions []
 
 ::HOUSE INVENTORY::
 Inventory:
