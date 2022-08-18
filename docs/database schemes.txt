@@ -39,7 +39,6 @@ Report:
 ::FINANCE::
 Wallet:
 	money
-	purchases []
 	sharedUsers [] ref
 
 Transaction:
@@ -50,6 +49,7 @@ Transaction:
 
 Purchase:
 	user ref
+	wallet ref
 	date
 	inventory ref
 	items []

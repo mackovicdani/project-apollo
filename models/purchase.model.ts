@@ -6,6 +6,10 @@ export class Purchase {
   @prop({ ref: () => User })
   public user?: Ref<User>;
 
+  //TODO: Add wallet back when issue is resolved
+  /*@prop({ ref: () => Wallet })
+  public wallet?: Ref<Wallet>;*/
+
   @prop({ default: new Date() })
   public date: Date;
 

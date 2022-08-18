@@ -7,16 +7,12 @@ import {
   prop,
   Severity,
 } from "@typegoose/typegoose";
-import { Purchase } from "./purchase.model";
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-class Wallet {
+export class Wallet {
   @prop({ default: 0 })
   money: number;
-
-  @prop({ ref: () => Purchase })
-  public purchases?: Ref<Purchase>[];
 
   @prop({ ref: () => User })
   public sharedUsers?: Ref<User>[];
