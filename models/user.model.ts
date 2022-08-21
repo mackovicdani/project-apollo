@@ -1,4 +1,3 @@
-import type { Ref } from "@typegoose/typegoose";
 import {
   DocumentType,
   getModelForClass,
@@ -9,15 +8,6 @@ import {
 } from "@typegoose/typegoose";
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
-export class Wallet {
-  @prop({ default: 0 })
-  money: number;
-
-  @prop({ ref: () => User })
-  public sharedUsers?: Ref<User>[];
-}
-
 @pre<User>("save", async function () {
   if (!this.isModified("password")) {
     return;
@@ -59,9 +49,6 @@ export class User {
   @prop()
   public profilepic: string;
 
-  @prop({ default: new Wallet() })
-  public wallet: Wallet;
-
   @prop({ default: 0 })
   public pentaltypoints: number;
 
@@ -76,11 +63,6 @@ export class User {
     return jwt.sign({ id: this._id, name: this.name }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRE,
     });
-  }
-
-  public async addMoney(this: DocumentType<User>, amount: number) {
-    this.wallet.money += amount;
-    await this.save();
   }
 }
 

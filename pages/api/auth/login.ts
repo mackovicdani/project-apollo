@@ -26,7 +26,7 @@ export default getHandler().post(async (req, res) => {
         httpOnly: true,
         secure: process.env.NODE_ENV !== "development",
         sameSite: "strict",
-        maxAge: 3600,
+        maxAge: 24 * 60 * 60 * 1000,
         path: "/",
       })
     );
