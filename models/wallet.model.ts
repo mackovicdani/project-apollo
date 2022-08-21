@@ -62,6 +62,55 @@ export class Wallet {
   ) {
     return await this.findByIdAndDelete(walletId);
   }
+
+  //api/wallet/[walletId]/users/
+  public static async addAssignedUser(
+    this: ReturnModelType<typeof Wallet>,
+    walletId: string,
+    assignedUser: AssignedUser
+  ) {
+    return await this.findByIdAndUpdate(
+      walletId,
+      {
+        $push: {
+          assignedUsers: assignedUser,
+        },
+      },
+      { new: true }
+    )
+      .populate("assignedUsers.user", "name email")
+      .select("-purchases");
+  }
+
+  public static async getAllAssignedUser(
+    this: ReturnModelType<typeof Wallet>,
+    id: string
+  ) {
+    const wallet = await this.findById(id)
+      .select("purchases -_id")
+      .populate("purchases.user", "name email")
+      .exec();
+    return wallet?.purchases;
+  }
+
+  //api/wallet/[walletId]/users/[userId]
+  public static async deleteAssignedUserById(
+    this: ReturnModelType<typeof Wallet>,
+    walletId: string,
+    assignedUser: string
+  ) {
+    return await this.findByIdAndUpdate(
+      walletId,
+      {
+        $pull: {
+          assignedUsers: assignedUser,
+        },
+      },
+      { new: true }
+    )
+      .populate("assignedUsers.user", "name email")
+      .select("-purchases");
+  }
 }
 
 const WalletModel = getModelForClass(Wallet);
