@@ -122,6 +122,63 @@ export class Wallet {
       .populate("assignedUsers.user", "name email")
       .select("-purchases");
   }
+
+  //api/wallet/[walletId]/purchases/
+  public static async getAllPurchases(
+    this: ReturnModelType<typeof Wallet>,
+    id: string
+  ) {
+    const wallet = await this.findById(id)
+      .select("purchases -_id")
+      .populate("purchases.user", "name email");
+    return wallet?.purchases;
+  }
+
+  public static async addPurchase(
+    this: ReturnModelType<typeof Wallet>,
+    walletId: string,
+    purchase: Purchase
+  ) {
+    return await this.findByIdAndUpdate(
+      walletId,
+      {
+        $push: {
+          purchases: purchase,
+        },
+      },
+      { new: true }
+    ).populate("purchases.user", "user email");
+  }
+
+  //api/wallet/[walletId]/purchases/[purchaseId]
+  public static async getPurchaseById(
+    this: ReturnModelType<typeof Wallet>,
+    walletId: string,
+    purchaseId: string
+  ) {
+    const wallet = await this.findOne(
+      { $and: [{ "purchases._id": purchaseId }, { _id: walletId }] },
+      { "purchases.$": true }
+    ).populate("purchases.user", "name email");
+    return wallet?.purchases[0];
+  }
+
+  public static async deletePurchaseById(
+    this: ReturnModelType<typeof Wallet>,
+    walletId: string,
+    purchaseId: string
+  ) {
+    const wallet = await this.findByIdAndUpdate(
+      walletId,
+      {
+        $pull: {
+          purchases: { _id: purchaseId },
+        },
+      },
+      { new: true }
+    ).populate("purchases.user", "name email");
+    return wallet?.purchases;
+  }
 }
 
 const WalletModel = getModelForClass(Wallet);
