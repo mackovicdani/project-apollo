@@ -69,17 +69,29 @@ export class Wallet {
     walletId: string,
     assignedUser: AssignedUser
   ) {
-    return await this.findByIdAndUpdate(
-      walletId,
-      {
-        $push: {
-          assignedUsers: assignedUser,
-        },
-      },
-      { new: true }
-    )
-      .populate("assignedUsers.user", "name email")
-      .select("-purchases");
+    const wallet = await this.findById(walletId);
+    if (wallet && !wallet.errors) {
+      const found = wallet.assignedUsers.find(
+        (user) => user.user?.toString() === assignedUser.user
+      );
+      if (found) {
+        const populatedWallet = await WalletModel.populate(wallet, {
+          path: "assignedUsers.user",
+          select: "name email",
+        });
+        return { message: "User is already assigned", wallet: populatedWallet };
+      }
+      wallet.assignedUsers.push(assignedUser);
+      await wallet.save();
+    }
+    const populatedWallet = await WalletModel.populate(wallet, {
+      path: "assignedUsers.user",
+      select: "name email",
+    });
+    return {
+      message: "New user has been assigned to the wallet",
+      wallet: populatedWallet,
+    };
   }
 
   public static async getAllAssignedUser(
@@ -87,23 +99,22 @@ export class Wallet {
     id: string
   ) {
     const wallet = await this.findById(id)
-      .select("purchases -_id")
-      .populate("purchases.user", "name email")
-      .exec();
-    return wallet?.purchases;
+      .select("assignedUsers -_id")
+      .populate("assignedUsers.user", "name email");
+    return wallet?.assignedUsers;
   }
 
   //api/wallet/[walletId]/users/[userId]
   public static async deleteAssignedUserById(
     this: ReturnModelType<typeof Wallet>,
     walletId: string,
-    assignedUser: string
+    assignedUserId: string
   ) {
     return await this.findByIdAndUpdate(
       walletId,
       {
         $pull: {
-          assignedUsers: assignedUser,
+          assignedUsers: { user: assignedUserId },
         },
       },
       { new: true }

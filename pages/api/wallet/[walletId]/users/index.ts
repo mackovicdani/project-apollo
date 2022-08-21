@@ -11,11 +11,9 @@ export default getHandler()
 
     await dbConnect();
     try {
-      const wallet = await WalletModel.addAssignedUser(walletId, assignedUser);
+      const result = await WalletModel.addAssignedUser(walletId, assignedUser);
 
-      res
-        .status(201)
-        .json({ message: "New user has been assigned to the wallet", wallet });
+      res.status(201).json({ message: result.message, wallet: result.wallet });
     } catch (error) {
       res.status(406).json({ message: error });
     }
@@ -24,9 +22,9 @@ export default getHandler()
     const walletId = req.query.walletId as string;
     await dbConnect();
     try {
-      const purchases = await WalletModel.getAllPurchases(walletId);
+      const users = await WalletModel.getAllAssignedUser(walletId);
 
-      return res.status(200).json({ purchases });
+      return res.status(200).json({ users });
     } catch (error) {
       return res.status(502).json({ message: "Database errorr" });
     }
