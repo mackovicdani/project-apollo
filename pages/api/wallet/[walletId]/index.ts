@@ -24,7 +24,7 @@ export default getHandler()
     try {
       const wallet = await WalletModel.deleteWalletById(walletId);
 
-      res.status(201).json({ message: "Wallet successfully deleted" });
+      res.status(201).json({ message: "Wallet successfully deleted", wallet });
     } catch (error) {
       res.status(406).json({ message: error });
     }
