@@ -1,4 +1,5 @@
 import auth from "../../../lib/auth";
+import CustomResponse from "../../../lib/customResponse";
 import getHandler from "../../../lib/handler";
 
 import dbConnect from "../../../lib/mongoosedb";
@@ -8,7 +9,7 @@ var mongoose = require("mongoose");
 
 export default getHandler()
   .use(auth)
-  .post(async (req, res) => {
+  .post(async (req, res, next) => {
     const name = req.body.name as string;
     await dbConnect();
     try {
@@ -20,17 +21,17 @@ export default getHandler()
         purchases: [],
       });
 
-      res.status(201).json({ message: "New wallet added!", wallet });
+      CustomResponse(res, 201, "New wallet added!", wallet);
     } catch (error) {
-      res.status(406).json({ message: error });
+      next(error);
     }
   })
-  .get(async (req, res) => {
+  .get(async (req, res, next) => {
     await dbConnect();
     try {
       const wallets = await WalletModel.getAllWallets(req.userId!);
-      return res.status(200).json({ wallets });
+      CustomResponse(res, 200, undefined, wallets);
     } catch (error) {
-      return res.status(502).json({ message: "Database error" });
+      next(error);
     }
   });

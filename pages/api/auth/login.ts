@@ -1,24 +1,23 @@
+import CustomResponse from "../../../lib/customResponse";
+import ErrorResponse from "../../../lib/errorResponse";
 import getHandler from "../../../lib/handler";
 import dbConnect from "../../../lib/mongoosedb";
 import UserModel from "../../../models/user.model";
 const cookie = require("cookie");
 
-export default getHandler().post(async (req, res) => {
+export default getHandler().post(async (req, res, next) => {
   const { email, password } = req.body;
   await dbConnect();
   try {
     if (!email || !password)
-      return res
-        .status(400)
-        .json({ message: "Please provide an email and password" });
+      throw new ErrorResponse("Please provide an email and password", 400);
 
     const user = await UserModel.findOne({ email }).select("+password");
 
-    if (!user) return res.status(401).json({ message: "Invalid Credentials" });
+    if (!user) throw new ErrorResponse("Invalid Credentials", 401);
 
     const isMatch = await user?.matchPasswords(password);
-    if (!isMatch)
-      return res.status(401).json({ message: "Invalid Credentials" });
+    if (!isMatch) throw new ErrorResponse("Invalid Credentials", 401);
 
     res.setHeader(
       "Set-Cookie",
@@ -30,11 +29,8 @@ export default getHandler().post(async (req, res) => {
         path: "/",
       })
     );
-    return res.json({
-      message: "Welcome back to the app!",
-      user: user,
-    });
-  } catch (error) {
-    return res.status(502).json({ message: "Database error" });
+    CustomResponse(res, 200, `Welcome back to the app ${user.name}`);
+  } catch (error: any) {
+    next(error);
   }
 });

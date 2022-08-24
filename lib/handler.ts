@@ -9,12 +9,15 @@ export interface NextApiRequestExtended extends NextApiRequest {
 export default function getHandler() {
   return nextConnect<NextApiRequestExtended, NextApiResponse>({
     onError(error, req, res) {
-      res
-        .status(501)
-        .json({ error: `Sorry something Happened! ${error.message}` });
+      return res.status(error.statusCode || 500).json({
+        succes: false,
+        error: error.message || "Server Error",
+      });
     },
     onNoMatch(req, res) {
-      res.status(405).json({ error: `Method ${req.method} Not Allowed` });
+      return res
+        .status(405)
+        .json({ succes: false, error: `Method ${req.method} Not Allowed` });
     },
   });
 }

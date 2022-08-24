@@ -6,21 +6,21 @@ var mongoose = require("mongoose");
 const crypto = require("crypto");
 
 export class AssignedUser {
-  @prop({ ref: () => User })
+  @prop({ required: [true, "Please provide a user!"], ref: () => User })
   public user: Ref<User>;
 
-  @prop({ default: 0 })
+  @prop({ required: true, default: 0 })
   public money: number;
 }
 
 export class Purchase {
-  @prop({ ref: () => User })
+  @prop({ required: [true, "Please provide a user!"], ref: () => User })
   public user: Ref<User>;
 
-  @prop({ default: new Date() })
+  @prop({ required: true, default: new Date() })
   public date: Date;
 
-  @prop({ default: 0 })
+  @prop({ required: [true, "Please provide a price!"] })
   public price: number;
 }
 
@@ -29,13 +29,13 @@ export class Purchase {
   return;
 })
 export class Wallet {
-  @prop()
+  @prop({ required: [true, "Please provide a name!"] })
   public name: string;
 
-  @prop({ type: () => AssignedUser })
+  @prop({ required: true, type: () => AssignedUser })
   public assignedUsers: AssignedUser[];
 
-  @prop({ type: () => Purchase })
+  @prop({ required: false, type: () => Purchase })
   public purchases: Purchase[];
 
   @prop()

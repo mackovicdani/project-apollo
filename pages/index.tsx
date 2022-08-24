@@ -54,7 +54,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { data } = await axios.get("http://localhost:3000/api/wallet/", config);
 
   return {
-    props: { wallets: data.wallets },
+    props: { wallets: data.data },
   };
 };
 
