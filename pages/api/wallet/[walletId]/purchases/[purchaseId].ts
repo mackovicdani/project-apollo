@@ -1,10 +1,12 @@
 import auth from "../../../../../lib/auth";
 import getHandler from "../../../../../lib/handler";
 import dbConnect from "../../../../../lib/mongoosedb";
+import permissions from "../../../../../lib/permissions";
 import WalletModel from "../../../../../models/wallet.model";
 
 export default getHandler()
   .use(auth)
+  .use(permissions)
   .get(async (req, res) => {
     const walletId = req.query.walletId as string;
     const purchaseId = req.query.purchaseId as string;

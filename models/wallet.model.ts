@@ -1,6 +1,9 @@
 import type { Ref, ReturnModelType } from "@typegoose/typegoose";
-import { getModelForClass, prop } from "@typegoose/typegoose";
+import { getModelForClass, pre, prop } from "@typegoose/typegoose";
+import TransactionModel from "./transaction.model";
 import { User } from "./user.model";
+var mongoose = require("mongoose");
+const crypto = require("crypto");
 
 export class AssignedUser {
   @prop({ ref: () => User })
@@ -21,12 +24,22 @@ export class Purchase {
   public price: number;
 }
 
+@pre<Wallet>("save", function () {
+  this.inviteLink = crypto.randomBytes(20).toString("hex");
+  return;
+})
 export class Wallet {
+  @prop()
+  public name: string;
+
   @prop({ type: () => AssignedUser })
   public assignedUsers: AssignedUser[];
 
   @prop({ type: () => Purchase })
   public purchases: Purchase[];
+
+  @prop()
+  public inviteLink?: string;
 
   //api/wallet/
   public static async createWallet(
@@ -38,8 +51,13 @@ export class Wallet {
     ).populate("assignedUsers.user", "email name");
   }
 
-  public static async getAllWallets(this: ReturnModelType<typeof Wallet>) {
+  public static async getAllWallets(
+    this: ReturnModelType<typeof Wallet>,
+    userId: string
+  ) {
     return await this.find({})
+      .where("assignedUsers.user")
+      .equals(userId)
       .populate("assignedUsers.user", "name email")
       .populate("purchases.user", "name email");
   }
@@ -67,13 +85,17 @@ export class Wallet {
   public static async addAssignedUser(
     this: ReturnModelType<typeof Wallet>,
     walletId: string,
-    assignedUser: AssignedUser
+    userId: string,
+    inviteLink: string
   ) {
     const wallet = await this.findById(walletId);
     if (wallet && !wallet.errors) {
       const found = wallet.assignedUsers.find(
-        (user) => user.user?.toString() === assignedUser.user
+        (user) => user.user?.toString() === userId
       );
+      if (wallet.inviteLink !== inviteLink) {
+        return { message: "Invalide invite link" };
+      }
       if (found) {
         const populatedWallet = await WalletModel.populate(wallet, {
           path: "assignedUsers.user",
@@ -81,8 +103,14 @@ export class Wallet {
         });
         return { message: "User is already assigned", wallet: populatedWallet };
       }
-      wallet.assignedUsers.push(assignedUser);
-      await wallet.save();
+
+      if (wallet.inviteLink === inviteLink) {
+        wallet.assignedUsers.push({
+          user: mongoose.Types.ObjectId(userId),
+          money: 0,
+        });
+        await wallet.save();
+      }
     }
     const populatedWallet = await WalletModel.populate(wallet, {
       path: "assignedUsers.user",
@@ -139,15 +167,43 @@ export class Wallet {
     walletId: string,
     purchase: Purchase
   ) {
-    return await this.findByIdAndUpdate(
+    const id = new mongoose.Types.ObjectId();
+
+    let wallet = await this.findByIdAndUpdate(
       walletId,
       {
         $push: {
-          purchases: purchase,
+          purchases: { _id: id, user: purchase.user, price: purchase.price },
         },
       },
       { new: true }
-    ).populate("purchases.user", "user email");
+    ).populate("purchases.user", "name email");
+
+    if (wallet) {
+      await Promise.all(
+        wallet.assignedUsers.map(async (assignedUser, index, array) => {
+          const size = wallet!.assignedUsers.length;
+          const price =
+            purchase.user === assignedUser.user?.toString()
+              ? size == 1
+                ? purchase.price
+                : ((size - 1) / size) * purchase.price
+              : (1 / size) * -purchase.price;
+          const transaction = await TransactionModel.createTransaction({
+            sender: purchase.user,
+            recipient: assignedUser.user,
+            purchase: id,
+            amount: price,
+          });
+          if (transaction) {
+            assignedUser.money += price;
+          }
+          array[index] = assignedUser;
+        })
+      );
+      await wallet.save();
+    }
+    return wallet;
   }
 
   //api/wallet/[walletId]/purchases/[purchaseId]

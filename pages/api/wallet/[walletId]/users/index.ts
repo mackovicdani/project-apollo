@@ -1,17 +1,23 @@
 import auth from "../../../../../lib/auth";
 import getHandler from "../../../../../lib/handler";
 import dbConnect from "../../../../../lib/mongoosedb";
-import WalletModel, { AssignedUser } from "../../../../../models/wallet.model";
+import permissions from "../../../../../lib/permissions";
+import WalletModel from "../../../../../models/wallet.model";
 
 export default getHandler()
   .use(auth)
+  .use(permissions)
   .put(async (req, res) => {
     const walletId = req.query.walletId as string;
-    const assignedUser = req.body.assignedUser as AssignedUser;
+    const inviteLink = req.body.inviteLink as string;
 
     await dbConnect();
     try {
-      const result = await WalletModel.addAssignedUser(walletId, assignedUser);
+      const result = await WalletModel.addAssignedUser(
+        walletId,
+        req.userId!,
+        inviteLink
+      );
 
       res.status(201).json({ message: result.message, wallet: result.wallet });
     } catch (error) {

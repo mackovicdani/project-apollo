@@ -2,16 +2,21 @@ import auth from "../../../lib/auth";
 import getHandler from "../../../lib/handler";
 
 import dbConnect from "../../../lib/mongoosedb";
-import WalletModel, { AssignedUser } from "../../../models/wallet.model";
+import WalletModel from "../../../models/wallet.model";
+
+var mongoose = require("mongoose");
 
 export default getHandler()
   .use(auth)
   .post(async (req, res) => {
-    const assignedUsers = req.body.assignedUsers as AssignedUser[];
+    const name = req.body.name as string;
     await dbConnect();
     try {
       const wallet = await WalletModel.createWallet({
-        assignedUsers,
+        name,
+        assignedUsers: [
+          { user: mongoose.Types.ObjectId(req.userId), money: 0 },
+        ],
         purchases: [],
       });
 
@@ -23,7 +28,7 @@ export default getHandler()
   .get(async (req, res) => {
     await dbConnect();
     try {
-      const wallets = await WalletModel.getAllWallets();
+      const wallets = await WalletModel.getAllWallets(req.userId!);
       return res.status(200).json({ wallets });
     } catch (error) {
       return res.status(502).json({ message: "Database error" });

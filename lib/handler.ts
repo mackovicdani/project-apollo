@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import nextConnect from "next-connect";
 
 export interface NextApiRequestExtended extends NextApiRequest {
-  userId: number | null;
+  userId: string | null;
   username: string | null;
 }
 
