@@ -8,17 +8,18 @@ interface Props {
 const Home: NextPage<Props> = (props) => {
   return (
     <main className="flex w-full flex-col items-center">
-      {props.wallets.map((wallet: any) => {
-        return (
-          <Wallet
-            key={wallet._id}
-            name={wallet.name}
-            id={wallet._id}
-            assignedUsers={wallet.assignedUsers}
-            purchases={wallet.purchases}
-          />
-        );
-      })}
+      {props.wallets &&
+        props.wallets.map((wallet: any) => {
+          return (
+            <Wallet
+              key={wallet._id}
+              name={wallet.name}
+              id={wallet._id}
+              assignedUsers={wallet.assignedUsers}
+              purchases={wallet.purchases}
+            />
+          );
+        })}
     </main>
   );
 };

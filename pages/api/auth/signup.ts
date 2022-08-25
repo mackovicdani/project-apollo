@@ -7,7 +7,7 @@ export default getHandler().post(async (req, res, next) => {
   const { name, email, password } = req.body;
   await dbConnect();
   try {
-    const user = await UserModel.create({
+    await UserModel.create({
       name,
       email,
       password,
