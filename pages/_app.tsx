@@ -3,8 +3,10 @@ import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <div className="h-screen bg-gray-700">
-      <Component {...pageProps} />
+    <div className="dark">
+      <div className="h-screen bg-sky-200 p-2 dark:bg-zinc-800">
+        <Component {...pageProps} />
+      </div>
     </div>
   );
 }

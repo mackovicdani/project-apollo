@@ -67,10 +67,9 @@ export class Wallet {
     this: ReturnModelType<typeof Wallet>,
     walletId: string
   ) {
-    const wallet = await this.findById(walletId).populate(
-      "assignedUsers.user",
-      "name email"
-    );
+    const wallet = await this.findById(walletId)
+      .populate("assignedUsers.user", "name email")
+      .populate("purchases.user", "name email");
     return wallet;
   }
 
@@ -165,6 +164,7 @@ export class Wallet {
   public static async addPurchase(
     this: ReturnModelType<typeof Wallet>,
     walletId: string,
+    userId: string,
     purchase: Purchase
   ) {
     const id = new mongoose.Types.ObjectId();
@@ -173,7 +173,11 @@ export class Wallet {
       walletId,
       {
         $push: {
-          purchases: { _id: id, user: purchase.user, price: purchase.price },
+          purchases: {
+            _id: id,
+            user: mongoose.Types.ObjectId(userId),
+            price: purchase.price,
+          },
         },
       },
       { new: true }
@@ -184,13 +188,13 @@ export class Wallet {
         wallet.assignedUsers.map(async (assignedUser, index, array) => {
           const size = wallet!.assignedUsers.length;
           const price =
-            purchase.user === assignedUser.user?.toString()
+            userId === assignedUser.user?.toString()
               ? size == 1
                 ? purchase.price
                 : ((size - 1) / size) * purchase.price
               : (1 / size) * -purchase.price;
           const transaction = await TransactionModel.createTransaction({
-            sender: purchase.user,
+            sender: new mongoose.Types.ObjectId(userId),
             recipient: assignedUser.user,
             purchase: id,
             amount: price,

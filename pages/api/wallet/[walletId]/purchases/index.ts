@@ -14,7 +14,11 @@ export default getHandler()
 
     await dbConnect();
     try {
-      const wallet = await WalletModel.addPurchase(walletId, purchase);
+      const wallet = await WalletModel.addPurchase(
+        walletId,
+        req.userId!,
+        purchase
+      );
       CustomResponse(res, 201, "New purchase added to the wallet", wallet);
     } catch (error) {
       next(error);

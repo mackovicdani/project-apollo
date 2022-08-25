@@ -8,7 +8,6 @@ import WalletModel from "../../../../../models/wallet.model";
 
 export default getHandler()
   .use(auth)
-  .use(permissions)
   .put(async (req, res, next) => {
     const walletId = req.query.walletId as string;
     const inviteLink = req.body.inviteLink as string;
@@ -29,6 +28,7 @@ export default getHandler()
       next(error);
     }
   })
+  .use(permissions)
   .get(async (req, res, next) => {
     const walletId = req.query.walletId as string;
     await dbConnect();
