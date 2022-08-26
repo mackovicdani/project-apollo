@@ -11,13 +11,13 @@ export class Purchase {
   @prop({ default: new Date() })
   public date: Date;
 
-  @prop({ ref: () => Store })
+  @prop({ default: null, ref: () => Store })
   public store: Ref<Store>;
 
   /*@prop({ ref: () => Inventory })
   public inventory: Ref<Inventory>;*/
 
-  @prop({ default: null })
+  @prop({ type: () => Item })
   public items: Item[];
 
   @prop({ default: 0 })

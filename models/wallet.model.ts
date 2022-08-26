@@ -1,5 +1,6 @@
 import type { Ref, ReturnModelType } from "@typegoose/typegoose";
 import { getModelForClass, pre, prop } from "@typegoose/typegoose";
+import { Purchase } from "./purchase.model";
 import TransactionModel from "./transaction.model";
 import { User } from "./user.model";
 var mongoose = require("mongoose");
@@ -11,17 +12,6 @@ export class AssignedUser {
 
   @prop({ required: true, default: 0 })
   public money: number;
-}
-
-export class Purchase {
-  @prop({ required: [true, "Please provide a user!"], ref: () => User })
-  public user: Ref<User>;
-
-  @prop({ required: true, default: new Date() })
-  public date: Date;
-
-  @prop({ required: [true, "Please provide a price!"] })
-  public price: number;
 }
 
 @pre<Wallet>("save", function () {
@@ -168,7 +158,6 @@ export class Wallet {
     purchase: Purchase
   ) {
     const id = new mongoose.Types.ObjectId();
-
     let wallet = await this.findByIdAndUpdate(
       walletId,
       {
@@ -176,6 +165,7 @@ export class Wallet {
           purchases: {
             _id: id,
             user: mongoose.Types.ObjectId(userId),
+            items: purchase.items,
             price: purchase.price,
           },
         },

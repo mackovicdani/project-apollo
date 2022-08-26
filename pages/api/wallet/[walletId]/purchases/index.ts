@@ -3,7 +3,8 @@ import CustomResponse from "../../../../../lib/customResponse";
 import getHandler from "../../../../../lib/handler";
 import dbConnect from "../../../../../lib/mongoosedb";
 import permissions from "../../../../../lib/permissions";
-import WalletModel, { Purchase } from "../../../../../models/wallet.model";
+import { Purchase } from "../../../../../models/purchase.model";
+import WalletModel from "../../../../../models/wallet.model";
 
 export default getHandler()
   .use(auth)
