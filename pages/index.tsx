@@ -31,9 +31,19 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       cookie: cookie!,
     },
   };
-  const { data } = await axios.get("http://localhost:3000/api/wallet/", config);
+  try {
+    const { data } = await axios.get(
+      "http://localhost:3000/api/wallet/",
+      config
+    );
+    return {
+      props: { wallets: data.data },
+    };
+  } catch (error) {
+    console.log(error);
+  }
   return {
-    props: { wallets: data.data },
+    props: { wallets: [] },
   };
 };
 

@@ -29,9 +29,8 @@ export default function Signup() {
         Router.push("/");
       }
     } catch (error: any) {
-      if (error.response.data.message.code === 11000) {
-        setErr("That Email address is already taken");
-      }
+      setErr(error.response.data.error);
+
       setTimeout(() => {
         setErr("");
       }, 2000);
@@ -52,7 +51,9 @@ export default function Signup() {
           validationSchema={signupSchema}
           onSubmit={(values: Values, helper: FormikHelpers<Values>) => {
             signUpHandler(values);
-            helper.resetForm();
+            helper.resetForm({
+              values: { ...values, email: "", password: "" },
+            });
           }}
         >
           {({ errors, touched }) => (
