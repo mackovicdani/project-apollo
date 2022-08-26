@@ -49,8 +49,8 @@ Transaction:
 
 Purchase:
 	user ref
-	wallet ref
 	date
+	store ref
 	inventory ref
 	items []
 	price
@@ -59,12 +59,11 @@ Purchase:
 Inventory:
 	name
 	items []
-	
 
 Item:
-	product
+	product ref
 	quantity
-
+	price
 
 Product:
 	name
@@ -72,6 +71,15 @@ Product:
 	category
 	package-size
 	quantity-type
+	price
+	origin [] ref
+
+Store:
+	name
+	location
+	distance
+	openhours
+
 
 Recipe:
 	name
