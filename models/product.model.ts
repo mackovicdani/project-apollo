@@ -1,5 +1,4 @@
-import type { Ref } from "@typegoose/typegoose";
-import { prop } from "@typegoose/typegoose";
+import { getModelForClass, prop, Ref } from "@typegoose/typegoose";
 import { Store } from "./store.model";
 
 export class Product {
@@ -24,3 +23,7 @@ export class Product {
   @prop({ default: null, ref: () => Store })
   public origin: Ref<Store>[];
 }
+
+const ProductModel = getModelForClass(Product);
+
+export default ProductModel;

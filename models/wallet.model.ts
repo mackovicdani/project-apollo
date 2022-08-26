@@ -1,5 +1,6 @@
 import type { Ref, ReturnModelType } from "@typegoose/typegoose";
 import { getModelForClass, pre, prop } from "@typegoose/typegoose";
+import ProductModel from "./product.model";
 import { Purchase } from "./purchase.model";
 import TransactionModel from "./transaction.model";
 import { User } from "./user.model";
@@ -172,6 +173,21 @@ export class Wallet {
       },
       { new: true }
     ).populate("purchases.user", "name email");
+
+    await Promise.all(
+      purchase.items.map(async (item) => {
+        if (item.changed && item.product != null) {
+          //TODO: Test if its working when products exist
+          const product = await ProductModel.findByIdAndUpdate(
+            item.product,
+            {
+              price: item.price,
+            },
+            { new: true }
+          ); //.populate("product.store", "name");
+        }
+      })
+    );
 
     if (wallet) {
       await Promise.all(
