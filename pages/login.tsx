@@ -24,12 +24,12 @@ export default function Login() {
         values,
         config
       );
-      if (data.user) {
+
+      if (data) {
         Router.push("/");
       }
     } catch (error: any) {
-      console.log(error);
-      setErr(error.response.data.message);
+      setErr(error.response.data.error);
       setTimeout(() => {
         setErr("");
       }, 2000);

@@ -2,10 +2,12 @@ import {
   DocumentType,
   getModelForClass,
   modelOptions,
+  post,
   pre,
   prop,
   Severity,
 } from "@typegoose/typegoose";
+import ErrorResponse from "../lib/errorResponse";
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 @pre<User>("save", async function () {
@@ -16,6 +18,13 @@ const jwt = require("jsonwebtoken");
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
   return;
+})
+@post<User>("save", async function (error: any, doc: any, next: any) {
+  if (error.name === "MongoServerError" && error.code === 11000) {
+    next(new ErrorResponse("Email must be unique", 400));
+  } else {
+    next(error);
+  }
 })
 @modelOptions({
   schemaOptions: {
