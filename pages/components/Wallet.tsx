@@ -5,7 +5,7 @@ export default function Wallet(props: any) {
       <h2 className="font-poppins text-xl font-bold text-gray-700 dark:text-zinc-50">
         Your wallets
       </h2>
-      <div className="relative m-2  min-h-fit w-auto rounded-3xl bg-blue-400 p-4 shadow-lg">
+      <div className="relative m-2  min-h-fit w-auto rounded-3xl bg-blue-500 p-4 shadow-lg">
         <h2 className="font-poppins text-2xl font-bold text-gray-50">{name}</h2>
         <h2 className=" ml-1 text-xs font-semibold text-gray-700">{id}</h2>
         {assignedUsers &&

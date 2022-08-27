@@ -1,11 +1,23 @@
 import axios from "axios";
 import type { GetServerSideProps, NextPage } from "next";
+import Router from "next/router";
 import Wallet from "./components/Wallet";
 interface Props {
   wallets: any;
 }
 
 const Home: NextPage<Props> = (props) => {
+  const logOutHandler = async () => {
+    try {
+      const { data } = await axios.get("http://localhost:3000/api/auth/logout");
+      if (data) {
+        Router.push("/login");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <main className="flex w-full flex-col items-center">
       {props.wallets &&
@@ -20,6 +32,12 @@ const Home: NextPage<Props> = (props) => {
             />
           );
         })}
+      <button
+        className="m-2 rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+        onClick={logOutHandler}
+      >
+        Logout
+      </button>
     </main>
   );
 };
