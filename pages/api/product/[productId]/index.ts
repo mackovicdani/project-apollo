@@ -27,7 +27,7 @@ export default getHandler()
       );
       CustomResponse(
         res,
-        201,
+        200,
         "Product modified successfully!",
         updatedProduct
       );
