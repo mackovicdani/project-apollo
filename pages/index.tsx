@@ -1,11 +1,14 @@
 import axios from "axios";
 import type { GetServerSideProps, NextPage } from "next";
-import Wallet from "./components/Wallet";
+import { useState } from "react";
+import Modal from "../components/global/modal/Modal";
+import Wallet from "../components/Wallet";
 interface Props {
   wallets: any;
 }
 
 const Home: NextPage<Props> = (props) => {
+  const [modal, setModal] = useState(false);
   return (
     <main className="flex w-full flex-col items-center">
       {props.wallets &&
@@ -20,6 +23,8 @@ const Home: NextPage<Props> = (props) => {
             />
           );
         })}
+      <button onClick={() => setModal(true)}>Modal</button>
+      <Modal isOpen={modal} handleClose={() => setModal(false)} />
     </main>
   );
 };
