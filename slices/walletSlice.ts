@@ -1,27 +1,26 @@
+import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
+import { Wallet } from "../models/wallet.model";
 
 export interface CounterState {
-  value: number;
+  value: any;
 }
 
 const initialState: CounterState = {
-  value: 0,
+  value: null,
 };
 
 export const walletSlice = createSlice({
   name: "wallet",
   initialState,
   reducers: {
-    increment: (state) => {
-      state.value += 1;
-    },
-    decrement: (state) => {
-      state.value -= 1;
+    selectWallet: (state, action: PayloadAction<Wallet>) => {
+      state.value = action.payload;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement } = walletSlice.actions;
+export const { selectWallet } = walletSlice.actions;
 
 export default walletSlice.reducer;
