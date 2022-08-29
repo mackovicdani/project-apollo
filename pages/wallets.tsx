@@ -1,17 +1,34 @@
 import axios from "axios";
 import type { GetServerSideProps, NextPage } from "next";
 import { useState } from "react";
-import WalletList from "../components/wallets/WalletList";
+import { useDispatch, useSelector } from "react-redux";
+import { decrement, increment } from "../slices/walletSlice";
+import type { RootState } from "../store";
 
 interface Props {
   wallets: any;
 }
 
 const Wallets: NextPage<Props> = (props) => {
+  const count = useSelector((state: RootState) => state.wallet.value);
+  const dispatch = useDispatch();
   const [selectedWallet, setSelectedWallet] = useState(null);
   return (
     <div className=" bg-red-900">
-      {props.wallets && <WalletList wallets={props.wallets} />}
+      {/* {props.wallets && <WalletList wallets={props.wallets} />} */}
+      <button
+        aria-label="Increment value"
+        onClick={() => dispatch(increment())}
+      >
+        Increment
+      </button>
+      <span>{count}</span>
+      <button
+        aria-label="Decrement value"
+        onClick={() => dispatch(decrement())}
+      >
+        Decrement
+      </button>
     </div>
   );
 };
