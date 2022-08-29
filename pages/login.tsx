@@ -36,9 +36,9 @@ export default function Login() {
     }
   };
   return (
-    <div className="flex h-screen items-center justify-center bg-gray-700">
-      <div className="relative w-5/6 max-w-md rounded-md bg-gray-100 p-8 shadow-md">
-        <h1 className="text-center text-3xl font-extrabold text-green-700">
+    <div className="flex h-screen w-full items-center justify-center">
+      <div className="relative w-5/6 max-w-md rounded-md bg-main p-8 shadow-md">
+        <h1 className="text-center text-3xl font-extrabold text-primary">
           Login
         </h1>
         <Formik
@@ -59,7 +59,7 @@ export default function Login() {
               <Field
                 className={`form-field ${
                   touched.email && errors.email
-                    ? "border-red-400 text-red-400 focus:border-red-500 focus:ring-red-500"
+                    ? "border-error text-error focus:ring-error"
                     : "border-gray-300"
                 }`}
                 id="email"
@@ -78,7 +78,7 @@ export default function Login() {
               <Field
                 className={`form-field ${
                   touched.password && errors.password
-                    ? "border-red-400 text-red-400 focus:border-red-500 focus:ring-red-500"
+                    ? "border-error text-error focus:ring-error"
                     : "border-gray-300"
                 }`}
                 id="password"
@@ -97,7 +97,7 @@ export default function Login() {
             </Form>
           )}
         </Formik>
-        <div className="absolute bottom-1 left-0 right-0 ml-auto mr-auto text-center text-sm font-bold text-red-500">
+        <div className="absolute bottom-1 left-0 right-0 ml-auto mr-auto text-center text-sm font-bold text-error">
           {err}
         </div>
       </div>

@@ -1,26 +1,20 @@
 import axios from "axios";
 import type { GetServerSideProps, NextPage } from "next";
-import Wallet from "./components/Wallet";
+import PurchaseList from "../components/wallets/PurchaseList";
+import WalletList from "../components/wallets/WalletList";
 interface Props {
   wallets: any;
 }
 
 const Home: NextPage<Props> = (props) => {
+  //const [modal, setModal] = useState(false);
   return (
-    <main className="flex w-full flex-col items-center">
-      {props.wallets &&
-        props.wallets.map((wallet: any) => {
-          return (
-            <Wallet
-              key={wallet._id}
-              name={wallet.name}
-              id={wallet._id}
-              assignedUsers={wallet.assignedUsers}
-              purchases={wallet.purchases}
-            />
-          );
-        })}
-    </main>
+    <>
+      {props.wallets && <WalletList wallets={props.wallets} />}
+      <PurchaseList />
+      {/* <button onClick={() => setModal(true)}>Modal</button>
+      <Modal isOpen={modal} handleClose={() => setModal(false)} /> */}
+    </>
   );
 };
 
