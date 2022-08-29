@@ -1,5 +1,6 @@
 import { prepareClientPortals } from "@jesstelford/react-portal-universal";
 import type { AppProps } from "next/app";
+import SideBar from "../components/global/SideBar/SideBar";
 import "../styles/globals.css";
 
 if (typeof window !== "undefined") {
@@ -10,9 +11,12 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <div id="modal" />
-      <div className="dark">
-        <div className="h-screen bg-sky-200 p-2 dark:bg-zinc-800">
-          <Component {...pageProps} />
+      <div>
+        <div className="h-screen bg-back">
+          <SideBar></SideBar>
+          <main className="justify-right fixed left-32 right-0 top-0 bottom-0 flex bg-back">
+            <Component {...pageProps} />
+          </main>
         </div>
       </div>
     </>
