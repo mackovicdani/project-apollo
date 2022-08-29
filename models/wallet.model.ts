@@ -176,15 +176,14 @@ export class Wallet {
 
     await Promise.all(
       purchase.items.map(async (item) => {
-        if (item.changed && item.product != null) {
-          //TODO: Test if its working when products exist
+        if (item.changed) {
           const product = await ProductModel.findByIdAndUpdate(
             item.product,
             {
               price: item.price,
             },
             { new: true }
-          ); //.populate("product.store", "name");
+          );
         }
       })
     );

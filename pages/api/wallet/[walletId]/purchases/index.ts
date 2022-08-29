@@ -30,7 +30,7 @@ export default getHandler()
     await dbConnect();
     try {
       const purchases = await WalletModel.getAllPurchases(walletId);
-      CustomResponse(res, 201, undefined, purchases);
+      CustomResponse(res, 200, undefined, purchases);
     } catch (error) {
       next(error);
     }
