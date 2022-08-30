@@ -4,6 +4,7 @@ import getHandler from "../../../lib/handler";
 import dbConnect from "../../../lib/mongoosedb";
 import ProductModel from "../../../models/product.model";
 import StoreModel, { Store } from "../../../models/store.model";
+import WalletModel from "../../../models/wallet.model";
 
 export default getHandler()
   .use(auth)
@@ -35,6 +36,7 @@ export default getHandler()
       const store = await StoreModel.deleteStoreById(storeId);
       if (store) {
         await ProductModel.RemoveStoreFromProducts(storeId);
+        await WalletModel.removeStoreFromPurchases(storeId);
       }
       CustomResponse(res, 200, "Store successfully deleted", store);
     } catch (error) {

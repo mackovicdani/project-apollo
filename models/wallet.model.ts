@@ -46,7 +46,13 @@ export class Wallet {
     ).populate("assignedUsers.user", "email name");
   }
 
-  public static async getAllWallets(
+  public static async getAllWallets(this: ReturnModelType<typeof Wallet>) {
+    return await this.find({})
+      .populate("assignedUsers.user", "name email")
+      .populate("purchases.user", "name email");
+  }
+
+  public static async getAllWalletsForUser(
     this: ReturnModelType<typeof Wallet>,
     userId: string
   ) {
@@ -170,6 +176,7 @@ export class Wallet {
           purchases: {
             _id: id,
             user: mongoose.Types.ObjectId(userId),
+            store: purchase.store,
             items: purchase.items,
             price: purchase.price,
           },
@@ -247,6 +254,18 @@ export class Wallet {
       { new: true }
     ).populate("purchases.user", "name email");
     return wallet?.purchases;
+  }
+
+  public static async removeStoreFromPurchases(storeId: string) {
+    const wallets = await WalletModel.getAllWallets();
+    wallets.forEach(async (wallet: any) => {
+      wallet?.purchases.forEach((purchase: any, index: any, array: any) => {
+        if (purchase.store == storeId) {
+          array[index].store = null;
+        }
+      });
+      await wallet?.save();
+    });
   }
 
   public static async getAllInventories(

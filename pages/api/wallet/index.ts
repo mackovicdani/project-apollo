@@ -30,7 +30,7 @@ export default getHandler()
   .get(async (req, res, next) => {
     await dbConnect();
     try {
-      const wallets = await WalletModel.getAllWallets(req.userId!);
+      const wallets = await WalletModel.getAllWalletsForUser(req.userId!);
       CustomResponse(res, 200, undefined, wallets);
     } catch (error) {
       next(error);
