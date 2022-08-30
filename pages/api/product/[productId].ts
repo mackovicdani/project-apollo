@@ -1,8 +1,8 @@
-import auth from "../../../../lib/auth";
-import CustomResponse from "../../../../lib/customResponse";
-import getHandler from "../../../../lib/handler";
-import dbConnect from "../../../../lib/mongoosedb";
-import ProductModel, { Product } from "../../../../models/product.model";
+import auth from "../../../lib/auth";
+import CustomResponse from "../../../lib/customResponse";
+import getHandler from "../../../lib/handler";
+import dbConnect from "../../../lib/mongoosedb";
+import ProductModel, { Product } from "../../../models/product.model";
 
 export default getHandler()
   .use(auth)
