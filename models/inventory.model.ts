@@ -2,7 +2,7 @@ import { prop } from "@typegoose/typegoose";
 import { Item } from "./item.model";
 
 export class Inventory {
-  @prop({ default: "asd" })
+  @prop({ default: "" })
   public name: string;
 
   @prop({ default: null, type: () => Item })

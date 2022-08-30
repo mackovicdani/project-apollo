@@ -176,6 +176,7 @@ export class Wallet {
           purchases: {
             _id: id,
             user: mongoose.Types.ObjectId(userId),
+            inventory: purchase.inventory,
             store: purchase.store,
             items: purchase.items,
             price: purchase.price,
@@ -184,6 +185,22 @@ export class Wallet {
       },
       { new: true }
     ).populate("purchases.user", "name email");
+
+    const inventoryId = purchase.inventory as unknown as string;
+    const inventory = await this.getInventoryById(walletId, inventoryId);
+    inventory?.items.forEach((item: any, index, array) => {
+      purchase.items.forEach((pItem: any) => {
+        if (item.product == pItem.product) {
+          array[index].quantity += pItem.quantity;
+        }
+      });
+    });
+    await WalletModel.editInventoryById(
+      walletId,
+      inventoryId,
+      inventory as Inventory
+    );
+    await wallet?.save();
 
     await Promise.all(
       purchase.items.map(async (item) => {
