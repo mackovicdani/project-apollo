@@ -17,10 +17,10 @@ export default getHandler()
     }
   })
   .put(async (req, res, next) => {
+    const productId = req.query.productId as string;
+    const product = req.body.product as Product;
     await dbConnect();
     try {
-      const productId = req.query.productId as string;
-      const product = req.body as Product;
       const updatedProduct = await ProductModel.updateProductById(
         productId,
         product

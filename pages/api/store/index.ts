@@ -8,10 +8,11 @@ import StoreModel, { Store } from "../../../models/store.model";
 export default getHandler()
   .use(auth)
   .put(async (req, res, next) => {
+    const store = req.body.store as Store;
     await dbConnect();
     try {
-      const store = await StoreModel.createStore(req.body as Store);
-      CustomResponse(res, 201, "New Store added!", store);
+      const newStore = await StoreModel.createStore(store);
+      CustomResponse(res, 201, "New Store added!", newStore);
     } catch (error) {
       next(error);
     }

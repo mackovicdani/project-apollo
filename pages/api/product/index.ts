@@ -8,10 +8,11 @@ import ProductModel, { Product } from "../../../models/product.model";
 export default getHandler()
   .use(auth)
   .put(async (req, res, next) => {
+    const product = req.body.product as Product;
     await dbConnect();
     try {
-      const product = await ProductModel.createProduct(req.body as Product);
-      CustomResponse(res, 201, "New product added!", product);
+      const newProduct = await ProductModel.createProduct(product);
+      CustomResponse(res, 201, "New product added!", newProduct);
     } catch (error) {
       next(error);
     }
