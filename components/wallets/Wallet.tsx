@@ -8,12 +8,12 @@ export default function Wallet(props: any) {
   const { wallet } = props;
   return (
     <div
-      className={`mb-5 h-44 w-full rounded-lg p-5 font-bold text-gray-100 shadow-md ${
+      className={`h-44 w-full rounded-lg p-4 font-bold text-gray-100 shadow-md ${
         wallet._id == selected?._id ? "bg-card" : " bg-main"
       }`}
       onClick={() => dispatch(selectWallet(wallet))}
     >
-      <h2 className=" text-3xl">{wallet.name}</h2>
+      <h2 className="text-3xl">{wallet.name}</h2>
     </div>
   );
 }
