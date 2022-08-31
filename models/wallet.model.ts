@@ -195,11 +195,25 @@ export class Wallet {
         }
       });
     });
-    await WalletModel.editInventoryById(
+
+    purchase.items.forEach((pItem: any) => {
+      let found = false;
+      inventory?.items.forEach((item: any) => {
+        if (item.product == pItem.product) {
+          found = true;
+        }
+      });
+      if (!found) {
+        inventory?.items.push(pItem);
+      }
+    });
+
+    wallet = await WalletModel.editInventoryById(
       walletId,
       inventoryId,
       inventory as Inventory
     );
+
     await wallet?.save();
 
     await Promise.all(
