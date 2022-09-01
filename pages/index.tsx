@@ -3,7 +3,7 @@ interface Props {
   wallets: any;
 }
 
-const Home: NextPage<Props> = (props) => {
+const Home: NextPage<Props> = () => {
   //const [modal, setModal] = useState(false);
   return (
     <>

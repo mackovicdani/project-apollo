@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ErrorMessage, Field, Form, Formik } from "formik";
+import Link from "next/link";
 import Router from "next/router";
 import { useState } from "react";
 import { loginSchema } from "../components/validation/loginSchema";
@@ -65,6 +66,7 @@ export default function Login() {
                 id="email"
                 name="email"
                 type="email"
+                autoComplete="off"
               />
               <ErrorMessage
                 component="a"
@@ -97,6 +99,11 @@ export default function Login() {
             </Form>
           )}
         </Formik>
+        <h2 className="pt-3 text-center text-sm text-primary-main">
+          <Link href={"/signup"}>
+            Don&apos;t have an account yet? Register now
+          </Link>
+        </h2>
         <div className="absolute bottom-1 left-0 right-0 ml-auto mr-auto text-center text-sm font-bold text-error">
           {err}
         </div>
