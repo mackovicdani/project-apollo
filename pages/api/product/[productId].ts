@@ -1,8 +1,8 @@
-import auth from "../../../../lib/auth";
-import CustomResponse from "../../../../lib/customResponse";
-import getHandler from "../../../../lib/handler";
-import dbConnect from "../../../../lib/mongoosedb";
-import ProductModel, { Product } from "../../../../models/product.model";
+import auth from "../../../lib/auth";
+import CustomResponse from "../../../lib/customResponse";
+import getHandler from "../../../lib/handler";
+import dbConnect from "../../../lib/mongoosedb";
+import ProductModel, { Product } from "../../../models/product.model";
 
 export default getHandler()
   .use(auth)
@@ -17,10 +17,10 @@ export default getHandler()
     }
   })
   .put(async (req, res, next) => {
+    const productId = req.query.productId as string;
+    const product = req.body.product as Product;
     await dbConnect();
     try {
-      const productId = req.query.productId as string;
-      const product = req.body as Product;
       const updatedProduct = await ProductModel.updateProductById(
         productId,
         product

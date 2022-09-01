@@ -3,16 +3,16 @@ import CustomResponse from "../../../lib/customResponse";
 import getHandler from "../../../lib/handler";
 
 import dbConnect from "../../../lib/mongoosedb";
-import ProductModel, { Product } from "../../../models/product.model";
+import StoreModel, { Store } from "../../../models/store.model";
 
 export default getHandler()
   .use(auth)
   .put(async (req, res, next) => {
-    const product = req.body.product as Product;
+    const store = req.body.store as Store;
     await dbConnect();
     try {
-      const newProduct = await ProductModel.createProduct(product);
-      CustomResponse(res, 201, "New product added!", newProduct);
+      const newStore = await StoreModel.createStore(store);
+      CustomResponse(res, 201, "New Store added!", newStore);
     } catch (error) {
       next(error);
     }
@@ -20,8 +20,8 @@ export default getHandler()
   .get(async (req, res, next) => {
     await dbConnect();
     try {
-      const products = await ProductModel.getAllProducts();
-      CustomResponse(res, 200, undefined, products);
+      const stores = await StoreModel.getAllStores();
+      CustomResponse(res, 200, undefined, stores);
     } catch (error) {
       next(error);
     }

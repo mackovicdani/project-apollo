@@ -1,5 +1,6 @@
 import type { Ref } from "@typegoose/typegoose";
 import { prop } from "@typegoose/typegoose";
+import { Inventory } from "./inventory.model";
 import { Item } from "./item.model";
 import { Store } from "./store.model";
 import { User } from "./user.model";
@@ -14,8 +15,8 @@ export class Purchase {
   @prop({ default: null, ref: () => Store })
   public store: Ref<Store>;
 
-  /*@prop({ ref: () => Inventory })
-  public inventory: Ref<Inventory>;*/
+  @prop({ ref: () => Inventory })
+  public inventory: Ref<Inventory>;
 
   @prop({ type: () => Item })
   public items: Item[];

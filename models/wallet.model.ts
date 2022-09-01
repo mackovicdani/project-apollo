@@ -1,5 +1,6 @@
 import type { Ref, ReturnModelType } from "@typegoose/typegoose";
 import { getModelForClass, pre, prop } from "@typegoose/typegoose";
+import { Inventory } from "./inventory.model";
 import ProductModel from "./product.model";
 import { Purchase } from "./purchase.model";
 import TransactionModel from "./transaction.model";
@@ -29,6 +30,9 @@ export class Wallet {
   @prop({ required: false, type: () => Purchase })
   public purchases: Purchase[];
 
+  @prop({ default: null, type: () => Inventory })
+  public inventories: Inventory[];
+
   @prop()
   public inviteLink?: string;
 
@@ -42,7 +46,13 @@ export class Wallet {
     ).populate("assignedUsers.user", "email name");
   }
 
-  public static async getAllWallets(
+  public static async getAllWallets(this: ReturnModelType<typeof Wallet>) {
+    return await this.find({})
+      .populate("assignedUsers.user", "name email")
+      .populate("purchases.user", "name email");
+  }
+
+  public static async getAllWalletsForUser(
     this: ReturnModelType<typeof Wallet>,
     userId: string
   ) {
@@ -166,6 +176,8 @@ export class Wallet {
           purchases: {
             _id: id,
             user: mongoose.Types.ObjectId(userId),
+            inventory: purchase.inventory,
+            store: purchase.store,
             items: purchase.items,
             price: purchase.price,
           },
@@ -173,6 +185,36 @@ export class Wallet {
       },
       { new: true }
     ).populate("purchases.user", "name email");
+
+    const inventoryId = purchase.inventory as unknown as string;
+    const inventory = await this.getInventoryById(walletId, inventoryId);
+    inventory?.items.forEach((item: any, index, array) => {
+      purchase.items.forEach((pItem: any) => {
+        if (item.product == pItem.product) {
+          array[index].quantity += pItem.quantity;
+        }
+      });
+    });
+
+    purchase.items.forEach((pItem: any) => {
+      let found = false;
+      inventory?.items.forEach((item: any) => {
+        if (item.product == pItem.product) {
+          found = true;
+        }
+      });
+      if (!found) {
+        inventory?.items.push(pItem);
+      }
+    });
+
+    wallet = await WalletModel.editInventoryById(
+      walletId,
+      inventoryId,
+      inventory as Inventory
+    );
+
+    await wallet?.save();
 
     await Promise.all(
       purchase.items.map(async (item) => {
@@ -243,6 +285,94 @@ export class Wallet {
       { new: true }
     ).populate("purchases.user", "name email");
     return wallet?.purchases;
+  }
+
+  public static async removeStoreFromPurchases(storeId: string) {
+    const wallets = await WalletModel.getAllWallets();
+    wallets.forEach(async (wallet: any) => {
+      wallet?.purchases.forEach((purchase: any, index: any, array: any) => {
+        if (purchase.store == storeId) {
+          array[index].store = null;
+        }
+      });
+      await wallet?.save();
+    });
+  }
+
+  public static async getAllInventories(
+    this: ReturnModelType<typeof Wallet>,
+    id: string
+  ) {
+    const wallet = await this.findById(id).select("inventories -_id");
+    return wallet?.inventories;
+  }
+
+  public static async getInventoryById(
+    this: ReturnModelType<typeof Wallet>,
+    walletId: string,
+    inventoryId: string
+  ) {
+    const wallet = await this.findOne(
+      { $and: [{ "inventories._id": inventoryId }, { _id: walletId }] },
+      { "inventories.$": true }
+    );
+    return wallet?.inventories[0];
+  }
+
+  public static async addInventory(
+    this: ReturnModelType<typeof Wallet>,
+    walletId: string,
+    inventory: Inventory
+  ) {
+    const id = new mongoose.Types.ObjectId();
+    let wallet = await this.findByIdAndUpdate(
+      walletId,
+      {
+        $push: {
+          inventories: {
+            _id: id,
+            name: inventory.name,
+            items: inventory.items,
+          },
+        },
+      },
+      { new: true }
+    );
+    return wallet;
+  }
+
+  public static async editInventoryById(
+    this: ReturnModelType<typeof Wallet>,
+    walletId: string,
+    inventoryId: string,
+    newInventory: Inventory
+  ) {
+    const wallet = await this.findById(walletId);
+    wallet?.inventories.forEach((inventory: any, index, array) => {
+      if (inventory._id == inventoryId) {
+        array[index].name = newInventory.name;
+        array[index].items = newInventory.items;
+      }
+    });
+    await wallet?.save();
+    return wallet;
+  }
+
+  public static async deleteInventoryById(
+    this: ReturnModelType<typeof Wallet>,
+    walletId: string,
+    inventoryId: string
+  ) {
+    const wallet = await this.findByIdAndUpdate(
+      walletId,
+      {
+        $pull: {
+          inventories: { _id: inventoryId },
+        },
+      },
+      { new: true }
+    );
+    return wallet?.inventories;
   }
 }
 

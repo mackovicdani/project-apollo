@@ -72,6 +72,47 @@ export class Product {
   ) {
     return await this.findByIdAndDelete(productId);
   }
+
+  public static async addStoreToProductWithId(
+    this: ReturnModelType<typeof Product>,
+    productId: string,
+    storeId: string
+  ) {
+    await this.findByIdAndUpdate(
+      productId,
+      {
+        $push: {
+          origin: {
+            _id: storeId,
+          },
+        },
+      },
+      { new: true }
+    );
+  }
+
+  public static async RemoveStoreFromProducts(storeId: string) {
+    const products = await ProductModel.getAllProducts();
+    products.forEach((product: any) => {
+      ProductModel.removeStoreFromProductWithId(product._id, storeId);
+    });
+  }
+
+  public static async removeStoreFromProductWithId(
+    this: ReturnModelType<typeof Product>,
+    productId: string,
+    storeId: string
+  ) {
+    await this.findByIdAndUpdate(
+      productId,
+      {
+        $pull: {
+          origin: { $in: storeId },
+        },
+      },
+      { multi: true, new: true }
+    );
+  }
 }
 
 const ProductModel = getModelForClass(Product);
