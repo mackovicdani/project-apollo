@@ -1,9 +1,20 @@
 export default function SideBarItems(props: any) {
-  const { name } = props;
+  const { name, selected } = props;
   return (
-    <div className="m-3 flex flex-col items-center justify-center ">
-      <div className="h-10 w-10 rounded-full bg-primary"></div>
-      <h2 className="pt-1 text-sm text-text">{name}</h2>
+    <div
+      className={`flex h-[50px] w-full items-center justify-center rounded-[10px] hover:cursor-pointer ${
+        selected
+          ? "bg-white"
+          : "bg-primary-main hover:bg-primary-hover active:bg-primary-focus"
+      }`}
+    >
+      <h2
+        className={`pt-1 text-lg font-bold ${
+          selected ? "text-primary-main" : "text-white"
+        }`}
+      >
+        {name}
+      </h2>
     </div>
   );
 }

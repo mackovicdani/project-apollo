@@ -38,7 +38,7 @@ export default function Login() {
   return (
     <div className="flex h-screen w-full items-center justify-center">
       <div className="relative w-5/6 max-w-md rounded-md bg-main p-8 shadow-md">
-        <h1 className="text-center text-3xl font-extrabold text-primary">
+        <h1 className="text-center text-3xl font-extrabold text-primary-main">
           Login
         </h1>
         <Formik
