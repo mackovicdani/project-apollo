@@ -2,7 +2,7 @@ import SideBarItems from "./SideBarItems";
 
 export default function SideBar() {
   return (
-    <div className="fixed top-0 left-0 bottom-0 flex w-[270px] flex-col items-center justify-between bg-primary-main p-[26px] pt-[45px] shadow-md">
+    <div className="fixed top-0 left-0 bottom-0 z-[100] flex w-[270px] flex-col items-center justify-between bg-primary-main p-[26px] pt-[45px] shadow-md">
       <div className="flex h-[50px] w-full items-center justify-center outline outline-white">
         <h1 className="text-4xl font-semibold text-white">APOLLO</h1>
       </div>

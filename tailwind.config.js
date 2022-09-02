@@ -24,6 +24,16 @@ module.exports = {
         text: "#D2D2D2",
         "text-disabled": "#7A7A7A",
       },
+      gridTemplateRows: {
+        layout: "50% 25% 25%",
+      },
+      gridTemplateColumns: {
+        layout: "20% 15% 15% 15% 35%",
+      },
+      transitionProperty: {
+        custom: "height, width, transform, zIndex, opacity",
+        spacing: "margin, padding",
+      },
     },
   },
   plugins: [],

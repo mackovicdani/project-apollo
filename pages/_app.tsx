@@ -12,14 +12,17 @@ if (typeof window !== "undefined") {
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
+  const isSideBarVisible =
+    !router.pathname.endsWith("/login") && !router.pathname.endsWith("/signup");
   return (
     <>
       <div id="modal" />
 
       <Provider store={store}>
-        {!router.pathname.endsWith("/login") &&
-          !router.pathname.endsWith("/signup") && <SideBar></SideBar>}
-        <main className="h-screen bg-back">
+        {isSideBarVisible && <SideBar></SideBar>}
+        <main
+          className={`h-screen bg-back ${isSideBarVisible ? "ml-[270px]" : ""}`}
+        >
           <Component {...pageProps} />
         </main>
       </Provider>
