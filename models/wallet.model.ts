@@ -168,6 +168,10 @@ export class Wallet {
     userId: string,
     purchase: Purchase
   ) {
+    let purchasePrice = 0;
+    purchase.items.forEach((item: any) => {
+      purchasePrice += item.price;
+    });
     const id = new mongoose.Types.ObjectId();
     let wallet = await this.findByIdAndUpdate(
       walletId,
@@ -179,7 +183,7 @@ export class Wallet {
             inventory: purchase.inventory,
             store: purchase.store,
             items: purchase.items,
-            price: purchase.price,
+            price: purchasePrice,
           },
         },
       },
