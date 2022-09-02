@@ -1,6 +1,16 @@
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 import SideBarItems from "./SideBarItems";
 
 export default function SideBar() {
+  const user = useSelector((state: RootState) => state.user.value);
+  const [name, setName] = useState("name");
+  const [email, setEmail] = useState("email");
+  useEffect(() => {
+    setName(user?.name);
+    setEmail(user?.email);
+  }, [user]);
   return (
     <div className="fixed top-0 left-0 bottom-0 z-[100] flex w-[270px] flex-col items-center justify-between bg-primary-main p-[26px] pt-[45px] shadow-md">
       <div className="flex h-[50px] w-full items-center justify-center outline outline-white">
@@ -17,10 +27,11 @@ export default function SideBar() {
           <div className="h-[40px] w-[40px] rounded-[10px] bg-primary-main"></div>
           <div className="pl-[7px]">
             <h2 className="text-[16px] font-medium text-primary-main">
-              Mackovic Daniel
+              {name}
             </h2>
+
             <h2 className="mt-[-4px] pl-1 text-[10px] text-text-disabled">
-              mackovicdaniel@gmail.com
+              {email}
             </h2>
           </div>
         </div>

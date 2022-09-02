@@ -2,15 +2,18 @@ import axios from "axios";
 import type { GetServerSideProps, NextPage } from "next";
 import { useDispatch } from "react-redux";
 import WalletList from "../components/wallets/WalletList";
+import { selectUser } from "../slices/userSlice";
 import { selectWallet } from "../slices/walletSlice";
 
 interface Props {
   wallets: any;
+  user: any;
 }
 
 const Wallets: NextPage<Props> = (props) => {
   const dispatch = useDispatch();
   dispatch(selectWallet(props.wallets[1]));
+  dispatch(selectUser(props.user));
   return (
     <div className="grid h-full grid-cols-layout grid-rows-layout">
       <div className="col-span-4 flex items-center justify-center bg-back p-[10px]">
@@ -45,19 +48,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       cookie: cookie!,
     },
   };
-  try {
-    const { data } = await axios.get(
-      "http://localhost:3000/api/wallet/",
-      config
-    );
-    return {
-      props: { wallets: data.data },
-    };
-  } catch (error) {
-    console.log(error);
-  }
+  let one = "http://localhost:3000/api/wallet/";
+  let two = "http://localhost:3000/api/auth/user/";
+
+  const [firstResponse, secondResponse] = await Promise.all([
+    axios.get(one, config),
+    axios.get(two, config),
+  ]);
   return {
-    props: { wallets: [] },
+    props: { wallets: firstResponse.data.data, user: secondResponse.data.data },
   };
 };
 
