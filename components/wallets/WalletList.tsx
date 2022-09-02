@@ -9,7 +9,7 @@ export default function WalletList(props: any) {
   let before = true;
   let cardDesigns = [
     {
-      main: "bg-white",
+      main: "bg-green-50",
       dark: "bg-green-300",
       light: "bg-green-200",
       text: "text-back",
@@ -34,7 +34,8 @@ export default function WalletList(props: any) {
         let visible = false;
         if (
           (index != array.length - 1 && array[index + 1]._id == selected._id) ||
-          (index != 0 && array[index - 1]._id == selected._id)
+          (index != 0 && array[index - 1]._id == selected._id) ||
+          wallet._id == selected._id
         ) {
           visible = true;
         }
