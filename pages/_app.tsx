@@ -21,7 +21,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Provider store={store}>
         {isSideBarVisible && <SideBar></SideBar>}
         <main
-          className={`h-screen bg-back ${isSideBarVisible ? "ml-[270px]" : ""}`}
+          className={`h-screen bg-back p-[10px] ${
+            isSideBarVisible ? "ml-[270px]" : ""
+          }`}
         >
           <Component {...pageProps} />
         </main>

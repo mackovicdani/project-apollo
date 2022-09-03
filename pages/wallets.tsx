@@ -1,6 +1,7 @@
 import axios from "axios";
 import type { GetServerSideProps, NextPage } from "next";
 import { useDispatch } from "react-redux";
+import PurchaseList from "../components/wallets/PurchaseList";
 import WalletList from "../components/wallets/WalletList";
 import { selectUser } from "../slices/userSlice";
 import { selectWallet } from "../slices/walletSlice";
@@ -19,12 +20,10 @@ const Wallets: NextPage<Props> = (props) => {
       <div className="col-span-4 flex items-center justify-center bg-back p-[10px]">
         <WalletList wallets={props.wallets}></WalletList>
       </div>
-      <div className="row-span-3 flex items-center justify-center border border-dark bg-card">
-        02
+      <div className="row-span-3 flex items-center justify-center p-[10px]">
+        <PurchaseList></PurchaseList>
       </div>
-      <div className="row-span-2 flex items-center justify-center border border-dark bg-card">
-        03
-      </div>
+      <div className="relative row-span-2 flex items-center justify-center border border-dark bg-card"></div>
       <div className="flex items-center justify-center border border-dark bg-card">
         04
       </div>
