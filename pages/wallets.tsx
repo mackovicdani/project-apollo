@@ -16,25 +16,27 @@ const Wallets: NextPage<Props> = (props) => {
   dispatch(selectWallet(props.wallets[1]));
   dispatch(selectUser(props.user));
   return (
-    <div className="grid h-full grid-cols-layout grid-rows-layout">
-      <div className="col-span-4 flex items-center justify-center bg-back p-[10px]">
+    <div className="2xl:grid-rows-xl2 grid h-full grid-cols-3 grid-rows-xs lg:grid-rows-lg xl:grid-cols-5 xl:grid-rows-xl 2xl:grid-cols-6">
+      <div className="col-span-3 flex items-center justify-center bg-back p-[10px] xl:col-span-4 2xl:col-span-4">
         <WalletList wallets={props.wallets}></WalletList>
       </div>
-      <div className="row-span-3 flex items-center justify-center p-[10px]">
+      <div className="2cx col-span-3 flex items-center justify-center border border-dark bg-card lg:col-span-1 xl:col-span-1 2xl:row-span-2 2xl:row-start-2">
+        assigne
+      </div>
+      <div className="col-span-3 flex items-center justify-center p-[10px] lg:col-span-2 xl:col-span-2 xl:row-span-2 2xl:row-span-3">
         <PurchaseList></PurchaseList>
       </div>
-      <div className="relative row-span-2 flex items-center justify-center border border-dark bg-card"></div>
       <div className="flex items-center justify-center border border-dark bg-card">
-        04
+        small1
       </div>
       <div className="flex items-center justify-center border border-dark bg-card">
-        05
+        small2
       </div>
       <div className="flex items-center justify-center border border-dark bg-card">
-        06
+        small3
       </div>
-      <div className="col-span-3 flex items-center justify-center border border-dark bg-card">
-        07
+      <div className="col-span-3 flex items-center justify-center border border-dark bg-card xl:col-span-3">
+        big
       </div>
     </div>
   );

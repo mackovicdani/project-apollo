@@ -6,7 +6,7 @@ import Purchase from "./Purchase";
 export default function PurchaseList() {
   const selected = useSelector((state: RootState) => state.wallet.value);
   return (
-    <div className="flex h-full w-full flex-col rounded-lg bg-card shadow-lg">
+    <div className="flex h-full w-full flex-col overflow-hidden rounded-lg bg-card shadow-lg">
       <div className="h-[130px] w-full bg-main p-[28px]">
         <h1 className="text-2xl font-bold text-white">Purchases</h1>
         <div className="mt-5 flex h-[35px] items-center justify-center rounded-md bg-secondary text-xs font-bold text-white">
@@ -31,6 +31,7 @@ export default function PurchaseList() {
               initial={{ x: 600 }}
               animate={{ x: 0 }}
               exit={{ x: -600 }}
+              className={"w-full text-center font-bold text-white"}
             >
               No added purchase!
             </motion.h2>

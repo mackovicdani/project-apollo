@@ -8,7 +8,7 @@ export default function Purchase(props: any) {
       initial={{ x: 600 }}
       animate={{ x: 0 }}
       exit={{ x: -600 }}
-      transition={{ delay: props.index * 0.05, duration: 0.3, type: "spring" }}
+      transition={{ delay: props.index * 0.05, duration: 0.5, type: "spring" }}
       whileHover={{ scale: 1.02 }}
       className="relative flex h-[60px] w-full items-center justify-between rounded-2xl bg-elev pl-4 pr-4 font-semibold text-white shadow-md hover:cursor-pointer"
     >

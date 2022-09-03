@@ -25,7 +25,10 @@ module.exports = {
         "text-disabled": "#7A7A7A",
       },
       gridTemplateRows: {
-        layout: "50% 25% 25%",
+        xs: "300px 250px 600px 230px 250px",
+        lg: "330px 500px 250px 250px",
+        xl: "50% 25% 25%",
+        xl2: "50% 25% 25%",
       },
       gridTemplateColumns: {
         layout: "20% 15% 15% 15% 35%",
