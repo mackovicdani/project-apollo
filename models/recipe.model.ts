@@ -1,7 +1,7 @@
 import type { Ref, ReturnModelType } from "@typegoose/typegoose";
 import { getModelForClass, prop } from "@typegoose/typegoose";
 import { Inventory } from "./inventory.model";
-import { Product } from "./product.model";
+import ProductModel, { Product } from "./product.model";
 
 export class Recipe {
   @prop({ required: true, default: "" })
@@ -37,6 +37,68 @@ export class Recipe {
     recipeId: string
   ) {
     return await this.findById(recipeId);
+  }
+
+  public static async getRecipiesContainsProductId(
+    this: ReturnModelType<typeof Recipe>,
+    productId: string
+  ) {
+    const product = await ProductModel.getProductById(productId);
+    const recipies = await this.getAllRecipies();
+    let foundRecipies: Recipe[] = [];
+    recipies.forEach((recipe: any) => {
+      let found = false;
+      recipe.products.forEach((recipeProduct: any) => {
+        if (
+          product?.type === recipeProduct.type &&
+          product?.category === recipeProduct.category
+        ) {
+          found = true;
+        }
+      });
+      if (found) {
+        foundRecipies.push(recipe);
+      }
+    });
+    return foundRecipies;
+  }
+
+  public static async getRecipiesContainsProductIds(
+    this: ReturnModelType<typeof Recipe>,
+    productIds: string[]
+  ) {
+    const products = await ProductModel.getProductsByIds(productIds);
+    const recipies = await this.getAllRecipies();
+    let foundRecipies: Recipe[] = [];
+
+    recipies.forEach((recipe: any) => {
+      let found = true;
+      var productsFound = new Array(products.length).fill(false);
+      for (let i = 0; i < products.length; i++) {
+        let productFound = false;
+        recipe.products.forEach((recipeProduct: any) => {
+          if (
+            products[i].type === recipeProduct.type &&
+            products[i].category === recipeProduct.category
+          ) {
+            productFound = true;
+          }
+        });
+        productsFound[i] = productFound;
+      }
+
+      for (let i = 0; i < productsFound.length; i++) {
+        if (productsFound[i] == false) {
+          found = false;
+          break;
+        }
+      }
+
+      if (found) {
+        foundRecipies.push(recipe);
+      }
+    });
+    return foundRecipies;
   }
 
   public static async createRecipe(

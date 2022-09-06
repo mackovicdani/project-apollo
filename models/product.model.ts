@@ -62,6 +62,13 @@ export class Product {
     return await this.findById(productId);
   }
 
+  public static async getProductsByIds(
+    this: ReturnModelType<typeof Product>,
+    productIds: string[]
+  ) {
+    return await this.find({ _id: { $in: productIds } });
+  }
+
   public static async getAllProducts(this: ReturnModelType<typeof Product>) {
     return await this.find({});
   }
