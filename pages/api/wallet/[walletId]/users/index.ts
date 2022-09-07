@@ -17,11 +17,7 @@ export default getHandler()
 
     await dbConnect();
     try {
-      const wallet = await WalletModel.addAssignedUser(
-        walletId,
-        req.userId!,
-        inviteLink
-      );
+      const wallet = await WalletModel.addAssignedUser(walletId, req.userId!);
 
       CustomResponse(res, 200, undefined, wallet);
     } catch (error) {
