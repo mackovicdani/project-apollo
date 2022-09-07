@@ -1,5 +1,6 @@
 import type { Ref, ReturnModelType } from "@typegoose/typegoose";
 import { getModelForClass, pre, prop } from "@typegoose/typegoose";
+import ErrorResponse from "../lib/errorResponse";
 import { Inventory } from "./inventory.model";
 import ProductModel from "./product.model";
 import { Purchase } from "./purchase.model";
@@ -84,24 +85,26 @@ export class Wallet {
   //api/wallet/[walletId]/users/
   public static async addAssignedUser(
     this: ReturnModelType<typeof Wallet>,
-    walletId: string,
     userId: string,
     inviteLink: string
   ) {
-    const wallet = await this.findById(walletId);
+    const wallet = await this.findOne({ inviteLink: inviteLink });
+    if (!wallet) {
+      throw new ErrorResponse("Invalide invite link!", 400);
+    }
     if (wallet && !wallet.errors) {
       const found = wallet.assignedUsers.find(
         (user) => user.user?.toString() === userId
       );
       if (wallet.inviteLink !== inviteLink) {
-        return { message: "Invalide invite link" };
+        throw new ErrorResponse("Invalide invite link!", 400);
       }
       if (found) {
         const populatedWallet = await WalletModel.populate(wallet, {
           path: "assignedUsers.user",
           select: "name email",
         });
-        return { message: "User is already assigned", wallet: populatedWallet };
+        throw new ErrorResponse("User is already assigned", 400);
       }
 
       if (wallet.inviteLink === inviteLink) {

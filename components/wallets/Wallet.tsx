@@ -1,46 +1,49 @@
 import { motion } from "framer-motion";
-import { useDispatch, useSelector } from "react-redux";
-import { selectWallet } from "../../slices/walletSlice";
-import type { RootState } from "../../store";
+import { useWallet } from "../../pages/wallets";
+import AddWalletCard from "./AddWalletCard";
 
 export default function Wallet(props: any) {
-  const selected = useSelector((state: RootState) => state.wallet.value);
-  const dispatch = useDispatch();
+  const { selectWallet, selected } = useWallet();
   const { wallet, before, zIndex, visible, color } = props;
   const isSelected = selected._id == wallet._id;
 
   return (
     <motion.div
-      initial={{ x: 0 }}
+      initial={{ x: 0, scale: 0 }}
       animate={{
-        scale: isSelected ? 2 : 1,
+        scale: isSelected ? 1 : 0.5,
         x: isSelected
           ? 0
           : before
           ? visible
-            ? "-140%"
-            : "-80%"
+            ? "-70%"
+            : "-40%"
           : visible
-          ? "140%"
-          : "80%",
+          ? "70%"
+          : "40%",
         opacity: visible ? 1 : 0,
       }}
       transition={{ duration: 0.7, ease: "easeOut" }}
-      className={`${color.main} ${color.text} absolute h-[120px] w-[180px] rounded-md p-3 shadow-md hover:cursor-pointer lg:h-[130px] lg:w-[200px] xl:h-[150px] xl:w-[230px]`}
+      className={`${color.main} ${color.text} absolute h-[240px] w-[360px] rounded-2xl p-5 shadow-md hover:cursor-pointer lg:h-[260px] lg:w-[400px] xl:h-[300px] xl:w-[460px]`}
       style={{ zIndex: zIndex }}
-      onClick={() => dispatch(selectWallet(wallet))}
+      onClick={() => selectWallet(wallet)}
     >
-      <h2 className={`h-5 font-bold`}>{wallet.name}</h2>
-      <h2 className={`pl-1 text-[30%] font-bold opacity-50`}>{wallet._id}</h2>
-      <h2 className="absolute bottom-1 right-3 text-[130%] font-bold">
-        {Math.round(wallet.assignedUsers[0].money)} ft
-      </h2>
-      <div
-        className={`absolute top-5 right-5 aspect-square w-2/6 rounded-full ${color.dark} shadow-md`}
-      ></div>
-      <div
-        className={`absolute top-3 right-3 aspect-square w-1/6 rounded-full ${color.light} shadow-md`}
-      ></div>
+      {wallet.name !== "addCard" && (
+        <>
+          <h2 className={`text-4xl font-bold`}>{wallet.name}</h2>
+          <h2 className={`pl-2 text-xs font-bold opacity-50`}>{wallet._id}</h2>
+          <h2 className="absolute bottom-3 right-5 text-4xl font-extrabold">
+            {Math.round(wallet.assignedUsers[0].money)} ft
+          </h2>
+          <div
+            className={`absolute top-10 right-10 aspect-square w-2/6 rounded-full ${color.dark} shadow-md`}
+          ></div>
+          <div
+            className={`absolute top-6 right-6 aspect-square w-1/6 rounded-full ${color.light} shadow-md`}
+          ></div>
+        </>
+      )}
+      {wallet.name === "addCard" && <AddWalletCard></AddWalletCard>}
     </motion.div>
   );
 }

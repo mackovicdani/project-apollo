@@ -1,10 +1,8 @@
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
+import { useWallet } from "../../pages/wallets";
 import Wallet from "./Wallet";
 
-export default function WalletList(props: any) {
-  const { wallets } = props;
-  const selected = useSelector((state: RootState) => state.wallet.value);
+export default function WalletList() {
+  const { wallets, selected } = useWallet();
   let zIndex = 10;
   let before = true;
   let cardDesigns = [
@@ -25,6 +23,9 @@ export default function WalletList(props: any) {
       dark: "bg-orange-300",
       light: "bg-orange-200",
       text: "text-white",
+    },
+    {
+      main: "bg-main",
     },
   ];
 

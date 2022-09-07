@@ -1,10 +1,9 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
+import { useWallet } from "../../pages/wallets";
 import Purchase from "./Purchase";
 
 export default function PurchaseList() {
-  const selected = useSelector((state: RootState) => state.wallet.value);
+  const { selected } = useWallet();
 
   return (
     <div className="flex h-full w-full flex-col overflow-hidden rounded-lg bg-card shadow-lg">

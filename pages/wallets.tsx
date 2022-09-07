@@ -1,25 +1,30 @@
 import axios from "axios";
 import type { GetServerSideProps, NextPage } from "next";
-import { useDispatch } from "react-redux";
+import shallow from "zustand/shallow";
 import AssignedUserList from "../components/wallets/AssignedUserList";
 import PurchaseList from "../components/wallets/PurchaseList";
 import WalletList from "../components/wallets/WalletList";
-import { selectUser } from "../slices/userSlice";
-import { selectWallet } from "../slices/walletSlice";
+import { initializeStore, useStore } from "../lib/store";
 
-interface Props {
-  wallets: any;
-  user: any;
-}
+export const useWallet = () => {
+  const { wallets, addWallet, selectWallet, selected } = useStore(
+    (store) => ({
+      wallets: store.wallets,
+      selected: store.selected,
+      addWallet: store.addWallet,
+      selectWallet: store.selectWallet,
+    }),
+    shallow
+  );
 
-const Wallets: NextPage<Props> = (props) => {
-  const dispatch = useDispatch();
-  dispatch(selectWallet(props.wallets[0]));
-  dispatch(selectUser(props.user));
+  return { wallets, addWallet, selectWallet, selected };
+};
+
+const Wallets: NextPage = () => {
   return (
     <div className="grid h-full grid-cols-3 grid-rows-xs lg:grid-rows-lg xl:grid-cols-5 xl:grid-rows-xl 2xl:grid-cols-6 2xl:grid-rows-xl2">
       <div className="col-span-3 flex items-center justify-center bg-back p-[10px] xl:col-span-4 2xl:col-span-4">
-        <WalletList wallets={props.wallets}></WalletList>
+        <WalletList></WalletList>
       </div>
       <div className="2cx col-span-3 flex items-center justify-center p-[10px] lg:col-span-1 xl:col-span-1 2xl:row-span-2 2xl:row-start-2">
         <AssignedUserList></AssignedUserList>
@@ -44,6 +49,8 @@ const Wallets: NextPage<Props> = (props) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const zustandStore = initializeStore();
+
   const cookie = context.req.headers.cookie;
   const config = {
     headers: {
@@ -51,14 +58,23 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     },
   };
   let one = "http://localhost:3000/api/wallet/";
-  let two = "http://localhost:3000/api/auth/user/";
 
-  const [firstResponse, secondResponse] = await Promise.all([
-    axios.get(one, config),
-    axios.get(two, config),
-  ]);
+  const [firstResponse] = await Promise.all([axios.get(one, config)]);
+
+  zustandStore.getState().setWallets(firstResponse.data.data);
+  zustandStore.getState().addWallet({
+    _id: "addCard",
+    name: "addCard",
+    assignedUsers: [],
+    purchases: [],
+    inventories: [],
+    design: 3,
+  });
+  zustandStore.getState().selectWallet(firstResponse.data.data[0]);
   return {
-    props: { wallets: firstResponse.data.data, user: secondResponse.data.data },
+    props: {
+      initialZustandState: JSON.parse(JSON.stringify(zustandStore.getState())),
+    },
   };
 };
 

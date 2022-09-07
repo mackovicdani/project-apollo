@@ -25,7 +25,7 @@ module.exports = {
         "text-disabled": "#7A7A7A",
       },
       gridTemplateRows: {
-        xs: "300px 250px 600px 230px 250px",
+        xs: "300px auto auto 230px 250px",
         lg: "330px 500px 250px 250px",
         xl: "50% 25% 25%",
         xl2: "50% 25% 25%",

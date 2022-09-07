@@ -1,13 +1,11 @@
 import { AnimatePresence } from "framer-motion";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
+import { useWallet } from "../../pages/wallets";
 import AssignedUser from "./AssignedUser";
 
 export default function AssignedUserList() {
-  const selected = useSelector((state: RootState) => state.wallet.value);
-  const user = useSelector((state: RootState) => state.user.value);
+  const { selected } = useWallet();
   return (
-    <div className="h-full w-full rounded-lg bg-card">
+    <div className="h-full w-full overflow-hidden rounded-lg bg-card">
       <div className="h-[130px] w-full bg-main p-[28px]">
         <h1 className="text-center text-sm font-bold text-white md:text-lg lg:text-lg xl:text-base">
           Assigned users
@@ -16,13 +14,13 @@ export default function AssignedUserList() {
           Copy invitelink
         </div>
       </div>
-      <div className="overflow-hidden p-[15px]">
+      <div className="flex flex-col gap-2 p-[15px]">
         <AnimatePresence mode="wait">
           {selected.assignedUsers.map((assignedUser: any) => {
             return (
               <AssignedUser
                 key={assignedUser._id}
-                isUser={user._id == assignedUser.user._id}
+                isUser={false}
                 assignedUser={assignedUser}
               ></AssignedUser>
             );
