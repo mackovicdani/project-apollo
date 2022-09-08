@@ -17,14 +17,17 @@ type UseStoreState = typeof initializeStore extends (
 interface Store {
   wallets: any[];
   selected: any;
+  speed: any;
   setWallets: (wallets: Wallet[]) => void;
   addWallet: (wallet: any) => void;
   selectWallet: (wallet: any) => void;
+  setSpeed: (speed: number) => void;
 }
 
 const getDefaultInitialState = () => ({
   wallets: [] as Wallet[],
   selected: null,
+  speed: 0.5,
 });
 
 const zustandContext = createContext<UseStoreState>();
@@ -46,8 +49,14 @@ export const initializeStore = (preloadedState = {}) => {
         }));
       },
       selectWallet: (wallet: any) => {
-        set({
+        set((state) => ({
+          ...state,
           selected: wallet,
+        }));
+      },
+      setSpeed: (speed: number) => {
+        set({
+          speed: speed,
         });
       },
     }))
@@ -81,4 +90,20 @@ const addWallet = (wallets: Wallet[], wallet: Wallet): Wallet[] => {
   if (wallet.name === "addCard") wallets.splice(wallets.length, 0, wallet);
   else wallets.splice(wallets.length - 1, 0, wallet);
   return wallets;
+};
+
+const selectW = (wallets: Wallet[], selected: any, wallet: any): any => {
+  let oldIndex = 0;
+  let newIndex = 0;
+  if (selected === null) return wallet;
+  wallets.map((item: any, index: number) => {
+    if (item._id === selected._id) {
+      oldIndex = index;
+    } else if (item._id === wallet._id) {
+      newIndex = index;
+    }
+  });
+  if (oldIndex > newIndex) return wallets[oldIndex - 1];
+  else if (oldIndex < newIndex) return wallets[oldIndex + 1];
+  else return wallet;
 };

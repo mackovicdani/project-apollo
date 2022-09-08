@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useWallet } from "../../pages/wallets";
 import Purchase from "./Purchase";
 
@@ -14,29 +14,26 @@ export default function PurchaseList() {
         </div>
       </div>
       <div className="flex h-full flex-col gap-2 overflow-hidden p-[15px]">
-        <AnimatePresence mode="wait">
-          {selected?.purchases &&
-            selected.purchases.map((purchase: any, index: number) => {
-              return (
-                <Purchase
-                  key={purchase._id}
-                  purchase={purchase}
-                  index={index}
-                ></Purchase>
-              );
-            })}
-          {selected?.purchases.length === 0 && (
-            <motion.h2
-              key={"nopurchase"}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className={"w-full text-center font-bold text-white"}
-            >
-              No added purchase!
-            </motion.h2>
-          )}
-        </AnimatePresence>
+        {selected?.purchases &&
+          selected.purchases.map((purchase: any, index: number) => {
+            return (
+              <Purchase
+                key={purchase._id}
+                purchase={purchase}
+                index={index}
+              ></Purchase>
+            );
+          })}
+        {selected?.purchases.length === 0 && (
+          <motion.h2
+            key={"nopurchase"}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className={"w-full text-center font-bold text-white"}
+          >
+            No added purchase!
+          </motion.h2>
+        )}
       </div>
     </div>
   );

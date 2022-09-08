@@ -1,8 +1,9 @@
+import { motion } from "framer-motion";
 import { useWallet } from "../../pages/wallets";
 import Wallet from "./Wallet";
 
 export default function WalletList() {
-  const { wallets, selected } = useWallet();
+  const { wallets, selected, selectWallet, setSpeed, speed } = useWallet();
   let zIndex = 10;
   let before = true;
   let cardDesigns = [
@@ -57,6 +58,57 @@ export default function WalletList() {
           />
         );
       })}
+      <div className="absolute bottom-10 flex h-5 justify-evenly rounded-full bg-main p-1">
+        {wallets.map((wallet: any) => {
+          return (
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              initial={{ width: "0.75rem" }}
+              animate={{
+                width: wallet._id === selected._id ? "2.5rem" : "0.75rem",
+                backgroundColor:
+                  wallet._id === selected._id ? "#6562fc" : "#3A393E",
+              }}
+              className={`ml-1 mr-1 h-3 rounded-full bg-card hover:cursor-pointer`}
+              onClick={() => {
+                let oldIndex = 0;
+                let newIndex = 0;
+                wallets.map((item: any, index: number) => {
+                  if (item === wallet) {
+                    newIndex = index;
+                  } else if (item === selected) {
+                    oldIndex = index;
+                  }
+                });
+
+                if (oldIndex > newIndex) {
+                  selectWallet(wallets[oldIndex - 1]);
+                  oldIndex--;
+                } else if (oldIndex < newIndex) {
+                  selectWallet(wallets[oldIndex + 1]);
+                  oldIndex++;
+                }
+
+                setSpeed(0.4);
+
+                let intervalId = setInterval(() => {
+                  if (oldIndex > newIndex) {
+                    selectWallet(wallets[oldIndex - 1]);
+                    oldIndex--;
+                  } else if (oldIndex < newIndex) {
+                    selectWallet(wallets[oldIndex + 1]);
+                    oldIndex++;
+                  } else {
+                    setSpeed(0.5);
+                    clearInterval(intervalId);
+                  }
+                }, 300);
+              }}
+              key={wallet._id}
+            ></motion.div>
+          );
+        })}
+      </div>
     </div>
   );
 }

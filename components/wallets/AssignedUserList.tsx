@@ -1,4 +1,3 @@
-import { AnimatePresence } from "framer-motion";
 import { useWallet } from "../../pages/wallets";
 import AssignedUser from "./AssignedUser";
 
@@ -15,17 +14,15 @@ export default function AssignedUserList() {
         </div>
       </div>
       <div className="flex flex-col gap-2 p-[15px]">
-        <AnimatePresence mode="wait">
-          {selected.assignedUsers.map((assignedUser: any) => {
-            return (
-              <AssignedUser
-                key={assignedUser._id}
-                isUser={false}
-                assignedUser={assignedUser}
-              ></AssignedUser>
-            );
-          })}
-        </AnimatePresence>
+        {selected?.assignedUsers.map((assignedUser: any) => {
+          return (
+            <AssignedUser
+              key={assignedUser._id}
+              isUser={false}
+              assignedUser={assignedUser}
+            ></AssignedUser>
+          );
+        })}
       </div>
     </div>
   );
