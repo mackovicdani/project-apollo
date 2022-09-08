@@ -58,7 +58,7 @@ export default function WalletList() {
           />
         );
       })}
-      <div className="absolute bottom-10 flex h-5 justify-evenly rounded-full bg-main p-1">
+      <div className="absolute bottom-3 flex h-5 justify-evenly rounded-full bg-main p-1">
         {wallets.map((wallet: any) => {
           return (
             <motion.div

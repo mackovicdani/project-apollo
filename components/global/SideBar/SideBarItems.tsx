@@ -1,10 +1,14 @@
+import { motion } from "framer-motion";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function SideBarItems(props: any) {
-  const { name, selected } = props;
+  const { name } = props;
+  const router = useRouter();
+  const selected = router.asPath === `/${name.toLowerCase()}`;
   return (
     <Link href={`/${name.toLowerCase()}`}>
-      <div
+      <motion.div
         className={`flex h-[50px] w-full items-center justify-center rounded-[10px] hover:cursor-pointer ${
           selected
             ? "bg-white"
@@ -18,7 +22,7 @@ export default function SideBarItems(props: any) {
         >
           {name}
         </h2>
-      </div>
+      </motion.div>
     </Link>
   );
 }

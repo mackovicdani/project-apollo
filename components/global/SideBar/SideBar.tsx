@@ -1,15 +1,21 @@
 import SideBarItems from "./SideBarItems";
 
-export default function SideBar() {
+export default function SideBar(props: any) {
   return (
     <div className="fixed top-0 left-0 bottom-0 z-[100] flex w-[100px] flex-col items-center justify-between bg-primary-main p-[26px] pt-[45px] shadow-md lg:w-[270px]">
       <div className="flex h-[50px] w-full items-center justify-center outline outline-white">
         <h1 className="text-4xl font-semibold text-white">APOLLO</h1>
       </div>
       <div className="flex w-full flex-col gap-[5px] rounded-xl">
-        <SideBarItems name={"Home"}></SideBarItems>
-        <SideBarItems name={"Wallets"} selected={true}></SideBarItems>
-        <SideBarItems name={"Inventory"}></SideBarItems>
+        <SideBarItems name={"Home"} activeTab={props.activeTab}></SideBarItems>
+        <SideBarItems
+          name={"Wallets"}
+          activeTab={props.activeTab}
+        ></SideBarItems>
+        <SideBarItems
+          name={"Inventory"}
+          activeTab={props.activeTab}
+        ></SideBarItems>
       </div>
       <div className="flex w-full flex-col gap-[5px]">
         {/* usercard */}

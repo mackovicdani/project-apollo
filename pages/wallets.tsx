@@ -25,24 +25,24 @@ export const useWallet = () => {
 
 const Wallets: NextPage = () => {
   return (
-    <div className="grid h-full grid-cols-3 grid-rows-xs lg:grid-rows-lg xl:grid-cols-5 xl:grid-rows-xl 2xl:grid-cols-6 2xl:grid-rows-xl2">
-      <div className="col-span-3 flex items-center justify-center bg-back p-[10px] xl:col-span-4 2xl:col-span-4">
+    <div className="grid h-full grid-cols-3 grid-rows-xs lg:grid-rows-lg xl:grid-cols-5 xl:grid-rows-xl 2xl:grid-cols-xl2 2xl:grid-rows-xl2">
+      <div className="col-span-3 flex items-center justify-center bg-back p-[10px] xl:col-span-3 2xl:col-span-4">
         <WalletList></WalletList>
       </div>
-      <div className="2cx col-span-3 flex items-center justify-center p-[10px] lg:col-span-1 xl:col-span-1 2xl:row-span-2 2xl:row-start-2">
+      <div className="col-span-3 flex items-center justify-center p-[10px] lg:col-span-1 xl:col-span-1 2xl:row-span-2 2xl:row-start-2">
         <AssignedUserList></AssignedUserList>
       </div>
       <div className="col-span-3 flex items-center justify-center p-[10px] lg:col-span-2 xl:col-span-2 xl:row-span-2 2xl:row-span-3">
         <PurchaseList></PurchaseList>
       </div>
-      <div className="flex items-center justify-center p-[10px]">
-        <div className="h-full w-full rounded-lg bg-main "></div>
+      <div className="flex aspect-square items-center justify-center p-[10px]">
+        <div className="h-full w-full rounded-lg bg-main"></div>
       </div>
-      <div className="flex items-center justify-center p-[10px]">
-        <div className="h-full w-full rounded-lg bg-main "></div>
+      <div className="flex aspect-square items-center justify-center p-[10px]">
+        <div className="h-full w-full rounded-lg bg-main"></div>
       </div>
-      <div className="flex items-center justify-center p-[10px]">
-        <div className="h-full w-full rounded-lg bg-main "></div>
+      <div className="flex aspect-square items-center justify-center p-[10px]">
+        <div className="h-full w-full rounded-lg bg-main"></div>
       </div>
       <div className="col-span-3 flex items-center justify-center p-[10px] xl:col-span-3">
         <div className="h-full w-full rounded-lg bg-main "></div>

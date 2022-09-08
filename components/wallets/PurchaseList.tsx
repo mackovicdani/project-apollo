@@ -8,12 +8,14 @@ export default function PurchaseList() {
   return (
     <div className="flex h-full w-full flex-col overflow-hidden rounded-lg bg-card shadow-lg">
       <div className="h-[130px] w-full bg-main p-[28px]">
-        <h1 className="text-2xl font-bold text-white">Purchases</h1>
-        <div className="mt-5 flex h-[35px] items-center justify-center rounded-md bg-secondary text-xs font-bold text-white">
+        <h1 className="text-center text-sm font-bold text-white md:text-lg lg:text-lg xl:text-base">
+          Purchases
+        </h1>
+        <div className="mt-5 flex h-[35px] items-center justify-center rounded-md bg-secondary text-xs font-bold text-white hover:cursor-pointer">
           Add purchase
         </div>
       </div>
-      <div className="flex h-full flex-col gap-2 overflow-hidden p-[15px]">
+      <div className="flex h-full flex-col gap-2 p-3">
         {selected?.purchases &&
           selected.purchases.map((purchase: any, index: number) => {
             return (

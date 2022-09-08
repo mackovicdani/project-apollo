@@ -25,13 +25,16 @@ module.exports = {
         "text-disabled": "#7A7A7A",
       },
       gridTemplateRows: {
+        xs: "350px auto auto auto 250px",
+        lg: "380px 500px auto 300px",
+        xl: "50% auto 1fr",
+        xl2: "50% auto 1fr",
+      },
+      gridTemplateColumns: {
         xs: "300px auto auto 230px 250px",
         lg: "330px 500px 250px 250px",
         xl: "50% 25% 25%",
-        xl2: "50% 25% 25%",
-      },
-      gridTemplateColumns: {
-        layout: "20% 15% 15% 15% 35%",
+        xl2: "25% 15% 15% 15% 15% 15%",
       },
       transitionProperty: {
         custom: "height, width, transform, zIndex, opacity",
