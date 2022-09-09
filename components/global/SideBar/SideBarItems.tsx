@@ -1,28 +1,27 @@
-import { motion } from "framer-motion";
 import Link from "next/link";
-import { useRouter } from "next/router";
 
 export default function SideBarItems(props: any) {
-  const { name } = props;
-  const router = useRouter();
-  const selected = router.asPath === `/${name.toLowerCase()}`;
+  const { name, isActive, icon } = props;
   return (
     <Link href={`/${name.toLowerCase()}`}>
-      <motion.div
-        className={`flex h-[50px] w-full items-center justify-center rounded-[10px] hover:cursor-pointer ${
-          selected
+      <div
+        className={`flex h-12 w-full items-center rounded-md pl-[20%] hover:cursor-pointer ${
+          isActive
             ? "bg-white"
             : "bg-primary-main hover:bg-primary-hover active:bg-primary-focus"
         }`}
       >
-        <h2
-          className={`pt-1 text-lg font-bold ${
-            selected ? "text-primary-main" : "text-white"
-          }`}
-        >
-          {name}
-        </h2>
-      </motion.div>
+        <div className="flex items-center justify-center gap-2">
+          {icon}
+          <h2
+            className={`text-lg font-bold ${
+              isActive ? "text-primary-main" : "text-white"
+            }`}
+          >
+            {name}
+          </h2>
+        </div>
+      </div>
     </Link>
   );
 }
