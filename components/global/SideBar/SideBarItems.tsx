@@ -14,7 +14,7 @@ export default function SideBarItems(props: any) {
         <div className="flex items-center justify-center gap-2">
           {icon}
           <h2
-            className={`text-lg font-bold ${
+            className={`text-lg font-medium ${
               isActive ? "text-primary-main" : "text-white"
             }`}
           >

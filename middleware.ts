@@ -4,6 +4,9 @@ import { NextResponse } from "next/server";
 export function middleware(req: NextRequest) {
   const auth = req.cookies.get("auth");
   const pathname = req.nextUrl.pathname;
+  if (pathname.endsWith("/home")) {
+    return NextResponse.rewrite(new URL("/", req.url));
+  }
   if (!pathname.endsWith("/login") && !pathname.endsWith("/signup") && !auth) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
@@ -13,5 +16,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/signup", "/login", "/wallets"],
+  matcher: ["/", "/signup", "/login", "/wallets", "/home"],
 };

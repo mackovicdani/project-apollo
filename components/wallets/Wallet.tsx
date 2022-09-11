@@ -23,10 +23,7 @@ export default function Wallet(props: any) {
           : "40%",
         opacity: visible ? 1 : 0,
       }}
-      whileHover={{
-        x: isSelected ? 0 : before ? "-71%" : "71%",
-      }}
-      transition={{ duration: speed, ease: "easeOut" }}
+      transition={{ duration: speed, ease: "easeInOut" }}
       className={`${color.main} ${color.text} absolute h-[240px] w-[360px] rounded-2xl p-5 shadow-md hover:cursor-pointer lg:h-[260px] lg:w-[400px] xl:h-[300px] xl:w-[460px]`}
       style={{ zIndex: zIndex }}
       onClick={() => selectWallet(wallet)}
