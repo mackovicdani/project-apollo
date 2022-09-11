@@ -59,11 +59,17 @@ export class Product {
     this: ReturnModelType<typeof Product>,
     productId: string
   ) {
-    return await this.findById(productId);
+    return await this.findById(productId).populate(
+      "origin",
+      "name location distance openHours"
+    );
   }
 
   public static async getAllProducts(this: ReturnModelType<typeof Product>) {
-    return await this.find({});
+    return await this.find({}).populate(
+      "origin",
+      "name location distance openHours"
+    );
   }
 
   public static async deleteProductById(
