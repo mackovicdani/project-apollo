@@ -20,7 +20,7 @@ export default getHandler()
   })
   .put(async (req, res, next) => {
     const storeId = req.query.storeId as string;
-    const store = req.body.store as Store;
+    const store = req.body as Store;
     await dbConnect();
     try {
       const updatedStore = await StoreModel.updateStoreById(storeId, store);

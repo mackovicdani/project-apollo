@@ -8,7 +8,7 @@ import StoreModel, { Store } from "../../../models/store.model";
 export default getHandler()
   .use(auth)
   .put(async (req, res, next) => {
-    const store = req.body.store as Store;
+    const store = req.body as Store;
     await dbConnect();
     try {
       const newStore = await StoreModel.createStore(store);
