@@ -1,5 +1,6 @@
 import auth from "../../../lib/auth";
 import CustomResponse from "../../../lib/customResponse";
+import ErrorResponse from "../../../lib/errorResponse";
 import getHandler from "../../../lib/handler";
 
 import dbConnect from "../../../lib/mongoosedb";
@@ -18,7 +19,7 @@ export default getHandler()
         assignedUsers: [
           { user: mongoose.Types.ObjectId(req.userId), money: 0 },
         ],
-        inventories: [],
+        inventory: [],
         purchases: [],
       });
 
@@ -32,6 +33,21 @@ export default getHandler()
     try {
       const wallets = await WalletModel.getAllWalletsForUser(req.userId!);
       CustomResponse(res, 200, undefined, wallets);
+    } catch (error) {
+      next(error);
+    }
+  })
+  .put(async (req, res, next) => {
+    const inviteLink = req.body.inviteLink as string;
+    if (!inviteLink) {
+      throw new ErrorResponse("Please provide an invite link", 400);
+    }
+
+    await dbConnect();
+    try {
+      const wallet = await WalletModel.addAssignedUser(req.userId!, inviteLink);
+
+      CustomResponse(res, 200, undefined, wallet);
     } catch (error) {
       next(error);
     }

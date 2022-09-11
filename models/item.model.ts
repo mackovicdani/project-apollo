@@ -3,13 +3,13 @@ import { prop } from "@typegoose/typegoose";
 import { Product } from "./product.model";
 
 export class Item {
-  @prop({ default: null, ref: () => Product })
+  @prop({ required: [true, "Please provide a product!"], ref: () => Product })
   public product: Ref<Product>;
 
-  @prop({ default: 0 })
+  @prop({ default: 1 })
   public quantity: number;
 
-  @prop({ default: 0 })
+  @prop({ required: [true, "Please provide a price!"] })
   public price: number;
 
   @prop()

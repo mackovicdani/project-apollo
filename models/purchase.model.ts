@@ -1,12 +1,11 @@
 import type { Ref } from "@typegoose/typegoose";
 import { prop } from "@typegoose/typegoose";
-import { Inventory } from "./inventory.model";
 import { Item } from "./item.model";
 import { Store } from "./store.model";
 import { User } from "./user.model";
 
 export class Purchase {
-  @prop({ ref: () => User })
+  @prop({ required: [true, "Please provide a user!"], ref: () => User })
   public user: Ref<User>;
 
   @prop({ default: new Date() })
@@ -15,12 +14,9 @@ export class Purchase {
   @prop({ default: null, ref: () => Store })
   public store: Ref<Store>;
 
-  @prop({ ref: () => Inventory })
-  public inventory: Ref<Inventory>;
-
-  @prop({ type: () => Item })
+  @prop({ required: [true, "Please provide items!"], type: () => Item })
   public items: Item[];
 
-  @prop({ default: 0 })
+  @prop({ required: [true, "Please provide a price!"] })
   public price: number;
 }

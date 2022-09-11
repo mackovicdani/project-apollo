@@ -1,0 +1,84 @@
+import { useLayoutEffect } from "react";
+import create, { UseBoundStore } from "zustand";
+import createContext from "zustand/context";
+import { combine } from "zustand/middleware";
+import { Wallet } from "../models/wallet.model";
+
+let store: any;
+
+type InitialState = ReturnType<typeof getDefaultInitialState>;
+// eslint-disable-next-line
+type UseStoreState = typeof initializeStore extends (
+  ...args: never
+) => UseBoundStore<infer T>
+  ? T
+  : never;
+
+interface Store {
+  wallets: any[];
+  selected: any;
+  setWallets: (wallets: Wallet[]) => void;
+  addWallet: (wallet: any) => void;
+  selectWallet: (wallet: any) => void;
+}
+
+const getDefaultInitialState = () => ({
+  wallets: [] as Wallet[],
+  selected: null,
+});
+
+const zustandContext = createContext<UseStoreState>();
+export const Provider = zustandContext.Provider;
+export const useStore = zustandContext.useStore;
+
+export const initializeStore = (preloadedState = {}) => {
+  return create<Store>(
+    combine({ ...getDefaultInitialState(), ...preloadedState }, (set) => ({
+      setWallets: (wallets: Wallet[]) => {
+        set({
+          wallets,
+        });
+      },
+      addWallet: (wallet: any) => {
+        set((state) => ({
+          ...state,
+          wallets: addWallet(state.wallets, wallet),
+        }));
+      },
+      selectWallet: (wallet: any) => {
+        set({
+          selected: wallet,
+        });
+      },
+    }))
+  );
+};
+
+export const useCreateStore = (serverInitialState: InitialState) => {
+  if (typeof window === "undefined") {
+    return () => initializeStore(serverInitialState);
+  }
+
+  const isReusingStore = Boolean(store);
+  store = store ?? initializeStore(serverInitialState);
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useLayoutEffect(() => {
+    if (serverInitialState && isReusingStore) {
+      store.setState(
+        {
+          ...store.getState(),
+          ...serverInitialState,
+        },
+        true
+      );
+    }
+  });
+
+  return () => store;
+};
+const addWallet = (wallets: Wallet[], wallet: Wallet): Wallet[] => {
+  if (wallet.name === "addCard") wallets.splice(wallets.length, 0, wallet);
+  else wallets.splice(wallets.length - 1, 0, wallet);
+  return wallets;
+};

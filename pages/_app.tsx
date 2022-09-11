@@ -1,8 +1,8 @@
 import { prepareClientPortals } from "@jesstelford/react-portal-universal";
 import type { AppProps } from "next/app";
-import { Provider } from "react-redux";
+import { useRouter } from "next/router";
 import SideBar from "../components/global/SideBar/SideBar";
-import { store } from "../store";
+import { Provider, useCreateStore } from "../lib/store";
 import "../styles/globals.css";
 
 if (typeof window !== "undefined") {
@@ -10,13 +10,21 @@ if (typeof window !== "undefined") {
 }
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const createStore = useCreateStore(pageProps.initialZustandState);
+  const router = useRouter();
+  const isSideBarVisible =
+    !router.pathname.endsWith("/login") && !router.pathname.endsWith("/signup");
   return (
     <>
-      <div id="modal" />
+      <Provider createStore={createStore}>
+        <div id="modal" />
 
-      <Provider store={store}>
-        <SideBar></SideBar>
-        <main className="h-screen bg-back">
+        {isSideBarVisible && <SideBar></SideBar>}
+        <main
+          className={`h-auto bg-back p-[10px] xl:h-screen ${
+            isSideBarVisible ? "ml-[100px] lg:ml-[270px]" : ""
+          }`}
+        >
           <Component {...pageProps} />
         </main>
       </Provider>

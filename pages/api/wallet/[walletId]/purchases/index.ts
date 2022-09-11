@@ -11,7 +11,7 @@ export default getHandler()
   .use(permissions)
   .put(async (req, res, next) => {
     const walletId = req.query.walletId as string;
-    const purchase = req.body.purchase as Purchase;
+    const purchase = req.body as Purchase;
 
     await dbConnect();
     try {

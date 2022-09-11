@@ -7,19 +7,19 @@ import {
 import { Store } from "./store.model";
 
 export class Product {
-  @prop({ default: "" })
+  @prop({ required: [true, "Please provide a product name!"] })
   public name: string;
 
-  @prop({ default: "" })
+  @prop({ required: [true, "Please provide a type!"] })
   public type: string;
 
-  @prop({ default: "" })
+  @prop({ required: [true, "Please provide a category!"] })
   public category: string;
 
-  @prop({ default: 0 })
+  @prop({ default: 1 })
   public packageSize: number;
 
-  @prop({ default: "" })
+  @prop({ required: [true, "Please provide a quantity type!"] })
   public quantityType: string;
 
   @prop({ default: 0 })
@@ -59,7 +59,10 @@ export class Product {
     this: ReturnModelType<typeof Product>,
     productId: string
   ) {
-    return await this.findById(productId);
+    return await this.findById(productId).populate(
+      "origin",
+      "name location distance openHours"
+    );
   }
 
   public static async getProductsByIds(
@@ -70,7 +73,10 @@ export class Product {
   }
 
   public static async getAllProducts(this: ReturnModelType<typeof Product>) {
-    return await this.find({});
+    return await this.find({}).populate(
+      "origin",
+      "name location distance openHours"
+    );
   }
 
   public static async deleteProductById(

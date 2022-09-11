@@ -3,13 +3,15 @@ import { NextResponse } from "next/server";
 
 export function middleware(req: NextRequest) {
   const auth = req.cookies.get("auth");
-  if (req.nextUrl.pathname === "/" && !auth) {
+  const pathname = req.nextUrl.pathname;
+  if (!pathname.endsWith("/login") && !pathname.endsWith("/signup") && !auth) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
-  if (
-    (req.nextUrl.pathname === "/login" || req.nextUrl.pathname === "/signup") &&
-    auth
-  ) {
+  if ((pathname.endsWith("/login") || pathname.endsWith("/signup")) && auth) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 }
+
+export const config = {
+  matcher: ["/", "/signup", "/login", "/wallets"],
+};
