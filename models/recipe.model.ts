@@ -1,7 +1,7 @@
 import type { Ref, ReturnModelType } from "@typegoose/typegoose";
 import { getModelForClass, prop } from "@typegoose/typegoose";
-import { Inventory } from "./inventory.model";
 import ProductModel, { Product } from "./product.model";
+import { Wallet } from "./wallet.model";
 
 export class Recipe {
   @prop({ required: true, default: "" })
@@ -10,8 +10,8 @@ export class Recipe {
   @prop({})
   public category: string;
 
-  @prop({ ref: () => Inventory })
-  public inventory: Ref<Inventory>;
+  @prop({ ref: () => Wallet })
+  public inventory: Ref<Wallet>;
 
   @prop({ type: () => Product })
   public products: Product[];
