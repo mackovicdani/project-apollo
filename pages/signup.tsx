@@ -3,7 +3,7 @@ import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import Link from "next/link";
 import Router from "next/router";
 import { useState } from "react";
-import { signupSchema } from "../components/validation/signupSchema";
+import { signupSchema } from "../components/validation/validation";
 
 interface Values {
   name: string;
@@ -63,7 +63,7 @@ export default function Signup() {
                 Name
               </label>
               <Field
-                className={`form-field ${
+                className={`form-field mt-1 mb-2 ${
                   touched.name && errors.name
                     ? "border-error text-error focus:ring-error"
                     : "border-gray-300"
@@ -82,7 +82,7 @@ export default function Signup() {
                 Email
               </label>
               <Field
-                className={`form-field ${
+                className={`form-field mt-1 mb-2 ${
                   touched.email && errors.email
                     ? "border-error text-error focus:ring-error"
                     : "border-gray-300"
@@ -102,7 +102,7 @@ export default function Signup() {
                 Password
               </label>
               <Field
-                className={`form-field ${
+                className={`form-field mt-1 mb-2 ${
                   touched.password && errors.password
                     ? "border-error text-error focus:ring-error"
                     : "border-gray-300"
@@ -117,7 +117,7 @@ export default function Signup() {
                 name="password"
               />
 
-              <button className="form-button" type="submit">
+              <button className="form-button mt-5" type="submit">
                 Sign up
               </button>
             </Form>
