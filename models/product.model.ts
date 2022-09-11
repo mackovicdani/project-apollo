@@ -7,19 +7,19 @@ import {
 import { Store } from "./store.model";
 
 export class Product {
-  @prop({ default: "" })
+  @prop({ required: [true, "Please provide a product name!"] })
   public name: string;
 
-  @prop({ default: "" })
+  @prop({ required: [true, "Please provide a type!"] })
   public type: string;
 
-  @prop({ default: "" })
+  @prop({ required: [true, "Please provide a category!"] })
   public category: string;
 
-  @prop({ default: 0 })
+  @prop({ default: 1 })
   public packageSize: number;
 
-  @prop({ default: "" })
+  @prop({ required: [true, "Please provide a quantity type!"] })
   public quantityType: string;
 
   @prop({ default: 0 })
