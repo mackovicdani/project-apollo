@@ -185,6 +185,10 @@ export default function AddPurchase(props: any) {
                             product: values.newItem,
                             quantity: values.quantity,
                             price: values.price,
+                            oldPrice:
+                              values.priceChanged !== values.price
+                                ? values.priceChanged
+                                : null,
                             changed: values.priceChanged !== values.price,
                             type: "konyha",
                           });
@@ -241,19 +245,27 @@ export default function AddPurchase(props: any) {
                               </h2>
                             </div>
                             <div className="absolute right-0">
-                              <h2 className=" text-white">
-                                {item.changed && (
+                              <div className="flex items-center">
+                                {item.oldPrice && (
                                   <Field
                                     className=" m-1 accent-secondary"
                                     type="checkbox"
                                     name={`items.${index}.changed`}
                                   />
                                 )}
-                                {item.price + " "}
-                                <span className="text-xs font-bold text-text-disabled">
-                                  ft
-                                </span>
-                              </h2>
+                                {item.oldPrice && (
+                                  <h2 className=" text-xs text-text line-through">
+                                    {item.oldPrice + " "}
+                                  </h2>
+                                )}
+                                <h2 className=" text-white">
+                                  {item.price + " "}
+                                  <span className="text-xs font-bold text-text-disabled">
+                                    ft
+                                  </span>
+                                </h2>
+                              </div>
+
                               <h2 className="-mt-1 text-right text-xs font-bold text-secondary">
                                 {item.quantity}db
                               </h2>
