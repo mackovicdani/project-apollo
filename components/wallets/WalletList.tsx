@@ -3,7 +3,7 @@ import { useWallet } from "../../pages/wallets";
 import Wallet from "./Wallet";
 
 export default function WalletList() {
-  const { wallets, selected, selectWallet, setSpeed, speed } = useWallet();
+  const { wallets, selected, selectWallet, setSpeed } = useWallet();
   let zIndex = 10;
   let before = true;
   let cardDesigns = [

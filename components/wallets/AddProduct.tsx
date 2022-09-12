@@ -54,7 +54,7 @@ export default function AddProduct(props: any) {
           submitHandler(values);
         }}
       >
-        {({ errors, touched }) => (
+        {() => (
           <Form className="mb-20 flex flex-col gap-3 p-7">
             <Field
               className={

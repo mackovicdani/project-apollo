@@ -91,19 +91,3 @@ const addWallet = (wallets: Wallet[], wallet: Wallet): Wallet[] => {
   else wallets.splice(wallets.length - 1, 0, wallet);
   return wallets;
 };
-
-const selectW = (wallets: Wallet[], selected: any, wallet: any): any => {
-  let oldIndex = 0;
-  let newIndex = 0;
-  if (selected === null) return wallet;
-  wallets.map((item: any, index: number) => {
-    if (item._id === selected._id) {
-      oldIndex = index;
-    } else if (item._id === wallet._id) {
-      newIndex = index;
-    }
-  });
-  if (oldIndex > newIndex) return wallets[oldIndex - 1];
-  else if (oldIndex < newIndex) return wallets[oldIndex + 1];
-  else return wallet;
-};
