@@ -22,7 +22,7 @@ export default function AddProduct(props: any) {
     try {
       const { data } = await axios.put(
         "http://localhost:3000/api/product/",
-        { product: values },
+        values,
         config
       );
 
@@ -44,9 +44,9 @@ export default function AddProduct(props: any) {
         initialValues={{
           name: name,
           type: "",
-          category: "",
+          category: "konyha",
           packageSize: "",
-          quantityType: "",
+          quantityType: "db",
           price: price,
           origin: [],
         }}
@@ -78,13 +78,12 @@ export default function AddProduct(props: any) {
               as="select"
               className={"form-field bg-elev"}
               id="category"
-              placeholder="Category"
               name="category"
               autoComplete="off"
             >
-              <option value="red">Konyha</option>
-              <option value="green">Takarítás</option>
-              <option value="blue">Orvosság</option>
+              <option value="konyha">Konyha</option>
+              <option value="takarítas">Takarítás</option>
+              <option value="orvoasság">Orvosság</option>
             </Field>
 
             <div className="flex gap-2">

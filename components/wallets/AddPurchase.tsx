@@ -21,8 +21,9 @@ interface Values {
 export default function AddPurchase(props: any) {
   const [isDropDown, setIsDropDown] = useState(true);
   const [modal, setModal] = useState(false);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any>([]);
 
+  /*  fetch all products */
   useEffect(() => {
     const fetchData = async () => {
       const config = {
@@ -66,6 +67,7 @@ export default function AddPurchase(props: any) {
             <FieldArray name="items">
               {(arrayHelpers) => (
                 <>
+                  {/*  */}
                   <div className="mb-3 flex h-10 w-full items-center justify-center gap-1">
                     <div className="relative h-full flex-grow">
                       <Field
@@ -82,17 +84,11 @@ export default function AddPurchase(props: any) {
                         onBlur={() => {
                           setTimeout(() => {
                             setIsDropDown(false);
-                          }, 100);
+                          }, 200);
                         }}
                         onFocus={() => setIsDropDown(true)}
                         onKeyUp={() => {
-                          if (
-                            data.filter(
-                              (product: any) =>
-                                product.name.toLowerCase() ==
-                                values.newItem.toLowerCase()
-                            ).length == 0
-                          ) {
+                          if (values.newItemId != "") {
                             arrayHelpers.form.setValues({
                               ...values,
                               newItemId: "",
@@ -102,6 +98,7 @@ export default function AddPurchase(props: any) {
                           }
                         }}
                       />
+                      {/* dropdownlist */}
                       {values.newItem != "" &&
                         values.newItemId == "" &&
                         isDropDown && (
@@ -152,6 +149,7 @@ export default function AddPurchase(props: any) {
                           </div>
                         )}
                     </div>
+
                     <Field
                       onKeyUp={() => {}}
                       className={`form-field h-full w-[20%] ${
@@ -165,6 +163,7 @@ export default function AddPurchase(props: any) {
                       placeholder="Price"
                       autoComplete="off"
                     />
+
                     <Field
                       className="form-field h-full w-10 bg-elev text-center disabled:bg-main"
                       id="quantity"
@@ -172,6 +171,7 @@ export default function AddPurchase(props: any) {
                       type="number"
                       autoComplete="off"
                     />
+
                     <button
                       type="button"
                       className={`form-button flex items-center justify-center ${
@@ -211,18 +211,20 @@ export default function AddPurchase(props: any) {
                         name={values.newItem}
                         price={values.price}
                         handleClose={() => setModal(false)}
-                        addProduct={(product: any) =>
+                        addProduct={(product: any) => {
                           arrayHelpers.form.setValues({
                             ...values,
                             newItemId: product._id,
                             newItem: product.name,
                             price: product.price,
                             priceChanged: product.price,
-                          })
-                        }
+                          });
+                          setData((current: any) => [...current, product]);
+                        }}
                       />
                     </Modal>
                   </div>
+                  {/* Item list */}
                   <div className="scrollbar flex h-full max-h-96 flex-col flex-nowrap gap-2 overflow-auto border-b-[1px] border-elev p-3">
                     {values.items.length > 0 &&
                       values.items.map((item: any, index: number) => {
