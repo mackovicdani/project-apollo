@@ -22,7 +22,7 @@ export default function PurchaseList() {
           Add purchase
         </div>
         <Modal isOpen={modal} handleClose={() => setModal(false)}>
-          <AddPurchase />
+          <AddPurchase handleClose={() => setModal(false)} />
         </Modal>
       </div>
       <div className="flex h-full flex-col gap-2 p-3">

@@ -1,6 +1,5 @@
 import axios from "axios";
 import { Field, Form, Formik } from "formik";
-import { productSchema } from "../validation/validation";
 
 interface Values {
   name: string;
@@ -37,8 +36,10 @@ export default function AddProduct(props: any) {
   };
   const { name, price, addProduct, handleClose } = props;
   return (
-    <div className="">
-      <h1 className="mb-5 text-2xl text-white">Add product</h1>
+    <div className="h-auto">
+      <h1 className="pt-5 text-center text-2xl font-bold text-secondary">
+        Add product
+      </h1>
       <Formik
         initialValues={{
           name: name,
@@ -52,72 +53,86 @@ export default function AddProduct(props: any) {
         onSubmit={(values: Values) => {
           submitHandler(values);
         }}
-        validationSchema={productSchema}
       >
         {({ errors, touched }) => (
-          <Form>
-            <label className="form-label ml-1" htmlFor="name">
-              Name
-            </label>
+          <Form className="mb-20 flex flex-col gap-3 p-7">
             <Field
-              className={"form-field bg-elev"}
+              className={
+                "block h-10 border-b-[1px] border-elev bg-card pl-2 text-center text-2xl text-secondary focus:border-primary-main focus:outline-none"
+              }
               id="name"
               name="name"
+              placeholder="Name"
               autoComplete="off"
+              spellCheck="false"
             />
-
-            <label className="form-label ml-1" htmlFor="type">
-              Type
-            </label>
             <Field
               className={"form-field bg-elev"}
               id="type"
               name="type"
+              placeholder="Type"
               autoComplete="off"
             />
 
-            <label className="form-label ml-1" htmlFor="category">
-              Category
-            </label>
             <Field
+              as="select"
               className={"form-field bg-elev"}
               id="category"
+              placeholder="Category"
               name="category"
-            />
-
-            <label className="form-label ml-1" htmlFor="packageSize">
-              PackageSize
-            </label>
-            <Field
-              className={"form-field bg-elev"}
-              id="packageSize"
-              name="packageSize"
               autoComplete="off"
-            />
+            >
+              <option value="red">Konyha</option>
+              <option value="green">Takarítás</option>
+              <option value="blue">Orvosság</option>
+            </Field>
 
-            <label className="form-label ml-1" htmlFor="quantityType">
-              QuantityType
-            </label>
-            <Field
-              className={"form-field bg-elev"}
-              id="quantityType"
-              name="quantityType"
-              autoComplete="off"
-            />
+            <div className="flex gap-2">
+              <Field
+                className={"form-field w-5/6 bg-elev"}
+                id="packageSize"
+                name="packageSize"
+                placeholder="PackageSize"
+                autoComplete="off"
+              />
 
-            <label className="form-label ml-1" htmlFor="price">
-              Price
-            </label>
+              <Field
+                as="select"
+                className={"form-field w-1/6 bg-elev"}
+                id="quantityType"
+                name="quantityType"
+                placeholder="QuantityType"
+                autoComplete="off"
+              >
+                <option value="db">db</option>
+                <option value="gr">gr</option>
+                <option value="kg">kg</option>
+                <option value="kg">kg</option>
+                <option value="l">l</option>
+              </Field>
+            </div>
             <Field
               className={"form-field bg-elev"}
               id="price"
               name="price"
+              placeholder="Price"
               autoComplete="off"
             />
 
-            <button className="form-button mt-5" type="submit">
-              Add product
-            </button>
+            <div className="absolute bottom-0 left-0 flex h-20 w-full items-center justify-end gap-3 rounded-b-md bg-main p-10">
+              <button
+                onClick={() => props.handleClose()}
+                className="h-10 w-24 rounded-md bg-card text-sm text-text"
+              >
+                Close
+              </button>
+              <button
+                type="submit"
+                className="h-10 w-24 rounded-md bg-primary-main text-sm text-white"
+              >
+                Create
+              </button>
+            </div>
           </Form>
         )}
       </Formik>

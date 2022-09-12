@@ -29,7 +29,7 @@ const Wallets: NextPage = () => {
       <div className="col-span-3 flex items-center justify-center bg-back p-[10px] xl:col-span-3 2xl:col-span-4">
         <WalletList></WalletList>
       </div>
-      <div className="col-span-3 flex items-center justify-center p-[10px] lg:col-span-1 xl:col-span-1 2xl:row-span-2 2xl:row-start-2">
+      <div className="col-span-3 flex items-center justify-center p-[10px] lg:col-span-1 xl:col-span-2 2xl:col-span-1 2xl:row-span-2 2xl:row-start-2">
         <AssignedUserList></AssignedUserList>
       </div>
       <div className="col-span-3 flex items-center justify-center p-[10px] lg:col-span-2 xl:col-span-2 xl:row-span-2 2xl:row-span-3">

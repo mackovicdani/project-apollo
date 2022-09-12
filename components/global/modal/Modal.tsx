@@ -14,20 +14,9 @@ export default function Modal(props: any) {
             <motion.div
               initial={{ scale: 0.3 }}
               animate={{ scale: 1 }}
-              className="container relative max-w-lg overflow-hidden rounded-xl bg-card shadow-md"
+              className="container relative w-auto rounded-xl bg-card shadow-md"
             >
-              <div className="p-10">{props.children}</div>
-              <div className="flex h-20 w-full items-center justify-end gap-3 bg-main p-10">
-                <button
-                  onClick={() => props.handleClose()}
-                  className="h-10 w-24 rounded-md bg-card text-sm text-text"
-                >
-                  Close
-                </button>
-                <button className="h-10 w-24 rounded-md bg-primary-main text-sm text-white">
-                  Create
-                </button>
-              </div>
+              {props.children}
             </motion.div>
           </motion.div>
         </UniversalPortal>

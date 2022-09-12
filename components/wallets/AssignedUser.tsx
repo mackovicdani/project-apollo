@@ -13,8 +13,8 @@ export default function AssignedUser(props: any) {
         stiffness: 80,
       }}
       className={`${
-        isUser ? "bg-primary-main" : "bg-elev/50"
-      } relative flex h-14 w-full items-center justify-between rounded-lg pl-4 pr-4 font-semibold text-white shadow hover:cursor-pointer`}
+        isUser ? "bg-primary-main" : "bg-elev/0"
+      } relative flex h-14 w-full items-center justify-between rounded-lg pl-4 pr-4 font-semibold text-white hover:cursor-pointer`}
     >
       <div className="h-10 w-10 rounded-md bg-secondary/50 shadow"></div>
       <div className="absolute left-[4.2rem] flex flex-col">
