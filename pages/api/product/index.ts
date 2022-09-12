@@ -8,7 +8,7 @@ import ProductModel, { Product } from "../../../models/product.model";
 export default getHandler()
   .use(auth)
   .put(async (req, res, next) => {
-    const product = req.body.product as Product;
+    const product = req.body as Product;
     await dbConnect();
     try {
       const newProduct = await ProductModel.createProduct(product);

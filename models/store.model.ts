@@ -1,16 +1,16 @@
 import { getModelForClass, prop, ReturnModelType } from "@typegoose/typegoose";
 
 export class Store {
-  @prop({ default: "" })
+  @prop({ required: [true, "Please provide a store name!"] })
   public name: string;
 
-  @prop({ default: "" })
+  @prop({ required: [true, "Please provide a location for the store!"] })
   public location: string;
 
   @prop({ default: 0 })
   public distance: number;
 
-  @prop({ default: "" })
+  @prop({ default: null })
   public openHours: string;
 
   public static async createStore(

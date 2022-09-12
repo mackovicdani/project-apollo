@@ -19,7 +19,7 @@ export default getHandler()
         assignedUsers: [
           { user: mongoose.Types.ObjectId(req.userId), money: 0 },
         ],
-        inventories: [],
+        inventory: [],
         purchases: [],
       });
 
