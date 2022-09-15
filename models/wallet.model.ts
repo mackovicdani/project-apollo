@@ -37,6 +37,9 @@ export class Wallet {
   @prop()
   public inviteLink?: string;
 
+  @prop()
+  public design?: Number;
+
   //api/wallet/
   public static async createWallet(
     this: ReturnModelType<typeof Wallet>,
