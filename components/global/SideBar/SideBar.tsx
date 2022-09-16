@@ -15,11 +15,11 @@ export default function SideBar() {
       <div className="flex w-full flex-col gap-[5px] rounded-xl">
         <SideBarItems
           name={"Home"}
-          isActive={selected === "/home"}
+          isActive={selected === "/"}
           icon={
             <IoHome
               className={`${
-                selected === "/home" ? "text-primary-main" : "text-white"
+                selected === "/" ? "text-primary-main" : "text-white"
               } text-lg`}
             />
           }
