@@ -1,9 +1,12 @@
 import axios from "axios";
 import { Field, FieldArray, Form, Formik } from "formik";
 import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
+import Router from "next/router";
 import { useEffect, useState } from "react";
 import { IoArrowDown, IoArrowForward } from "react-icons/io5";
 import { Item } from "../../models/item.model";
+import { useWallet } from "../../pages/wallets";
 import Modal from "../global/modal/Modal";
 import AddProduct from "./AddProduct";
 
@@ -11,6 +14,7 @@ interface Values {
   newItem: string;
   newItemId: string;
   type: string;
+  store: string;
   priceChanged: number;
   quantity: number | "";
   price: number | "";
@@ -19,6 +23,7 @@ interface Values {
 }
 
 export default function AddPurchase(props: any) {
+  const { selected } = useWallet();
   const [isDropDown, setIsDropDown] = useState(true);
   const [modal, setModal] = useState(false);
   const [data, setData] = useState<any>([]);
@@ -41,10 +46,35 @@ export default function AddPurchase(props: any) {
     fetchData();
   }, []);
 
+  const submitHandler = async (values: any) => {
+    console.log(values);
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    try {
+      const { data } = await axios.put(
+        `http://localhost:3000/api/wallet/${selected._id}/purchases/`,
+        values,
+        config
+      );
+
+      if (data) {
+        Router.replace("/wallets");
+        props.handleClose();
+      }
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+
   const initialValues: Values = {
     newItem: "",
     newItemId: "",
     type: "konyha",
+    store: props.store._id,
     priceChanged: 0,
     quantity: 1,
     price: "",
@@ -53,13 +83,33 @@ export default function AddPurchase(props: any) {
   };
   return (
     <div className="max-w-xl">
+      <div className="absolute m-2 ml-7 flex h-16 w-20 justify-center rounded p-2">
+        <div className="relative flex h-full w-full">
+          <Image
+            src={`/${props.store.name.toLowerCase()}.png`}
+            objectFit="contain"
+            layout="fill"
+            alt="logo"
+          />
+        </div>
+      </div>
       <h1 className="pt-5 text-center text-2xl font-bold text-secondary">
         Add purchase
       </h1>
       <Formik
         initialValues={initialValues}
         onSubmit={(values) => {
-          console.log(values);
+          let { store, items } = values;
+          let temp: any[] = [];
+          items.map((item: any) => {
+            temp.push({
+              product: item.product,
+              price: item.price,
+              quantity: item.quantity,
+              changed: item.changed,
+            });
+          });
+          submitHandler({ store, items: temp });
         }}
       >
         {({ values }) => (
@@ -102,7 +152,7 @@ export default function AddPurchase(props: any) {
                       {values.newItem != "" &&
                         values.newItemId == "" &&
                         isDropDown && (
-                          <div className="scrollbar absolute left-0 top-[2.6rem] z-10 h-auto max-h-64 w-full overflow-y-auto overflow-x-hidden rounded-b bg-main/[97%] text-sm text-text">
+                          <div className="scrollbar absolute left-0 top-[2.6rem] z-10 h-auto max-h-64 w-full overflow-y-auto overflow-x-hidden rounded-b bg-main/[97%] text-text shadow-md">
                             <AnimatePresence>
                               {data
                                 .filter((product: any) =>
@@ -114,16 +164,22 @@ export default function AddPurchase(props: any) {
                                   <motion.div
                                     initial={{
                                       height: 0,
-                                      padding: 0,
+                                      fontSize: "12px",
+                                      paddingBottom: 0,
+                                      paddingTop: 0,
                                     }}
                                     animate={{
                                       height: 40,
-                                      padding: 10,
+                                      fontSize: "14px",
+                                      paddingBottom: 5,
+                                      paddingTop: 5,
                                     }}
                                     exit={{
                                       height: 0,
                                       opacity: 0,
-                                      padding: 0,
+                                      fontSize: "12px",
+                                      paddingBottom: 0,
+                                      paddingTop: 0,
                                       transition: { duration: 0.1 },
                                     }}
                                     whileHover={{ scale: 1.005 }}
@@ -138,7 +194,7 @@ export default function AddPurchase(props: any) {
                                       });
                                     }}
                                     key={index}
-                                    className="flex items-center gap-2 overflow-hidden rounded hover:cursor-pointer hover:bg-card/50"
+                                    className="flex items-center gap-2 overflow-hidden rounded pr-2 pl-2 hover:cursor-pointer hover:bg-card/50"
                                   >
                                     <div className="aspect-square h-6 w-6 rounded bg-secondary/50 shadow"></div>
                                     <h2>{product.name}</h2>
@@ -182,7 +238,8 @@ export default function AddPurchase(props: any) {
                       onClick={() => {
                         if (values.newItemId != "") {
                           arrayHelpers.push({
-                            product: values.newItem,
+                            product: values.newItemId,
+                            productName: values.newItem,
                             quantity: values.quantity,
                             price: values.price,
                             oldPrice:
@@ -229,17 +286,19 @@ export default function AddPurchase(props: any) {
                     </Modal>
                   </div>
                   {/* Item list */}
-                  <div className="scrollbar flex h-full max-h-96 flex-col flex-nowrap gap-2 overflow-auto border-b-[1px] border-elev p-3">
+                  <div className="scrollbar flex h-full max-h-96 flex-col flex-nowrap gap-2 overflow-y-auto overflow-x-hidden border-b-[1px] border-elev p-3">
                     {values.items.length > 0 &&
                       values.items.map((item: any, index: number) => {
                         return (
-                          <div
+                          <motion.div
+                            initial={{ x: 100 }}
+                            animate={{ x: 0 }}
                             key={index}
                             className=" relative flex h-10 min-h-[2.5rem] w-full rounded text-text"
                           >
                             <div className="h-full w-10 rounded bg-secondary"></div>
                             <div className="flex flex-col">
-                              <h2 className="ml-2">{item.product}</h2>
+                              <h2 className="ml-2">{item.productName}</h2>
                               <h2 className="ml-3 -mt-1 text-xs font-bold text-secondary">
                                 {item.type.toUpperCase()}
                               </h2>
@@ -270,7 +329,7 @@ export default function AddPurchase(props: any) {
                                 {item.quantity}db
                               </h2>
                             </div>
-                          </div>
+                          </motion.div>
                         );
                       })}
                   </div>
