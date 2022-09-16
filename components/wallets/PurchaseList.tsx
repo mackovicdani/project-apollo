@@ -84,7 +84,7 @@ export default function PurchaseList() {
         >
           Add purchase
         </div>
-        <Modal isOpen={modal}>
+        <Modal isOpen={modal} size="max-w-xl">
           <AddPurchase
             store={modal}
             handleClose={() => {
@@ -128,7 +128,7 @@ export default function PurchaseList() {
           </motion.div>
         )}
       </AnimatePresence>
-      <div className="flex h-full flex-col gap-2 p-3">
+      <div className="scrollbar flex h-full flex-col gap-2 overflow-auto p-3">
         {selected?.purchases &&
           selected.purchases.map((purchase: any, index: number) => {
             return (

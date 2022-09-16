@@ -20,7 +20,7 @@ export default function AssignedUser(props: any) {
       <div className="absolute left-[4.2rem] flex flex-col">
         <h1 className="text-sm font-medium">{assignedUser.user.name}</h1>
         <h1 className="text-xs font-bold text-text-disabled">
-          {assignedUser.money} ft
+          {Math.round(assignedUser.money)} ft
         </h1>
       </div>
     </motion.div>

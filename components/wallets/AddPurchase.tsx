@@ -82,7 +82,7 @@ export default function AddPurchase(props: any) {
     sum: 0,
   };
   return (
-    <div className="max-w-xl">
+    <div className="">
       <div className="absolute m-2 ml-7 flex h-16 w-20 justify-center rounded p-2">
         <div className="relative flex h-full w-full">
           <Image
@@ -267,7 +267,7 @@ export default function AddPurchase(props: any) {
                         <IoArrowForward className="text-xl text-white" />
                       )}
                     </button>
-                    <Modal isOpen={modal} handleClose={() => setModal(false)}>
+                    <Modal isOpen={modal} size="max-w-md">
                       <AddProduct
                         name={values.newItem}
                         price={values.price}
