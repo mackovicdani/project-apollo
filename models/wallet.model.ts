@@ -37,6 +37,9 @@ export class Wallet {
   @prop()
   public inviteLink?: string;
 
+  @prop()
+  public design?: Number;
+
   //api/wallet/
   public static async createWallet(
     this: ReturnModelType<typeof Wallet>,
@@ -205,7 +208,7 @@ export class Wallet {
   ) {
     let purchasePrice = 0;
     purchase.items.forEach((item: any) => {
-      purchasePrice += item.price;
+      purchasePrice += item.price * item.quantity;
     });
     const id = new mongoose.Types.ObjectId();
     let wallet = await this.findByIdAndUpdate(
@@ -267,9 +270,9 @@ export class Wallet {
           const price =
             userId === assignedUser.user?.toString()
               ? size == 1
-                ? purchase.price
-                : ((size - 1) / size) * purchase.price
-              : (1 / size) * -purchase.price;
+                ? purchasePrice
+                : ((size - 1) / size) * purchasePrice
+              : (1 / size) * -purchasePrice;
           const transaction = await TransactionModel.createTransaction({
             sender: new mongoose.Types.ObjectId(userId),
             recipient: assignedUser.user,
