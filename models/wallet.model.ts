@@ -218,6 +218,7 @@ export class Wallet {
           purchases: {
             _id: id,
             user: mongoose.Types.ObjectId(userId),
+            date: new Date(),
             store: purchase.store,
             items: purchase.items,
             price: purchasePrice,

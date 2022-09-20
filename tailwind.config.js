@@ -22,6 +22,7 @@ module.exports = {
         succes: "#15803d",
         error: "#b91c1c",
         text: "#D2D2D2",
+        border: "#101010",
         "text-disabled": "#7A7A7A",
       },
       gridTemplateRows: {
@@ -29,12 +30,14 @@ module.exports = {
         lg: "380px 500px auto 300px",
         xl: "50% auto 1fr",
         xl2: "50% auto 1fr",
+        new: "45% 55%",
       },
       gridTemplateColumns: {
         xs: "300px auto auto 230px 250px",
         lg: "330px 500px 250px 250px",
         xl: "50% 25% 25%",
         xl2: "25% 15% 15% 15% 15% 15%",
+        new: "1fr 420px",
       },
       transitionProperty: {
         custom: "height, width, transform, zIndex, opacity",

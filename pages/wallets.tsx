@@ -1,9 +1,7 @@
 import axios from "axios";
 import type { GetServerSideProps, NextPage } from "next";
 import shallow from "zustand/shallow";
-import AssignedUserList from "../components/wallets/AssignedUserList";
-import PurchaseList from "../components/wallets/PurchaseList";
-import WalletList from "../components/wallets/WalletList";
+import SideComponent from "../components/wallets/SideComponent";
 import { initializeStore, useStore } from "../lib/store";
 
 export const useWallet = () => {
@@ -25,7 +23,18 @@ export const useWallet = () => {
 
 const Wallets: NextPage = () => {
   return (
-    <div className="grid h-full grid-cols-3 grid-rows-xs lg:grid-rows-lg xl:grid-cols-5 xl:grid-rows-xl 2xl:grid-cols-xl2 2xl:grid-rows-xl2">
+    <div className="grid h-full grid-cols-new grid-rows-new">
+      <div className=""></div>
+      <div className="row-span-2">
+        <SideComponent />
+      </div>
+      <div className=""></div>
+    </div>
+  );
+};
+
+{
+  /* <div className="grid h-full grid-cols-3 grid-rows-xs lg:grid-rows-lg xl:grid-cols-5 xl:grid-rows-xl 2xl:grid-cols-xl2 2xl:grid-rows-xl2">
       <div className="col-span-3 flex items-center justify-center bg-back p-[10px] xl:col-span-3 2xl:col-span-4">
         <WalletList></WalletList>
       </div>
@@ -47,9 +56,8 @@ const Wallets: NextPage = () => {
       <div className="col-span-3 flex items-center justify-center p-[10px] xl:col-span-3">
         <div className="h-full w-full rounded-lg bg-main "></div>
       </div>
-    </div>
-  );
-};
+    </div> */
+}
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const zustandStore = initializeStore();
