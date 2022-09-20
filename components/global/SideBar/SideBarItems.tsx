@@ -5,22 +5,17 @@ export default function SideBarItems(props: any) {
   return (
     <Link href={`/${name.toLowerCase()}`}>
       <div
-        className={`flex h-12 w-full items-center rounded-md pl-[20%] hover:cursor-pointer ${
-          isActive
-            ? "bg-white"
-            : "bg-primary-main hover:bg-primary-hover active:bg-primary-focus"
+        className={`relative flex h-16 w-full items-center pl-6 hover:cursor-pointer ${
+          isActive ? "border border-border bg-main" : ""
         }`}
       >
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex items-center justify-center gap-4">
           {icon}
-          <h2
-            className={`text-lg font-medium ${
-              isActive ? "text-primary-main" : "text-white"
-            }`}
-          >
-            {name}
-          </h2>
+          <h2 className={`text-base font-medium text-white`}>{name}</h2>
         </div>
+        {isActive && (
+          <div className="absolute right-0 h-full w-2 rounded-tl-full rounded-bl-full border border-border bg-primary-main"></div>
+        )}
       </div>
     </Link>
   );
