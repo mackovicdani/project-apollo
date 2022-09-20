@@ -73,14 +73,12 @@ export default function PurchaseList() {
   }, []);
 
   return (
-    <div className="relative flex h-full w-full flex-col rounded-lg bg-card shadow-lg">
-      <div className="h-[130px] bg-main p-[28px]">
-        <h1 className="text-center text-sm font-bold text-white md:text-lg lg:text-lg xl:text-base">
-          Purchases
-        </h1>
+    <div className="relative flex w-full flex-col pt-12">
+      <div className="flex h-12 items-center justify-between">
+        <h1 className="text-center text-xl font-bold text-text">Purchases</h1>
         <div
           onClick={() => setStoreListOpen(!isStoreListOpen)}
-          className="mt-5 flex h-[35px] items-center justify-center rounded-md bg-secondary text-xs font-bold text-white hover:cursor-pointer"
+          className="flex h-10 items-center justify-center rounded-xl border border-border bg-secondary p-5 text-xs font-bold text-white hover:cursor-pointer"
         >
           Add purchase
         </div>
@@ -102,13 +100,13 @@ export default function PurchaseList() {
             animate="visible"
             exit="exit"
             key="storeList"
-            className="scrollbar absolute top-32 z-10 flex w-full flex-col gap-2 bg-main pl-7 pr-7"
+            className="scrollbar absolute top-32 z-10 flex w-full flex-col gap-2 bg-main"
           >
             {stores.map((store: any) => (
               <motion.div
                 key={store._id}
                 variants={childVariants}
-                className="relative flex h-20 min-h-[5rem] w-full overflow-hidden rounded-md bg-elev p-2 shadow-md hover:cursor-pointer"
+                className="relative flex h-20 min-h-[5rem] w-full rounded-md bg-elev p-2 shadow-md hover:cursor-pointer"
                 onClick={() => setModal(store)}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
@@ -128,9 +126,9 @@ export default function PurchaseList() {
           </motion.div>
         )}
       </AnimatePresence>
-      <div className="scrollbar flex h-full flex-col gap-2 overflow-auto p-3">
+      <div className="scrollbar flex h-full flex-col gap-2 pt-4">
         {selected?.purchases &&
-          selected.purchases.map((purchase: any, index: number) => {
+          selected.purchases.slice(0, 5).map((purchase: any, index: number) => {
             return (
               <Purchase
                 key={purchase._id}
