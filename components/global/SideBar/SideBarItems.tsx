@@ -1,19 +1,21 @@
 import Link from "next/link";
 
 export default function SideBarItems(props: any) {
-  const { name, isActive, icon } = props;
+  const { name, isActive, icon, isOpened } = props;
   return (
     <Link href={`/${name.toLowerCase()}`}>
       <div
-        className={`relative flex h-16 w-full items-center pl-6 hover:cursor-pointer ${
+        className={`relative flex aspect-square w-16 items-center justify-center rounded-md hover:cursor-pointer lg:aspect-auto lg:h-16 lg:w-full lg:justify-start lg:rounded-none lg:pl-6 ${
           isActive ? "border border-border bg-main" : ""
         }`}
       >
         <div className="flex items-center justify-center gap-4">
           {icon}
-          <h2 className={`text-base font-medium text-white`}>{name}</h2>
+          {isOpened && (
+            <h2 className={`text-base font-medium text-white`}>{name}</h2>
+          )}
         </div>
-        {isActive && (
+        {isActive && isOpened && (
           <div className="absolute right-0 h-full w-2 rounded-tl-full rounded-bl-full border border-border bg-primary-main"></div>
         )}
       </div>

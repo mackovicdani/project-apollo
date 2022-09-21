@@ -25,7 +25,7 @@ export const useWallet = () => {
 const Wallets: NextPage = () => {
   return (
     <div className="grid h-full w-full grid-cols-xs grid-rows-xs xl:grid-cols-xl xl:grid-rows-xl 2xl:grid-cols-2xl 2xl:grid-rows-2xl">
-      <div className="flex flex-col gap-4 p-12">
+      <div className="flex flex-col gap-4 p-6 lg:p-12">
         <div className="flex flex-row items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-white">Wallets</h1>
@@ -49,7 +49,7 @@ const Wallets: NextPage = () => {
           </div>
         </div>
       </div>
-      <div className="row-span-2 pl-12 pr-12 xl:p-0">
+      <div className="row-span-2 p-6 xl:p-0">
         <SideComponent />
       </div>
       <div className=""></div>
