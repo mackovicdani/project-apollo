@@ -16,30 +16,32 @@ export default function Wallet(props: any) {
           ? 0
           : before
           ? visible
-            ? "-70%"
-            : "-40%"
+            ? "-60%"
+            : "-30%"
           : visible
-          ? "70%"
-          : "40%",
-        opacity: visible ? 1 : 0,
+          ? "60%"
+          : "30%",
+        opacity: visible ? (isSelected ? 1 : 0.6) : 0,
       }}
       transition={{ duration: speed, ease: "easeInOut" }}
-      className={`${color.main} ${color.text} absolute h-[240px] w-[360px] rounded-2xl p-5 shadow-md hover:cursor-pointer lg:h-[260px] lg:w-[400px] xl:h-[300px] xl:w-[460px]`}
+      className={`${color.main} ${color.text} absolute h-[80%] w-[50%] rounded-2xl border border-border p-5 shadow-md hover:cursor-pointer`}
       style={{ zIndex: zIndex }}
       onClick={() => selectWallet(wallet)}
     >
       {wallet.name !== "addCard" && (
         <>
-          <h2 className={`text-4xl font-bold`}>{wallet.name}</h2>
-          <h2 className={`pl-2 text-xs font-bold opacity-50`}>{wallet._id}</h2>
-          <h2 className="absolute bottom-3 right-5 text-4xl font-extrabold">
+          <h2 className={`text-4xl font-extrabold`}>{wallet.name}</h2>
+          <h2 className={`-mt-2 pl-2 text-xs font-bold opacity-50`}>
+            {wallet._id.substring(0, 20)}
+          </h2>
+          <h2 className="absolute bottom-3 right-5 text-2xl font-extrabold">
             {Math.round(wallet.assignedUsers[0].money)} ft
           </h2>
           <div
-            className={`absolute top-10 right-10 aspect-square w-2/6 rounded-full ${color.dark} shadow-md`}
+            className={`absolute right-10 top-8 aspect-square w-[30%] rounded-full ${color.dark}`}
           ></div>
           <div
-            className={`absolute top-6 right-6 aspect-square w-1/6 rounded-full ${color.light} shadow-md`}
+            className={`absolute top-6 right-6 aspect-square w-[20%] rounded-full ${color.light}`}
           ></div>
         </>
       )}

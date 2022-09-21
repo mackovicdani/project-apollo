@@ -16,15 +16,16 @@ export default function Purchase(props: any) {
         />
       </Modal>
       <motion.div
-        initial={{ scale: 0.5, opacity: 0 }}
+        initial={{ scale: 1.05, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
+        whileHover={{ scale: 1.01, transition: { delay: 0 } }}
         transition={{
           delay: 0.3 + props.index * 0.05,
           type: "spring",
           stiffness: 80,
         }}
         onClick={() => setIsOpen(true)}
-        className="relative flex h-16 min-h-[4rem] w-full items-center justify-between rounded-lg border border-border  pl-2 pr-4 font-semibold text-white shadow hover:cursor-pointer"
+        className="relative flex h-16 min-h-[4rem] w-full items-center justify-between rounded-lg border border-border bg-main  pl-2 pr-4 font-semibold text-white shadow hover:cursor-pointer"
       >
         <div className="h-12 w-12 rounded-md border border-border bg-secondary shadow"></div>
         <div className="absolute left-16">

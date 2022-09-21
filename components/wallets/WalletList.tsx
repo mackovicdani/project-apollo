@@ -8,22 +8,22 @@ export default function WalletList() {
   let before = true;
   let cardDesigns = [
     {
-      main: "bg-green-50",
+      main: "bg-green-100",
       dark: "bg-green-300",
       light: "bg-green-200",
-      text: "text-back",
+      text: "text-back/90",
     },
     {
       main: "bg-primary-main",
       dark: "bg-primary-focus",
       light: "bg-primary-hover",
-      text: "text-white",
+      text: "text-white/90",
     },
     {
       main: "bg-orange-600",
       dark: "bg-orange-300",
       light: "bg-orange-200",
-      text: "text-white",
+      text: "text-white/90",
     },
     {
       main: "bg-main",
@@ -31,7 +31,7 @@ export default function WalletList() {
   ];
 
   return (
-    <div className="relative flex h-full w-full flex-row items-center justify-center overflow-hidden rounded-xl bg-dark shadow-md">
+    <div className="relative flex h-full w-full flex-row items-center justify-center rounded-xl border border-border bg-back shadow-md">
       {wallets.map((wallet: any, index: any, array: any) => {
         let visible = false;
         if (
@@ -58,7 +58,7 @@ export default function WalletList() {
           />
         );
       })}
-      <div className="absolute bottom-3 flex h-5 justify-evenly rounded-full bg-main p-1">
+      <div className="absolute -bottom-[0.6rem] flex h-5 items-center justify-evenly rounded-full border border-border bg-main pl-2 pr-2">
         {wallets.map((wallet: any) => {
           return (
             <motion.div
@@ -67,9 +67,9 @@ export default function WalletList() {
               animate={{
                 width: wallet._id === selected._id ? "2.5rem" : "0.75rem",
                 backgroundColor:
-                  wallet._id === selected._id ? "#6562fc" : "#3A393E",
+                  wallet._id === selected._id ? "#6562fc" : "#019166",
               }}
-              className={`ml-1 mr-1 h-3 rounded-full bg-card hover:cursor-pointer`}
+              className={`ml-1 mr-1 h-3 rounded-full border border-border bg-card hover:cursor-pointer`}
               onClick={() => {
                 let oldIndex = 0;
                 let newIndex = 0;

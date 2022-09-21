@@ -22,7 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         {isSideBarVisible && <SideBar></SideBar>}
         <main
           className={`h-auto bg-dark xl:h-screen ${
-            isSideBarVisible ? "ml-[100px] lg:ml-[270px]" : ""
+            isSideBarVisible ? "ml-[100px] lg:ml-80" : ""
           }`}
         >
           <Component {...pageProps} />

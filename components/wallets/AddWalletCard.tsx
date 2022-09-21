@@ -42,7 +42,7 @@ export default function AddWalletCard() {
     }
   };
   return (
-    <div className="relative flex h-full w-full flex-col items-center justify-center text-center">
+    <div className="relative flex h-full w-full flex-col items-center justify-center  text-center">
       <Formik
         initialValues={{
           inviteLink: "",
@@ -55,13 +55,13 @@ export default function AddWalletCard() {
         {() => (
           <Form className="w-full">
             <label
-              className="form-label m-0 p-0 text-3xl text-secondary"
+              className="form-label m-0 p-0 text-2xl text-secondary"
               htmlFor="inviteLink"
             >
               Invite link
             </label>
             <Field
-              className={"form-field mt-2"}
+              className={"form-field mt-2 h-8 border border-border text-xs"}
               id="inviteLink"
               name="inviteLink"
               autoComplete="off"
@@ -71,14 +71,17 @@ export default function AddWalletCard() {
               className="form-errorMsg"
               name="inviteLink"
             />
-            <button className="form-button mt-2 w-32" type="submit">
+            <button
+              className="form-button mt-2 h-8 w-32 border border-border text-sm"
+              type="submit"
+            >
               Join
             </button>
           </Form>
         )}
       </Formik>
-      <h2 className="absolute bottom-1 text-sm text-succes">{result}</h2>
-      <h2 className="absolute bottom-1 text-sm text-error">{err}</h2>
+      <h2 className="absolute bottom-0 text-sm text-succes">{result}</h2>
+      <h2 className="absolute bottom-0 text-sm text-error">{err}</h2>
     </div>
   );
 }

@@ -2,6 +2,7 @@ import axios from "axios";
 import type { GetServerSideProps, NextPage } from "next";
 import shallow from "zustand/shallow";
 import SideComponent from "../components/wallets/SideComponent";
+import WalletList from "../components/wallets/WalletList";
 import { initializeStore, useStore } from "../lib/store";
 
 export const useWallet = () => {
@@ -24,7 +25,30 @@ export const useWallet = () => {
 const Wallets: NextPage = () => {
   return (
     <div className="grid h-full grid-cols-new grid-rows-new">
-      <div className=""></div>
+      <div className="flex flex-col gap-4 p-12">
+        <div className="flex flex-row items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-white">Wallets</h1>
+            <h2 className="ml-2 text-base text-text-disabled">
+              Monday, April 4th{" "}
+            </h2>
+          </div>
+          <div className="flex gap-7">
+            <div className="w-60 rounded-lg border border-border bg-main shadow"></div>
+            <div className="h-12 w-12 rounded-lg border border-border bg-primary-main shadow"></div>
+          </div>
+        </div>
+        <div className="flex h-full w-full gap-6">
+          <div className="h-full w-2/3">
+            <WalletList></WalletList>
+          </div>
+          <div className="flex w-1/3 flex-col items-center justify-between gap-2">
+            <div className=" h-[5.5rem] w-full rounded-lg border border-border bg-back"></div>
+            <div className="h-[5.5rem] w-full rounded-lg border border-border bg-back"></div>
+            <div className="h-[5.5rem] w-full rounded-lg border border-border bg-secondary"></div>
+          </div>
+        </div>
+      </div>
       <div className="row-span-2">
         <SideComponent />
       </div>

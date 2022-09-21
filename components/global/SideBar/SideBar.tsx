@@ -8,7 +8,7 @@ export default function SideBar() {
   const router = useRouter();
   const selected = router.asPath;
   return (
-    <div className="fixed top-0 left-0 bottom-0 z-[100] flex w-[100px] flex-col items-center justify-between bg-back pb-12 pt-12 shadow-md lg:w-80">
+    <div className="fixed top-0 left-0 bottom-0 z-[100] flex w-20 flex-col items-center justify-between border border-border bg-back pb-12 pt-12 shadow-md lg:w-80">
       <div className="flex h-12 w-[calc(100%-3rem)] items-center justify-center border-[2px]">
         <h1 className="text-3xl font-semibold text-white">APOLLO</h1>
       </div>
