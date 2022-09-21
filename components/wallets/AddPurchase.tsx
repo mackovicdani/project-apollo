@@ -124,7 +124,7 @@ export default function AddPurchase(props: any) {
                         className={`form-field h-full w-full ${
                           values.newItemId != ""
                             ? "bg-secondary font-bold text-white"
-                            : "bg-elev"
+                            : "bg-main"
                         }`}
                         id="newItem"
                         name="newItem"
@@ -152,7 +152,7 @@ export default function AddPurchase(props: any) {
                       {values.newItem != "" &&
                         values.newItemId == "" &&
                         isDropDown && (
-                          <div className="scrollbar absolute left-0 top-[2.6rem] z-10 h-auto max-h-64 w-full overflow-y-auto overflow-x-hidden rounded-b bg-main/[97%] text-text shadow-md">
+                          <div className="scrollbar absolute left-0 top-[2.6rem] z-10 h-auto max-h-64 w-full overflow-y-auto overflow-x-hidden rounded-b bg-dark text-text shadow-md">
                             <AnimatePresence>
                               {data
                                 .filter((product: any) =>
@@ -194,7 +194,7 @@ export default function AddPurchase(props: any) {
                                       });
                                     }}
                                     key={index}
-                                    className="flex items-center gap-2 overflow-hidden rounded pr-2 pl-2 hover:cursor-pointer hover:bg-card/50"
+                                    className="flex items-center gap-2 overflow-hidden pr-2 pl-2 hover:cursor-pointer hover:bg-back/50"
                                   >
                                     <div className="aspect-square h-6 w-6 rounded bg-secondary/50 shadow"></div>
                                     <h2>{product.name}</h2>
@@ -210,7 +210,7 @@ export default function AddPurchase(props: any) {
                       onKeyUp={() => {}}
                       className={`form-field h-full w-[20%] ${
                         values.priceChanged !== values.price
-                          ? "bg-elev"
+                          ? "bg-main"
                           : "bg-secondary font-bold text-white"
                       } disabled:bg-main`}
                       id="price"
@@ -221,7 +221,7 @@ export default function AddPurchase(props: any) {
                     />
 
                     <Field
-                      className="form-field h-full w-10 bg-elev text-center disabled:bg-main"
+                      className="form-field h-full w-10 bg-main text-center disabled:bg-main"
                       id="quantity"
                       name="quantity"
                       type="number"
@@ -230,7 +230,7 @@ export default function AddPurchase(props: any) {
 
                     <button
                       type="button"
-                      className={`form-button flex items-center justify-center ${
+                      className={`form-button flex items-center justify-center border border-border ${
                         values.newItemId == ""
                           ? "bg-primary-main"
                           : "bg-secondary"
@@ -296,7 +296,7 @@ export default function AddPurchase(props: any) {
                             key={index}
                             className=" relative flex h-10 min-h-[2.5rem] w-full rounded text-text"
                           >
-                            <div className="h-full w-10 rounded bg-secondary"></div>
+                            <div className="h-full w-10 rounded border border-border bg-secondary"></div>
                             <div className="flex flex-col">
                               <h2 className="ml-2">{item.productName}</h2>
                               <h2 className="ml-3 -mt-1 text-xs font-bold text-secondary">
@@ -344,19 +344,19 @@ export default function AddPurchase(props: any) {
                 </>
               )}
             </FieldArray>
-            <div className="absolute bottom-0 left-0 flex h-20 w-full items-center justify-end gap-3 rounded-b-md bg-main p-10">
+            <div className="absolute bottom-0 left-0 flex h-20 w-full items-center justify-end gap-3 rounded-b-xl p-10">
               <button
                 type="button"
                 onClick={() => {
                   props.handleClose();
                 }}
-                className="h-10 w-24 rounded-md bg-card text-sm text-text"
+                className="h-10 w-24 rounded-md border border-border bg-card text-sm text-text shadow"
               >
                 Close
               </button>
               <button
                 type="submit"
-                className="h-10 w-24 rounded-md bg-primary-main text-sm text-white"
+                className="h-10 w-24 rounded-md border border-border bg-primary-main text-sm text-white shadow"
               >
                 Create
               </button>

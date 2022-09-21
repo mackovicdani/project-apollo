@@ -14,7 +14,7 @@ export default function Modal(props: any) {
             <motion.div
               initial={{ scale: 0.3 }}
               animate={{ scale: 1 }}
-              className={`${props.size} container relative w-[90%] rounded-xl bg-card shadow-md`}
+              className={`${props.size} container relative w-[90%] rounded-xl border border-border bg-back shadow-md`}
             >
               {props.children}
             </motion.div>
