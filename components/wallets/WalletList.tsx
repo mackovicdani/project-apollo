@@ -31,33 +31,36 @@ export default function WalletList() {
   ];
 
   return (
-    <div className="relative flex h-full w-full flex-row items-center justify-center rounded-xl border border-border bg-back shadow-md">
-      {wallets.map((wallet: any, index: any, array: any) => {
-        let visible = false;
-        if (
-          (index != array.length - 1 && array[index + 1]._id == selected._id) ||
-          (index != 0 && array[index - 1]._id == selected._id) ||
-          wallet._id == selected._id
-        ) {
-          visible = true;
-        }
-        if (selected._id === wallet._id) {
-          before = false;
-        } else {
-          if (before) zIndex += 1;
-          else zIndex -= 1;
-        }
-        return (
-          <Wallet
-            key={wallet._id}
-            wallet={wallet}
-            before={before}
-            zIndex={zIndex}
-            visible={visible}
-            color={cardDesigns[wallet.design]}
-          />
-        );
-      })}
+    <div className="relative flex h-full w-full justify-center rounded-xl border border-border bg-back shadow-md">
+      <div className="relative flex h-full w-full items-center justify-center overflow-hidden">
+        {wallets.map((wallet: any, index: any, array: any) => {
+          let visible = false;
+          if (
+            (index != array.length - 1 &&
+              array[index + 1]._id == selected._id) ||
+            (index != 0 && array[index - 1]._id == selected._id) ||
+            wallet._id == selected._id
+          ) {
+            visible = true;
+          }
+          if (selected._id === wallet._id) {
+            before = false;
+          } else {
+            if (before) zIndex += 1;
+            else zIndex -= 1;
+          }
+          return (
+            <Wallet
+              key={wallet._id}
+              wallet={wallet}
+              before={before}
+              zIndex={zIndex}
+              visible={visible}
+              color={cardDesigns[wallet.design]}
+            />
+          );
+        })}
+      </div>
       <div className="absolute -bottom-[0.6rem] flex h-5 items-center justify-evenly rounded-full border border-border bg-main pl-2 pr-2">
         {wallets.map((wallet: any) => {
           return (

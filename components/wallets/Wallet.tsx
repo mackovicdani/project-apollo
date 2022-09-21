@@ -24,7 +24,7 @@ export default function Wallet(props: any) {
         opacity: visible ? (isSelected ? 1 : 0.6) : 0,
       }}
       transition={{ duration: speed, ease: "easeInOut" }}
-      className={`${color.main} ${color.text} absolute h-[80%] w-[50%] rounded-2xl border border-border p-5 shadow-md hover:cursor-pointer`}
+      className={`${color.main} ${color.text} absolute aspect-[16/11] w-[80%] max-w-[320px] rounded-2xl border border-border p-5 shadow-md hover:cursor-pointer`}
       style={{ zIndex: zIndex }}
       onClick={() => selectWallet(wallet)}
     >
