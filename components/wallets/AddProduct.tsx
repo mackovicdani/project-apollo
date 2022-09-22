@@ -58,7 +58,7 @@ export default function AddProduct(props: any) {
           <Form className="mb-20 flex flex-col gap-3 p-7">
             <Field
               className={
-                "block h-10 border-b-[1px] border-elev bg-card pl-2 text-center text-2xl text-secondary focus:border-primary-main focus:outline-none"
+                "block h-10 border-b-[1px] border-border bg-back pl-2 text-2xl text-secondary focus:border-primary-main focus:outline-none"
               }
               id="name"
               name="name"
@@ -67,7 +67,7 @@ export default function AddProduct(props: any) {
               spellCheck="false"
             />
             <Field
-              className={"form-field bg-elev"}
+              className={"form-field bg-main"}
               id="type"
               name="type"
               placeholder="Type"
@@ -76,7 +76,7 @@ export default function AddProduct(props: any) {
 
             <Field
               as="select"
-              className={"form-field bg-elev"}
+              className={"form-field bg-main"}
               id="category"
               name="category"
               autoComplete="off"
@@ -88,7 +88,7 @@ export default function AddProduct(props: any) {
 
             <div className="flex gap-2">
               <Field
-                className={"form-field w-5/6 bg-elev"}
+                className={"form-field w-5/6 bg-main"}
                 id="packageSize"
                 name="packageSize"
                 placeholder="PackageSize"
@@ -97,7 +97,7 @@ export default function AddProduct(props: any) {
 
               <Field
                 as="select"
-                className={"form-field w-1/6 bg-elev"}
+                className={"form-field w-1/6 bg-main"}
                 id="quantityType"
                 name="quantityType"
                 placeholder="QuantityType"
@@ -111,23 +111,23 @@ export default function AddProduct(props: any) {
               </Field>
             </div>
             <Field
-              className={"form-field bg-elev"}
+              className={"form-field bg-main"}
               id="price"
               name="price"
               placeholder="Price"
               autoComplete="off"
             />
 
-            <div className="absolute bottom-0 left-0 flex h-20 w-full items-center justify-end gap-3 rounded-b-md bg-main p-10">
+            <div className="absolute bottom-0 left-0 flex h-20 w-full items-center justify-end gap-3  p-10">
               <button
                 onClick={() => props.handleClose()}
-                className="h-10 w-24 rounded-md bg-card text-sm text-text"
+                className="h-10 w-24 rounded-md border border-border bg-main text-sm text-text"
               >
                 Close
               </button>
               <button
                 type="submit"
-                className="h-10 w-24 rounded-md bg-primary-main text-sm text-white"
+                className="h-10 w-24 rounded-md border border-border bg-primary-main text-sm text-white"
               >
                 Create
               </button>

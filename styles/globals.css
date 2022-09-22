@@ -7,7 +7,7 @@
     @apply block text-sm font-bold text-text;
   }
   .form-field {
-    @apply block h-10 w-full rounded border border-border bg-main pl-2 pr-2 text-sm text-text shadow-sm focus:border-primary-main focus:outline-none disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none;
+    @apply z-10 block h-10 w-full rounded border border-border bg-main pl-2 pr-2 text-sm text-text shadow-sm focus:border-primary-main focus:outline-none disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none;
   }
   .form-button {
     @apply h-10 w-full rounded bg-primary-main font-bold text-white hover:bg-gray-600;

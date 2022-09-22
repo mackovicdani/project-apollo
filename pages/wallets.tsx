@@ -49,7 +49,7 @@ const Wallets: NextPage = () => {
           </div>
         </div>
       </div>
-      <div className="row-span-2 p-6 xl:p-0">
+      <div className="row-span-2 overflow-hidden p-6 xl:p-0">
         <SideComponent />
       </div>
       <div className=""></div>

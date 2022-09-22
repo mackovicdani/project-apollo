@@ -100,18 +100,18 @@ export default function PurchaseList() {
             animate="visible"
             exit="exit"
             key="storeList"
-            className="scrollbar absolute top-32 z-10 flex w-full flex-col gap-2 bg-main"
+            className="scrollbar z-10 mt-2 flex w-full flex-col gap-2 rounded border border-border bg-dark p-2"
           >
             {stores.map((store: any) => (
               <motion.div
                 key={store._id}
                 variants={childVariants}
-                className="relative flex h-20 min-h-[5rem] w-full rounded-md bg-elev p-2 shadow-md hover:cursor-pointer"
+                className="relative flex h-20 min-h-[5rem] w-full rounded-md border border-border bg-back p-2 shadow-md hover:cursor-pointer"
                 onClick={() => setModal(store)}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <div className="flex h-full w-20 justify-center rounded bg-white p-2 shadow-md">
+                <div className="flex h-full w-20 justify-center rounded border border-border bg-white p-2 shadow-md">
                   <div className="relative flex h-full w-full">
                     <Image
                       src={`/${store.name.toLowerCase()}.png`}

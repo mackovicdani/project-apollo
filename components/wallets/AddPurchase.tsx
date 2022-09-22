@@ -83,7 +83,7 @@ export default function AddPurchase(props: any) {
   };
   return (
     <div className="">
-      <div className="absolute m-2 ml-7 flex h-16 w-20 justify-center rounded p-2">
+      <div className="absolute top-5 left-7 z-0 flex h-10 w-16 justify-center rounded border border-border bg-white p-2">
         <div className="relative flex h-full w-full">
           <Image
             src={`/${props.store.name.toLowerCase()}.png`}
@@ -152,7 +152,7 @@ export default function AddPurchase(props: any) {
                       {values.newItem != "" &&
                         values.newItemId == "" &&
                         isDropDown && (
-                          <div className="scrollbar absolute left-0 top-[2.6rem] z-10 h-auto max-h-64 w-full overflow-y-auto overflow-x-hidden rounded-b bg-dark text-text shadow-md">
+                          <div className="scrollbar absolute left-0 top-[2.6rem] z-20 h-auto max-h-64 w-full overflow-y-auto overflow-x-hidden rounded-b bg-dark text-text shadow-md">
                             <AnimatePresence>
                               {data
                                 .filter((product: any) =>
@@ -230,7 +230,7 @@ export default function AddPurchase(props: any) {
 
                     <button
                       type="button"
-                      className={`form-button flex items-center justify-center border border-border ${
+                      className={`form-button z-10 flex items-center justify-center border border-border ${
                         values.newItemId == ""
                           ? "bg-primary-main"
                           : "bg-secondary"
@@ -350,7 +350,7 @@ export default function AddPurchase(props: any) {
                 onClick={() => {
                   props.handleClose();
                 }}
-                className="h-10 w-24 rounded-md border border-border bg-card text-sm text-text shadow"
+                className="h-10 w-24 rounded-md border border-border bg-main text-sm text-text shadow"
               >
                 Close
               </button>
