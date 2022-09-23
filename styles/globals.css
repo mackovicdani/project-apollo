@@ -24,6 +24,15 @@
 }
 
 @layer utilities {
+  .example::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .example {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
   .scrollbar::-webkit-scrollbar {
     @apply h-3 w-3;
   }

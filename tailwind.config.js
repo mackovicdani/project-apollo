@@ -29,6 +29,7 @@ module.exports = {
         "2xl": "45% 55%",
         xl: "auto auto",
         xs: "auto auto auto",
+        items: "33% 33% 33% auto",
       },
       gridTemplateColumns: {
         "2xl": "1fr 420px",
