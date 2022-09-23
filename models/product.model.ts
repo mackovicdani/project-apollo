@@ -10,11 +10,14 @@ export class Product {
   @prop({ required: [true, "Please provide a product name!"] })
   public name: string;
 
+  @prop({ required: [true, "Please provide a category!"] })
+  public category: string;
+
   @prop({ required: [true, "Please provide a type!"] })
   public type: string;
 
-  @prop({ required: [true, "Please provide a category!"] })
-  public category: string;
+  @prop({ required: [true, "Please provide a subtype!"] })
+  public subtype: string;
 
   @prop({ default: 1 })
   public packageSize: number;
@@ -44,8 +47,9 @@ export class Product {
       productId,
       {
         name: product.name,
-        type: product.type,
         category: product.category,
+        type: product.type,
+        subtype: product.subtype,
         packageSize: product.packageSize,
         quantityType: product.quantityType,
         price: product.price,

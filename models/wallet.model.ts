@@ -17,6 +17,14 @@ export class AssignedUser {
   public money: number;
 }
 
+export class Category {
+  @prop({ required: [true, "Please provide a name!"] })
+  public name: string;
+
+  @prop({ default: null, type: () => Item })
+  public items: Item[];
+}
+
 @pre<Wallet>("save", function () {
   this.inviteLink = crypto.randomBytes(20).toString("hex");
   return;
@@ -31,8 +39,8 @@ export class Wallet {
   @prop({ required: false, type: () => Purchase })
   public purchases: Purchase[];
 
-  @prop({ default: null, type: () => Item })
-  public inventory: Item[];
+  @prop({ default: null, type: () => Category })
+  public inventory: Category[];
 
   @prop()
   public inviteLink?: string;
@@ -228,7 +236,30 @@ export class Wallet {
       { new: true }
     ).populate("purchases.user", "name email");
 
-    wallet?.inventory.forEach((item: any, index, array) => {
+    await Promise.all(
+      purchase.items.map(async (pItem: any) => {
+        let found = false;
+        const product = await ProductModel.findById(pItem.product);
+        wallet?.inventory.forEach((category: any) => {
+          if (category.name == product?.category) {
+            category.items.forEach((item: any, index: number, array: any[]) => {
+              if (item.product == pItem.product) {
+                array[index].quantity += pItem.quantity;
+                found = true;
+              }
+            });
+            if (!found) category.items.push(pItem);
+            found = true;
+          }
+        });
+        if (!found) {
+          product &&
+            wallet?.inventory.push({ name: product?.category, items: [pItem] });
+        }
+      })
+    );
+
+    /* wallet?.inventory.forEach((item: any, index, array) => {
       purchase.items.forEach((pItem: any) => {
         if (item.product == pItem.product) {
           array[index].quantity += pItem.quantity;
@@ -246,7 +277,7 @@ export class Wallet {
       if (!found) {
         wallet?.inventory.push(pItem);
       }
-    });
+    }); */
 
     await wallet?.save();
 

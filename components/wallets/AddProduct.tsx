@@ -3,8 +3,9 @@ import { Field, Form, Formik } from "formik";
 
 interface Values {
   name: string;
-  type: string;
   category: string;
+  type: string;
+  subtype: string;
   packageSize: number | "";
   quantityType: string;
   price: number | "";
@@ -43,8 +44,9 @@ export default function AddProduct(props: any) {
       <Formik
         initialValues={{
           name: name,
+          category: "vegetables",
           type: "",
-          category: "konyha",
+          subtype: "",
           packageSize: "",
           quantityType: "db",
           price: price,
@@ -75,15 +77,22 @@ export default function AddProduct(props: any) {
             />
 
             <Field
+              className={"form-field bg-main"}
+              id="subtype"
+              name="subtype"
+              placeholder="Subtype"
+              autoComplete="off"
+            />
+
+            <Field
               as="select"
               className={"form-field bg-main"}
               id="category"
               name="category"
               autoComplete="off"
             >
-              <option value="konyha">Konyha</option>
-              <option value="takarítas">Takarítás</option>
-              <option value="orvoasság">Orvosság</option>
+              <option value="vegetables">Vegetables</option>
+              <option value="fruits">Fruits</option>
             </Field>
 
             <div className="flex gap-2">
