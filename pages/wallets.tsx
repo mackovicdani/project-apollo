@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { GetServerSideProps, NextPage } from "next";
 import shallow from "zustand/shallow";
-import Inventory from "../components/wallets/Inventory";
+import InventoryGroup from "../components/wallets/InventoryGroup";
 import SideComponent from "../components/wallets/SideComponent";
 import WalletList from "../components/wallets/WalletList";
 import { initializeStore, useStore } from "../lib/store";
@@ -72,8 +72,8 @@ const Wallets: NextPage = () => {
       <div className="row-span-2 overflow-hidden p-6 xl:p-0">
         <SideComponent />
       </div>
-      <div className="p-6 lg:p-12">
-        <Inventory></Inventory>
+      <div className="p-6 pt-0 lg:p-12 lg:pt-0">
+        <InventoryGroup />
       </div>
     </div>
   );
