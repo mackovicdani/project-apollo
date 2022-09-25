@@ -88,7 +88,7 @@ export class Wallet {
         populate: { path: "product" },
       })
       .populate({
-        path: "inventory",
+        path: "inventory.items",
         populate: { path: "product" },
       });
   }

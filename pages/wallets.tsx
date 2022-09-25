@@ -7,20 +7,39 @@ import WalletList from "../components/wallets/WalletList";
 import { initializeStore, useStore } from "../lib/store";
 
 export const useWallet = () => {
-  const { wallets, addWallet, selectWallet, selected, speed, setSpeed } =
-    useStore(
-      (store) => ({
-        wallets: store.wallets,
-        selected: store.selected,
-        speed: store.speed,
-        addWallet: store.addWallet,
-        selectWallet: store.selectWallet,
-        setSpeed: store.setSpeed,
-      }),
-      shallow
-    );
+  const {
+    wallets,
+    addWallet,
+    selectWallet,
+    selected,
+    selectedCategory,
+    speed,
+    setSpeed,
+    selectCategory,
+  } = useStore(
+    (store) => ({
+      wallets: store.wallets,
+      selected: store.selected,
+      selectedCategory: store.selectedCategory,
+      speed: store.speed,
+      addWallet: store.addWallet,
+      selectWallet: store.selectWallet,
+      selectCategory: store.selectCategory,
+      setSpeed: store.setSpeed,
+    }),
+    shallow
+  );
 
-  return { wallets, addWallet, selectWallet, selected, speed, setSpeed };
+  return {
+    wallets,
+    addWallet,
+    selectWallet,
+    selectCategory,
+    selectedCategory,
+    selected,
+    speed,
+    setSpeed,
+  };
 };
 
 const Wallets: NextPage = () => {

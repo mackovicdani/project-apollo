@@ -17,16 +17,19 @@ type UseStoreState = typeof initializeStore extends (
 interface Store {
   wallets: any[];
   selected: any;
+  selectedCategory: any;
   speed: any;
   setWallets: (wallets: Wallet[]) => void;
   addWallet: (wallet: any) => void;
   selectWallet: (wallet: any) => void;
+  selectCategory: (category: any) => void;
   setSpeed: (speed: number) => void;
 }
 
 const getDefaultInitialState = () => ({
   wallets: [] as Wallet[],
   selected: null,
+  selectedCategory: null,
   speed: 0.5,
 });
 
@@ -36,7 +39,7 @@ export const useStore = zustandContext.useStore;
 
 export const initializeStore = (preloadedState = {}) => {
   return create<Store>(
-    combine({ ...getDefaultInitialState(), ...preloadedState }, (set) => ({
+    combine({ ...getDefaultInitialState(), ...preloadedState }, (set, get) => ({
       setWallets: (wallets: Wallet[]) => {
         set({
           wallets,
@@ -49,9 +52,20 @@ export const initializeStore = (preloadedState = {}) => {
         }));
       },
       selectWallet: (wallet: any) => {
+        if (get().selected !== wallet) {
+          set({
+            selectedCategory: null,
+          });
+        }
         set((state) => ({
           ...state,
           selected: wallet,
+        }));
+      },
+      selectCategory: (category: any) => {
+        set((state) => ({
+          ...state,
+          selectedCategory: category,
         }));
       },
       setSpeed: (speed: number) => {
