@@ -3,6 +3,7 @@ import { Field, Form, Formik } from "formik";
 
 interface Values {
   name: string;
+  image: File | "";
   category: string;
   type: string;
   subtype: string;
@@ -13,6 +14,26 @@ interface Values {
 }
 
 export default function AddProduct(props: any) {
+  const uploadImage = async (name: string, image: File) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    let formData = new FormData();
+    formData.append("name", name);
+    formData.append("media", image);
+    try {
+      const { data } = await axios.post(
+        "http://localhost:3000/api/upload/",
+        formData,
+        config
+      );
+      console.log(data);
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
   const submitHandler = async (values: Values) => {
     const config = {
       headers: {
@@ -28,6 +49,9 @@ export default function AddProduct(props: any) {
       );
 
       if (data) {
+        /* Upload image */
+        values.image != "" && (await uploadImage(data.data._id, values.image));
+
         addProduct(data.data);
         handleClose();
       }
@@ -44,6 +68,7 @@ export default function AddProduct(props: any) {
       <Formik
         initialValues={{
           name: name,
+          image: "",
           category: "vegetables",
           type: "",
           subtype: "",
@@ -53,10 +78,11 @@ export default function AddProduct(props: any) {
           origin: [],
         }}
         onSubmit={(values: Values) => {
+          console.log(values);
           submitHandler(values);
         }}
       >
-        {() => (
+        {({ setFieldValue }) => (
           <Form className="mb-20 flex flex-col gap-3 p-7">
             <Field
               className={
@@ -67,6 +93,15 @@ export default function AddProduct(props: any) {
               placeholder="Name"
               autoComplete="off"
               spellCheck="false"
+            />
+            <input
+              className={"text-secondary"}
+              id="image"
+              name="image"
+              type="file"
+              onChange={(event) =>
+                setFieldValue("image", event.target.files![0])
+              }
             />
             <Field
               className={"form-field bg-main"}

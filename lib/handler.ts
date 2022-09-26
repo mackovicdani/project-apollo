@@ -2,6 +2,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 import nextConnect from "next-connect";
 
 export interface NextApiRequestExtended extends NextApiRequest {
+  files: any;
+  fields: any;
   userId: string | null;
   username: string | null;
 }

@@ -296,7 +296,16 @@ export default function AddPurchase(props: any) {
                             key={index}
                             className=" relative flex h-10 min-h-[2.5rem] w-full rounded text-text"
                           >
-                            <div className="h-full w-10 rounded border border-border bg-secondary"></div>
+                            <div className="h-full w-10 rounded border border-border bg-main p-1">
+                              <div className="relative flex h-full w-full">
+                                <Image
+                                  src={`/products/${item.product}.png`}
+                                  objectFit="contain"
+                                  layout="fill"
+                                  alt="logo"
+                                />
+                              </div>
+                            </div>
                             <div className="flex flex-col">
                               <h2 className="ml-2">{item.productName}</h2>
                               <h2 className="ml-3 -mt-1 text-xs font-bold text-secondary">
