@@ -196,7 +196,16 @@ export default function AddPurchase(props: any) {
                                     key={index}
                                     className="flex items-center gap-2 overflow-hidden pr-2 pl-2 hover:cursor-pointer hover:bg-back/50"
                                   >
-                                    <div className="aspect-square h-6 w-6 rounded bg-secondary/50 shadow"></div>
+                                    <div className="aspect-square h-8 w-8 rounded border border-border bg-main p-[2px] shadow">
+                                      <div className="relative flex h-full w-full">
+                                        <Image
+                                          src={`/products/${product._id}.png`}
+                                          objectFit="contain"
+                                          layout="fill"
+                                          alt="logo"
+                                        />
+                                      </div>
+                                    </div>
                                     <h2>{product.name}</h2>
                                     <h2>{product.price} ft</h2>
                                   </motion.div>
@@ -296,7 +305,7 @@ export default function AddPurchase(props: any) {
                             key={index}
                             className=" relative flex h-10 min-h-[2.5rem] w-full rounded text-text"
                           >
-                            <div className="h-full w-10 rounded border border-border bg-main p-1">
+                            <div className="h-full w-10 rounded">
                               <div className="relative flex h-full w-full">
                                 <Image
                                   src={`/products/${item.product}.png`}

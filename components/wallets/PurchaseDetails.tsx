@@ -1,12 +1,13 @@
 import { motion } from "framer-motion";
 import moment from "moment";
+import Image from "next/image";
 
 export default function PurchaseDetails(props: any) {
   return (
-    <div className="flex max-w-md flex-col rounded-md bg-card text-text">
+    <div className="flex max-w-md flex-col text-text">
       <div className="p-7">
         <div className="">
-          <h1>{props.purchase.user.name}</h1>
+          <h1 className=" text-lg">{props.purchase.user.name}</h1>
           <h2 className="text-xs">
             {moment(props.purchase.date)
               .locale("hun")
@@ -24,7 +25,16 @@ export default function PurchaseDetails(props: any) {
                   key={index}
                   className=" relative flex h-10 min-h-[2.5rem] w-full rounded text-text"
                 >
-                  <div className="h-full w-10 rounded bg-secondary"></div>
+                  <div className="h-full w-10 rounded border border-border bg-main p-1">
+                    <div className="relative flex h-full w-full">
+                      <Image
+                        src={`/products/${item.product._id}.png`}
+                        objectFit="contain"
+                        layout="fill"
+                        alt="logo"
+                      />
+                    </div>
+                  </div>
                   <div className="flex flex-col">
                     <h2 className="ml-2">{item.product.name}</h2>
                     <h2 className="ml-3 -mt-1 text-xs font-bold text-secondary">
@@ -57,13 +67,13 @@ export default function PurchaseDetails(props: any) {
         </div>
       </div>
 
-      <div className="flex h-20 w-full items-center justify-end gap-3 rounded-b-md bg-main p-10">
+      <div className="flex h-20 w-full items-center justify-end gap-3 p-10">
         <button
           type="button"
           onClick={() => {
             props.handleClose();
           }}
-          className="h-10 w-24 rounded-md bg-card text-sm text-text"
+          className="h-10 w-24 rounded-md border border-border bg-main text-sm text-text"
         >
           Close
         </button>
