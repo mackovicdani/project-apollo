@@ -196,7 +196,7 @@ export default function AddPurchase(props: any) {
                                     key={index}
                                     className="flex items-center gap-2 overflow-hidden pr-2 pl-2 hover:cursor-pointer hover:bg-back/50"
                                   >
-                                    <div className="aspect-square h-8 w-8 rounded border border-border bg-main p-[2px] shadow">
+                                    <div className="aspect-square h-8 w-8 p-[2px]">
                                       <div className="relative flex h-full w-full">
                                         <Image
                                           src={`/products/${product._id}.png`}

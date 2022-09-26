@@ -25,7 +25,7 @@ export default function PurchaseDetails(props: any) {
                   key={index}
                   className=" relative flex h-10 min-h-[2.5rem] w-full rounded text-text"
                 >
-                  <div className="h-full w-10 rounded border border-border bg-main p-1">
+                  <div className="h-full w-10">
                     <div className="relative flex h-full w-full">
                       <Image
                         src={`/products/${item.product._id}.png`}
