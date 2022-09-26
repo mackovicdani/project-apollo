@@ -128,15 +128,26 @@ export default function PurchaseList() {
       </AnimatePresence>
       <div className="scrollbar flex h-full flex-col gap-2 pt-4">
         {selected?.purchases &&
-          selected.purchases.slice(0, 5).map((purchase: any, index: number) => {
-            return (
-              <Purchase
-                key={purchase._id}
-                purchase={purchase}
-                index={index}
-              ></Purchase>
-            );
-          })}
+          selected.purchases
+            .sort((a: any, b: any) => {
+              if (a.date < b.date) {
+                return 1;
+              }
+              if (a.date > b.date) {
+                return -1;
+              }
+              return 0;
+            })
+            .slice(0, 5)
+            .map((purchase: any, index: number) => {
+              return (
+                <Purchase
+                  key={purchase._id}
+                  purchase={purchase}
+                  index={index}
+                ></Purchase>
+              );
+            })}
         {selected?.purchases.length === 0 && (
           <motion.h2
             key={"nopurchase"}
