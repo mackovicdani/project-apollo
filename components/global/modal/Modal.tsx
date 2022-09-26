@@ -17,8 +17,8 @@ export default function Modal(props: any) {
                 initial={{ left: "100vw" }}
                 animate={{ left: 0 }}
                 exit={{ left: "100vw" }}
-                transition={{ type: "spring", mass: 0.5 }}
-                className={`${props.size} container relative w-[90%] rounded-xl border border-border bg-back shadow-md`}
+                transition={{ type: "spring", mass: 0.3 }}
+                className={`${props.size} container relative w-[90%] overflow-hidden rounded-xl border border-border bg-back shadow-md`}
               >
                 {props.children}
               </motion.div>
