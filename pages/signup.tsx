@@ -39,7 +39,7 @@ export default function Signup() {
   };
   return (
     <div className="flex h-screen w-full items-center justify-center">
-      <div className="relative w-5/6 max-w-md rounded-md bg-main p-8 shadow-md">
+      <div className="relative w-5/6 max-w-md rounded-md border border-border bg-back p-8 shadow-md">
         <h1 className="text-center text-3xl font-extrabold text-primary-main">
           Sign up
         </h1>
@@ -63,10 +63,8 @@ export default function Signup() {
                 Name
               </label>
               <Field
-                className={`form-field mt-1 mb-2 ${
-                  touched.name && errors.name
-                    ? "border-error text-error focus:ring-error"
-                    : "border-gray-300"
+                className={`form-field mt-1 ${
+                  touched.name && errors.name ? "border-error" : ""
                 }`}
                 id="name"
                 name="name"
@@ -82,10 +80,8 @@ export default function Signup() {
                 Email
               </label>
               <Field
-                className={`form-field mt-1 mb-2 ${
-                  touched.email && errors.email
-                    ? "border-error text-error focus:ring-error"
-                    : "border-gray-300"
+                className={`form-field mt-1 ${
+                  touched.email && errors.email ? "border-error" : ""
                 }`}
                 id="email"
                 name="email"
@@ -102,10 +98,8 @@ export default function Signup() {
                 Password
               </label>
               <Field
-                className={`form-field mt-1 mb-2 ${
-                  touched.password && errors.password
-                    ? "border-error text-error focus:ring-error"
-                    : "border-gray-300"
+                className={`form-field mt-1 ${
+                  touched.password && errors.password ? "border-error" : ""
                 }`}
                 id="password"
                 name="password"
