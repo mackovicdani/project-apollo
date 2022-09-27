@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useRouter } from "next/router";
 import { IoCard, IoHome, IoLogOut } from "react-icons/io5";
 import { MdInventory } from "react-icons/md";
@@ -10,6 +11,22 @@ export default function SideBar(props: any) {
   const isOpened = width >= 1024;
   const router = useRouter();
   const selected = router.asPath;
+
+  const handleSignOut = async () => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const result = await axios.get(
+      "http://localhost:3000/api/auth/logout/",
+      config
+    );
+    if (result) {
+      router.reload();
+    }
+  };
+
   return (
     <div className="fixed left-0 right-0 bottom-0 z-[100] flex h-20 items-center justify-between border border-border bg-back p-2 shadow-md lg:top-0 lg:h-full lg:w-80 lg:flex-col lg:p-0 lg:pb-12 lg:pt-12">
       <div className="flex flex-1 justify-start lg:w-full lg:justify-center lg:p-0">
@@ -72,7 +89,10 @@ export default function SideBar(props: any) {
             </div>
           )}
         </div>
-        <div className="flex h-14 w-14 items-center justify-center gap-1 rounded-md border border-border bg-primary-main text-white lg:w-[calc(100%-3rem)]">
+        <div
+          className="flex h-14 w-14 items-center justify-center gap-1 rounded-md border border-border bg-primary-main text-white hover:cursor-pointer lg:w-[calc(100%-3rem)]"
+          onClick={() => handleSignOut()}
+        >
           <IoLogOut className="text-lg text-white"></IoLogOut>
           {isOpened && "Sign-out"}
         </div>
