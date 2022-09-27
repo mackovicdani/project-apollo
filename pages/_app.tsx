@@ -21,8 +21,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 
         {isSideBarVisible && <SideBar></SideBar>}
         <main
-          className={`h-auto bg-dark 2xl:h-screen ${
-            isSideBarVisible ? "mb-20 lg:ml-80 lg:mb-0" : ""
+          className={`h-auto min-h-screen bg-dark 2xl:h-screen ${
+            isSideBarVisible ? "mb-20 2xl:ml-80 2xl:mb-0" : ""
           }`}
         >
           <Component {...pageProps} />

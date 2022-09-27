@@ -6,11 +6,11 @@ interface Props {
 const Home: NextPage<Props> = () => {
   //const [modal, setModal] = useState(false);
   return (
-    <>
-      <h1 className="text-5xl text-white">HomePage</h1>
+    <div className="p-12">
+      <h1 className="text-3xl font-bold text-white">Home</h1>
       {/* <button onClick={() => setModal(true)}>Modal</button>
       <Modal isOpen={modal} handleClose={() => setModal(false)} /> */}
-    </>
+    </div>
   );
 };
 
