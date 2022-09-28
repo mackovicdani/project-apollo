@@ -2,8 +2,8 @@ import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { useWallet } from "../../pages/wallets";
-import Modal from "../global/modal/Modal";
+import { useWallet } from "../../../../pages/wallets";
+import Modal from "../../../global/modal/Modal";
 import AddPurchase from "./AddPurchase";
 import Purchase from "./Purchase";
 

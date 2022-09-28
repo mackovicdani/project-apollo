@@ -1,4 +1,4 @@
-import PurchaseList from "./PurchaseList";
+import PurchaseList from "./purchase/PurchaseList";
 
 export default function SideComponent() {
   return (

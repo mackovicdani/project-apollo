@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import moment from "moment";
 import "moment/locale/hu";
 import { useState } from "react";
-import Modal from "../global/modal/Modal";
+import Modal from "../../../global/modal/Modal";
 import PurchaseDetails from "./PurchaseDetails";
 
 export default function Purchase(props: any) {

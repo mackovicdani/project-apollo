@@ -5,9 +5,9 @@ import Image from "next/image";
 import Router from "next/router";
 import { useEffect, useState } from "react";
 import { IoArrowDown, IoArrowForward } from "react-icons/io5";
-import { Item } from "../../models/item.model";
-import { useWallet } from "../../pages/wallets";
-import Modal from "../global/modal/Modal";
+import { Item } from "../../../../models/item.model";
+import { useWallet } from "../../../../pages/wallets";
+import Modal from "../../../global/modal/Modal";
 import AddProduct from "./AddProduct";
 
 interface Values {

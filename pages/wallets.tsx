@@ -2,7 +2,7 @@ import axios from "axios";
 import type { GetServerSideProps, NextPage } from "next";
 import shallow from "zustand/shallow";
 import InventoryGroup from "../components/wallets/inventory/InventoryGroup";
-import SideComponent from "../components/wallets/SideComponent";
+import SideComponent from "../components/wallets/sideComponenet/SideComponent";
 import WalletList from "../components/wallets/WalletList";
 import { initializeStore, useStore } from "../lib/store";
 
