@@ -45,7 +45,10 @@ export default function Wallet(props: any) {
             className={`absolute top-6 right-6 aspect-square w-[20%] rounded-full ${color.light}`}
           ></div>
           <div className="absolute bottom-4">
-            <AssignedUserList color={color} />
+            <AssignedUserList
+              color={color}
+              assignedUsers={wallet.assignedUsers}
+            />
           </div>
         </>
       )}
