@@ -1,7 +1,7 @@
 import { useWallet } from "../../../pages/wallets";
 import Inventory from "./Inventory";
 
-export default function InventoryGroup() {
+export default function InventoryComponent() {
   const { selectedCategory, selectCategory } = useWallet();
   return (
     <div className="h-full">
