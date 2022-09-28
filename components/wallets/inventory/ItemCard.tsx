@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
 import Modal from "../../global/modal/Modal";
-import ProductDetails from "../ProductDetails";
+import ItemDetails from "./ItemDetails";
 
 interface ProductCardProps {
   item: any;
@@ -33,10 +33,10 @@ export default function ItemCard(props: ProductCardProps) {
         </motion.div>
       </div>
       <Modal isOpen={isDetailsOpen} size="max-w-md">
-        <ProductDetails
+        <ItemDetails
           item={item}
           handleClose={() => setIsDetailsOpen(false)}
-        ></ProductDetails>
+        ></ItemDetails>
       </Modal>
     </>
   );

@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-export default function ProductDetails(props: any) {
+export default function ItemDetails(props: any) {
   const { item } = props;
   console.log(item);
   return (
