@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useWallet } from "../../pages/wallets";
 import AddWalletCard from "./AddWalletCard";
+import AssignedUserList from "./AssignedUserList";
 
 export default function Wallet(props: any) {
   const { selectWallet, selected, speed } = useWallet();
@@ -43,6 +44,9 @@ export default function Wallet(props: any) {
           <div
             className={`absolute top-6 right-6 aspect-square w-[20%] rounded-full ${color.light}`}
           ></div>
+          <div className="absolute bottom-4">
+            <AssignedUserList color={color} />
+          </div>
         </>
       )}
       {wallet.name === "addCard" && <AddWalletCard></AddWalletCard>}
