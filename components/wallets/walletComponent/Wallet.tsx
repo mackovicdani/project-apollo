@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
-import { useWallet } from "../../pages/wallets";
+import { useWallet } from "../../../pages/wallets";
 import AddWalletCard from "./AddWalletCard";
-import AssignedUserList from "./AssignedUserList";
+import AssignedUserList from "./assignedUser/AssignedUserList";
 
 export default function Wallet(props: any) {
   const { selectWallet, selected, speed } = useWallet();

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import { useState } from "react";
-import { useWallet } from "../../pages/wallets";
+import { useWallet } from "../../../pages/wallets";
 
 interface Values {
   inviteLink: string;

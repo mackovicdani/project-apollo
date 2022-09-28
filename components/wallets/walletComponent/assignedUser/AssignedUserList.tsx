@@ -1,4 +1,4 @@
-import { useWallet } from "../../pages/wallets";
+import { useWallet } from "../../../../pages/wallets";
 import AssignedUser from "./AssignedUser";
 
 interface AssignedUserListProps {

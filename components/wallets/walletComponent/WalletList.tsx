@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useWallet } from "../../pages/wallets";
+import { useWallet } from "../../../pages/wallets";
 import Wallet from "./Wallet";
 
 export default function WalletList() {
