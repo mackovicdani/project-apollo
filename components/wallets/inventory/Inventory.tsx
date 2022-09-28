@@ -1,6 +1,6 @@
-import { useWallet } from "../../pages/wallets";
-import CategoryCard from "./inventory/CategoryCard";
-import ItemCard from "./inventory/ItemCard";
+import { useWallet } from "../../../pages/wallets";
+import CategoryCard from "./CategoryCard";
+import ItemCard from "./ItemCard";
 
 export default function Inventory() {
   const { selected, selectedCategory } = useWallet();

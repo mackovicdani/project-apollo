@@ -1,8 +1,8 @@
-import { useWallet } from "../../pages/wallets";
+import { useWallet } from "../../../pages/wallets";
 import Inventory from "./Inventory";
 
 export default function InventoryGroup() {
-  const { selected, selectedCategory, selectCategory } = useWallet();
+  const { selectedCategory, selectCategory } = useWallet();
   return (
     <div className="h-full">
       <div className="flex h-1/6 justify-between">
