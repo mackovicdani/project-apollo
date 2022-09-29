@@ -9,36 +9,42 @@ import { initializeStore, useStore } from "../lib/store";
 export const useWallet = () => {
   const {
     wallets,
-    addWallet,
-    selectWallet,
     selected,
     selectedCategory,
     speed,
+    notifications,
+    addWallet,
+    selectWallet,
     setSpeed,
     selectCategory,
+    addNotification,
   } = useStore(
     (store) => ({
       wallets: store.wallets,
       selected: store.selected,
       selectedCategory: store.selectedCategory,
       speed: store.speed,
+      notifications: store.notifications,
       addWallet: store.addWallet,
       selectWallet: store.selectWallet,
       selectCategory: store.selectCategory,
       setSpeed: store.setSpeed,
+      addNotification: store.addNotification,
     }),
     shallow
   );
 
   return {
     wallets,
-    addWallet,
-    selectWallet,
-    selectCategory,
     selectedCategory,
     selected,
     speed,
+    notifications,
+    addWallet,
+    selectWallet,
+    selectCategory,
     setSpeed,
+    addNotification,
   };
 };
 

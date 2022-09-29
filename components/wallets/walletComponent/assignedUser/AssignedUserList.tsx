@@ -9,7 +9,7 @@ interface AssignedUserListProps {
 }
 
 export default function AssignedUserList(props: AssignedUserListProps) {
-  const { selected } = useWallet();
+  const { selected, addNotification } = useWallet();
   const [value, copy] = useCopyToClipboard();
   return (
     <div className="flex flex-row gap-2">
@@ -23,8 +23,17 @@ export default function AssignedUserList(props: AssignedUserListProps) {
         );
       })}
       <div
-        className={`flex h-6 w-6 items-center justify-center rounded-full border border-border bg-white ${props.color.dark}`}
-        onClick={() => copy(selected.inviteLink)}
+        className={`flex h-6 w-6 items-center justify-center rounded-full border border-border ${props.color.light}`}
+        onClick={async () => {
+          const result = await copy(selected.inviteLink);
+          if (result) {
+            addNotification({
+              type: "succes",
+              title: "Copied to clipboard",
+              desc: selected.inviteLink,
+            });
+          }
+        }}
       >
         <IoCopy className="text-xs" />
       </div>

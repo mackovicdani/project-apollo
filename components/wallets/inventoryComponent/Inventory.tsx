@@ -12,7 +12,7 @@ export default function Inventory() {
             selected?.inventory &&
             selected?.inventory.map((category: any, index: number) => {
               if (category.items && category.items.length > 0) {
-                return <CategoryCard category={category} />;
+                return <CategoryCard key={category._id} category={category} />;
               }
             })}
           {selectedCategory?.items &&

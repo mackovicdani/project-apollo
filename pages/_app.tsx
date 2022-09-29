@@ -1,6 +1,7 @@
 import { prepareClientPortals } from "@jesstelford/react-portal-universal";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
+import NotificationContainer from "../components/global/notification/NotificationContainer";
 import SideBar from "../components/global/SideBar/SideBar";
 import { Provider, useCreateStore } from "../lib/store";
 import "../styles/globals.css";
@@ -17,7 +18,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Provider createStore={createStore}>
-        <div id="modal" />
+        <div id="modal">
+          <NotificationContainer />
+        </div>
 
         {isSideBarVisible && <SideBar></SideBar>}
         <main

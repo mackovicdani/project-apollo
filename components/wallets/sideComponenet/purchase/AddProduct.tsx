@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Field, Form, Formik } from "formik";
+import { useWallet } from "../../../../pages/wallets";
 
 interface Values {
   name: string;
@@ -14,6 +15,7 @@ interface Values {
 }
 
 export default function AddProduct(props: any) {
+  const { addNotification } = useWallet();
   const uploadImage = async (name: string, image: File) => {
     const config = {
       headers: {
@@ -44,13 +46,28 @@ export default function AddProduct(props: any) {
     try {
       const { data } = await axios.put(
         "http://localhost:3000/api/product/",
-        values,
+        {
+          name: values.name,
+          category: values.category,
+          type: values.type,
+          subtype: values.subtype,
+          packageSize: values.packageSize,
+          quantityType: values.quantityType,
+          price: values.price,
+          origin: values.origin,
+        },
         config
       );
 
       if (data) {
         /* Upload image */
         values.image != "" && (await uploadImage(data.data._id, values.image));
+
+        addNotification({
+          type: "succes",
+          title: "New product added succesffully",
+          desc: "",
+        });
 
         addProduct(data.data);
         handleClose();
@@ -78,7 +95,6 @@ export default function AddProduct(props: any) {
           origin: [],
         }}
         onSubmit={(values: Values) => {
-          console.log(values);
           submitHandler(values);
         }}
       >
