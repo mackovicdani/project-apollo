@@ -7,11 +7,7 @@ export default getHandler()
   .use(auth)
   .use(formMiddleWare)
   .post(async (req, res, next) => {
-    try {
-      CustomResponse(res, 201, "New file added!", req.fields.newFilename);
-    } catch (error) {
-      next(error);
-    }
+    CustomResponse(res, 201, "New file added!", req.fields.newFilename);
   });
 
 export const config = {

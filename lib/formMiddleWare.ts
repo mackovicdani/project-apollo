@@ -42,5 +42,6 @@ export default function formMiddleWare(req: any, res: any, next: any) {
         if (error) console.log(error);
       }
     );
+    next();
   });
 }
