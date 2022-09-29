@@ -1,12 +1,14 @@
 import axios from "axios";
 import { Field, FieldArray, Form, Formik } from "formik";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Router from "next/router";
 import { useEffect, useState } from "react";
 import { IoArrowDown, IoArrowForward } from "react-icons/io5";
 import { Item } from "../../../../models/item.model";
 import { useWallet } from "../../../../pages/wallets";
+import CustomDropDownList from "../../../global/customDropDownList/CustomDropDownList";
+import CustomDropDownListItem from "../../../global/customDropDownList/CustomDropDownListItem";
 import Modal from "../../../global/modal/Modal";
 import AddProduct from "./AddProduct";
 
@@ -149,70 +151,47 @@ export default function AddPurchase(props: any) {
                         }}
                       />
                       {/* dropdownlist */}
-                      {values.newItem != "" &&
-                        values.newItemId == "" &&
-                        isDropDown && (
-                          <div className="scrollbar absolute left-0 top-[2.6rem] z-20 h-auto max-h-64 w-full overflow-y-auto overflow-x-hidden rounded-b bg-dark text-text shadow-md">
-                            <AnimatePresence>
-                              {data
-                                .filter((product: any) =>
-                                  product.name
-                                    .toLowerCase()
-                                    .includes(values.newItem.toLowerCase())
-                                )
-                                .map((product: any, index: number) => (
-                                  <motion.div
-                                    initial={{
-                                      height: 0,
-                                      fontSize: "12px",
-                                      paddingBottom: 0,
-                                      paddingTop: 0,
-                                    }}
-                                    animate={{
-                                      height: 40,
-                                      fontSize: "14px",
-                                      paddingBottom: 5,
-                                      paddingTop: 5,
-                                    }}
-                                    exit={{
-                                      height: 0,
-                                      opacity: 0,
-                                      fontSize: "12px",
-                                      paddingBottom: 0,
-                                      paddingTop: 0,
-                                      transition: { duration: 0.1 },
-                                    }}
-                                    whileHover={{ scale: 1.005 }}
-                                    onClick={() => {
-                                      arrayHelpers.form.setValues({
-                                        ...values,
-                                        newItemId: product._id,
-                                        newItem: product.name,
-                                        price: product.price,
-                                        priceChanged: product.price,
-                                        quantity: 1,
-                                      });
-                                    }}
-                                    key={index}
-                                    className="flex items-center gap-2 overflow-hidden pr-2 pl-2 hover:cursor-pointer hover:bg-back/50"
-                                  >
-                                    <div className="aspect-square h-8 w-8 p-[2px]">
-                                      <div className="relative flex h-full w-full">
-                                        <Image
-                                          src={`/products/${product._id}.png`}
-                                          objectFit="contain"
-                                          layout="fill"
-                                          alt="logo"
-                                        />
-                                      </div>
-                                    </div>
-                                    <h2>{product.name}</h2>
-                                    <h2>{product.price} ft</h2>
-                                  </motion.div>
-                                ))}
-                            </AnimatePresence>
-                          </div>
-                        )}
+                      <CustomDropDownList
+                        isOpen={
+                          values.newItem != "" &&
+                          values.newItemId == "" &&
+                          isDropDown
+                        }
+                      >
+                        {data
+                          .filter((product: any) =>
+                            product.name
+                              .toLowerCase()
+                              .includes(values.newItem.toLowerCase())
+                          )
+                          .map((product: any, index: number) => {
+                            return (
+                              <CustomDropDownListItem
+                                key={index}
+                                text={product.name}
+                                subText={product.price}
+                                image={
+                                  <Image
+                                    src={`/products/${product._id}.png`}
+                                    objectFit="contain"
+                                    layout="fill"
+                                    alt="logo"
+                                  />
+                                }
+                                onClick={(): void => {
+                                  arrayHelpers.form.setValues({
+                                    ...values,
+                                    newItemId: product._id,
+                                    newItem: product.name,
+                                    price: product.price,
+                                    priceChanged: product.price,
+                                    quantity: 1,
+                                  });
+                                }}
+                              />
+                            );
+                          })}
+                      </CustomDropDownList>
                     </div>
 
                     <Field
