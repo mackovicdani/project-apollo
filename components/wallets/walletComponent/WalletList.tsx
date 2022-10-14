@@ -1,9 +1,11 @@
 import { motion } from "framer-motion";
+import useUser from "../../../lib/useUser";
 import { useWallet } from "../../../pages/wallets";
 import Wallet from "./Wallet";
 
 export default function WalletList() {
   const { wallets, selected, selectWallet, setSpeed } = useWallet();
+  const { username } = useUser();
   let zIndex = 10;
   let before = true;
   let cardDesigns = [
@@ -57,6 +59,9 @@ export default function WalletList() {
               zIndex={zIndex}
               visible={visible}
               color={cardDesigns[wallet.design]}
+              username={wallet.assignedUsers.find(
+                (e: any) => e.user?.name === username
+              )}
             />
           );
         })}

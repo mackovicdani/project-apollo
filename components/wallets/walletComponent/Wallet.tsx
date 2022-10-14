@@ -5,7 +5,7 @@ import AssignedUserList from "./assignedUser/AssignedUserList";
 
 export default function Wallet(props: any) {
   const { selectWallet, selected, speed } = useWallet();
-  const { wallet, before, zIndex, visible, color } = props;
+  const { wallet, before, zIndex, visible, color, username } = props;
   const isSelected = selected._id == wallet._id;
 
   return (
@@ -36,7 +36,9 @@ export default function Wallet(props: any) {
             {wallet._id.substring(0, 20)}
           </h2>
           <h2 className="absolute bottom-3 right-5 text-2xl font-extrabold">
-            {Math.round(wallet.assignedUsers[0].money)} ft
+            {username?.money > 0
+              ? "+" + Math.round(username?.money) + " ft"
+              : Math.round(username?.money) + " ft"}
           </h2>
           <div
             className={`absolute right-10 top-8 aspect-square w-[30%] rounded-full ${color.dark}`}
