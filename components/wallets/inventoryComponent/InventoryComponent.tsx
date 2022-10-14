@@ -5,7 +5,7 @@ export default function InventoryComponent() {
   const { selectedCategory, selectCategory } = useWallet();
   return (
     <div className="h-full">
-      <div className="flex h-1/6 justify-between">
+      <div className="flex h-16 justify-between">
         <div>
           <h1 className="text-3xl font-bold text-white">Inventory</h1>
           <h2 className="ml-2 text-base text-text-disabled">
@@ -22,7 +22,7 @@ export default function InventoryComponent() {
           )}
         </div>
       </div>
-      <div className="h-5/6">
+      <div className="h-[calc(100%-4rem)]">
         <Inventory></Inventory>
       </div>
     </div>

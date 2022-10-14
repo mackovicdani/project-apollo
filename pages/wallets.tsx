@@ -54,7 +54,7 @@ const Wallets: NextPage = () => {
       <div className="flex flex-col gap-4 p-6 lg:p-12">
         <WalletComponent />
       </div>
-      <div className="row-span-2 overflow-hidden p-6 xl:p-0">
+      <div className="row-span-2 overflow-hidden p-6 lg:p-12 lg:pt-0 xl:p-0">
         <SideComponent />
       </div>
       <div className="p-6 pt-0 lg:p-12 lg:pt-0">
