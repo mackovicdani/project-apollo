@@ -1,6 +1,9 @@
 import axios from "axios";
 import { Field, Form, Formik } from "formik";
+import { useEffect, useState } from "react";
 import { useWallet } from "../../../../pages/wallets";
+import CustomDropDownList from "../../../global/customDropDownList/CustomDropDownList";
+import CustomDropDownListItem from "../../../global/customDropDownList/CustomDropDownListItem";
 
 interface Values {
   name: string;
@@ -16,6 +19,45 @@ interface Values {
 
 export default function AddProduct(props: any) {
   const { addNotification } = useWallet();
+  const [uniqueTypes, setUniqueTypes] = useState<any[]>([]);
+  const [uniqueSubTypes, setUniqueSubTypes] = useState(new Map());
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const result = await axios.get(
+        "http://localhost:3000/api/product/",
+        config
+      );
+
+      let tempTypeSet = new Set();
+      let tempSubTypeMap = new Map();
+      result.data.data.map((product: any) => {
+        tempTypeSet.add(product.type);
+
+        if (tempSubTypeMap.has(product.type)) {
+          tempSubTypeMap.set(
+            product.type,
+            new Set(tempSubTypeMap.get(product.type)).add(product.subtype)
+          );
+        } else {
+          tempSubTypeMap.set(product.type, new Set([product.subtype]));
+        }
+      });
+      setUniqueTypes(Array.from(tempTypeSet));
+      tempSubTypeMap.forEach((value, key) => {
+        tempSubTypeMap.set(key, Array.from(value));
+      });
+      setUniqueSubTypes(tempSubTypeMap);
+    };
+
+    fetchData();
+  }, []);
+
   const uploadImage = async (name: string, image: File) => {
     const config = {
       headers: {
@@ -98,7 +140,7 @@ export default function AddProduct(props: any) {
           submitHandler(values);
         }}
       >
-        {({ setFieldValue }) => (
+        {({ values, setFieldValue }) => (
           <Form className="mb-20 flex flex-col gap-3 p-7">
             <Field
               className={
@@ -119,21 +161,42 @@ export default function AddProduct(props: any) {
                 setFieldValue("image", event.target.files![0])
               }
             />
-            <Field
-              className={"form-field bg-main"}
-              id="type"
-              name="type"
-              placeholder="Type"
-              autoComplete="off"
-            />
+            <CustomDropDownList isOpen={values.type != ""} id="type">
+              <>
+                {uniqueTypes
+                  .filter((product: any) =>
+                    product.toLowerCase().includes(values.type.toLowerCase())
+                  )
+                  .map((product: any) => {
+                    return (
+                      <CustomDropDownListItem
+                        key={product}
+                        text={product}
+                        onClick={function (): void {
+                          setFieldValue("type", product);
+                        }}
+                      ></CustomDropDownListItem>
+                    );
+                  })}
+              </>
+            </CustomDropDownList>
 
-            <Field
-              className={"form-field bg-main"}
-              id="subtype"
-              name="subtype"
-              placeholder="Subtype"
-              autoComplete="off"
-            />
+            <CustomDropDownList isOpen={true} id="subtype">
+              <>
+                {uniqueSubTypes.get(values.type) &&
+                  uniqueSubTypes.get(values.type).map((product: any) => {
+                    return (
+                      <CustomDropDownListItem
+                        key={product}
+                        text={product}
+                        onClick={function (): void {
+                          setFieldValue("subtype", product);
+                        }}
+                      ></CustomDropDownListItem>
+                    );
+                  })}
+              </>
+            </CustomDropDownList>
 
             <Field
               as="select"
@@ -180,6 +243,7 @@ export default function AddProduct(props: any) {
 
             <div className="absolute bottom-0 left-0 flex h-20 w-full items-center justify-end gap-3  p-10">
               <button
+                type="button"
                 onClick={() => props.handleClose()}
                 className="h-10 w-24 rounded-md border border-border bg-main text-sm text-text"
               >

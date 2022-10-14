@@ -122,23 +122,15 @@ export default function AddPurchase(props: any) {
                   {/*  */}
                   <div className="mb-3 flex h-10 w-full items-center justify-center gap-1">
                     <div className="relative h-full flex-grow">
-                      <Field
-                        className={`form-field h-full w-full ${
-                          values.newItemId != ""
-                            ? "bg-secondary font-bold text-white"
-                            : "bg-main"
-                        }`}
-                        id="newItem"
-                        name="newItem"
-                        type="text"
-                        placeholder="Product"
-                        autoComplete="off"
-                        onBlur={() => {
-                          setTimeout(() => {
-                            setIsDropDown(false);
-                          }, 200);
-                        }}
-                        onFocus={() => setIsDropDown(true)}
+                      {/* dropdownlist */}
+                      <CustomDropDownList
+                        isOpen={
+                          values.newItem != "" &&
+                          values.newItemId == "" &&
+                          isDropDown
+                        }
+                        id={"newItem"}
+                        placeholder="Name"
                         onKeyUp={() => {
                           if (values.newItemId != "") {
                             arrayHelpers.form.setValues({
@@ -149,14 +141,6 @@ export default function AddPurchase(props: any) {
                             });
                           }
                         }}
-                      />
-                      {/* dropdownlist */}
-                      <CustomDropDownList
-                        isOpen={
-                          values.newItem != "" &&
-                          values.newItemId == "" &&
-                          isDropDown
-                        }
                       >
                         {data
                           .filter((product: any) =>
