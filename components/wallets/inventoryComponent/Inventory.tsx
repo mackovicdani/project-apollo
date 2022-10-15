@@ -10,7 +10,7 @@ export default function Inventory() {
         <div className="flex w-full flex-wrap">
           {!selectedCategory &&
             selected?.inventory &&
-            selected?.inventory.map((category: any, index: number) => {
+            selected?.inventory.map((category: any) => {
               if (category.items && category.items.length > 0) {
                 return <CategoryCard key={category._id} category={category} />;
               }

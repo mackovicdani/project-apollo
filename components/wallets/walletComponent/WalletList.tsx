@@ -10,9 +10,9 @@ export default function WalletList() {
   let before = true;
   let cardDesigns = [
     {
-      main: "bg-green-100",
-      dark: "bg-green-300",
-      light: "bg-green-200",
+      main: "bg-gradient-to-tl from-indigo-500 to-orange-800",
+      dark: "bg-gradient-to-tr from-orange-500 to-indigo-300",
+      light: "bg-gradient-to-tr from-orange-500 to-indigo-300",
       text: "text-back/90",
     },
     {
@@ -22,9 +22,9 @@ export default function WalletList() {
       text: "text-white/90",
     },
     {
-      main: "bg-orange-600",
-      dark: "bg-orange-300",
-      light: "bg-orange-200",
+      main: "bg-gradient-to-tl from-green-500 to-blue-800",
+      dark: "bg-gradient-to-tr from-green-500 to-blue-200",
+      light: "bg-gradient-to-tr from-green-500 to-indigo-200",
       text: "text-white/90",
     },
     {

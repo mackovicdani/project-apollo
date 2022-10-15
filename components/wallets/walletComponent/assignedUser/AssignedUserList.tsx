@@ -30,7 +30,7 @@ export default function AssignedUserList(props: AssignedUserListProps) {
             addNotification({
               type: "succes",
               title: "Copied to clipboard",
-              desc: selected.inviteLink,
+              desc: value!,
             });
           }
         }}

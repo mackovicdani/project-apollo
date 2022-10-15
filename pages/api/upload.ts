@@ -6,7 +6,7 @@ import getHandler from "../../lib/handler";
 export default getHandler()
   .use(auth)
   .use(formMiddleWare)
-  .post(async (req, res, next) => {
+  .post(async (req, res) => {
     CustomResponse(res, 201, "New file added!", req.fields.newFilename);
   });
 

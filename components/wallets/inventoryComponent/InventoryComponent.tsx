@@ -10,9 +10,10 @@ export default function InventoryComponent() {
           <h1 className="text-3xl font-bold text-white">Inventory</h1>
           <h2 className="ml-2 text-base text-text-disabled">
             {selectedCategory?.name.toUpperCase()}
+            {!selectedCategory && "GROUPS"}
           </h2>
         </div>
-        <div>
+        <div className="flex items-center justify-center">
           {/* <div className="w-60 rounded-lg border border-border bg-main shadow"></div> */}
           {selectedCategory && (
             <div

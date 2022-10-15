@@ -5,7 +5,7 @@ export default function SideBarItems(props: any) {
   return (
     <Link href={`/${name.toLowerCase()}`}>
       <div
-        className={`relative flex aspect-square w-16 items-center justify-center rounded-md hover:cursor-pointer 2xl:aspect-auto 2xl:h-16 2xl:w-full 2xl:justify-start 2xl:rounded-none 2xl:pl-6 ${
+        className={`relative flex aspect-square w-14 items-center justify-center hover:cursor-pointer 2xl:aspect-auto 2xl:h-16 2xl:w-full 2xl:justify-start 2xl:rounded-none 2xl:pl-6 ${
           isActive ? "border border-border bg-main" : ""
         }`}
       >

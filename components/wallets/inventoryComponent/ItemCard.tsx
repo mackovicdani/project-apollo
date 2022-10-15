@@ -14,7 +14,7 @@ export default function ItemCard(props: ProductCardProps) {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   return (
     <>
-      <div className="aspect-square basis-full p-1 sm:basis-1/3 lg:basis-1/3 xl:basis-1/2 2xl:basis-1/6">
+      <div className="aspect-square basis-1/2 p-1 sm:basis-1/3 lg:basis-1/4 xl:basis-1/4 2xl:basis-1/5">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

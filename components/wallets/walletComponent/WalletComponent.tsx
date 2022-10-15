@@ -10,7 +10,7 @@ export default function WalletComponent() {
             Monday, April 4th
           </h2>
         </div>
-        <div>
+        <div className="flex items-center justify-center">
           {/* <div className="w-60 rounded-lg border border-border bg-main shadow"></div> */}
           <div className="h-12 w-12 rounded-lg border border-border bg-primary-main shadow hover:cursor-pointer"></div>
         </div>

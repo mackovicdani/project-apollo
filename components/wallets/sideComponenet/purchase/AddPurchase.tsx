@@ -26,7 +26,6 @@ interface Values {
 
 export default function AddPurchase(props: any) {
   const { selected } = useWallet();
-  const [isDropDown, setIsDropDown] = useState(true);
   const [modal, setModal] = useState(false);
   const [data, setData] = useState<any>([]);
 
@@ -124,11 +123,7 @@ export default function AddPurchase(props: any) {
                     <div className="relative h-full flex-grow">
                       {/* dropdownlist */}
                       <CustomDropDownList
-                        isOpen={
-                          values.newItem != "" &&
-                          values.newItemId == "" &&
-                          isDropDown
-                        }
+                        isOpen={values.newItem != "" && values.newItemId == ""}
                         id={"newItem"}
                         placeholder="Name"
                         onKeyUp={() => {
