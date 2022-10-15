@@ -6,7 +6,7 @@ export default function ItemDetails(props: any) {
   return (
     <div className="h-auto text-text">
       <div className="p-6">
-        <div className="h-60 w-full rounded-lg bg-text p-4">
+        <div className="h-60 w-full rounded-lg border border-border bg-gradient-to-t from-dark to-primary-main/10 p-4">
           <div className="relative flex h-full w-full">
             <Image
               src={`/products/${item.product._id}.png`}
