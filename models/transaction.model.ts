@@ -4,6 +4,9 @@ import { Purchase } from "./purchase.model";
 import { User } from "./user.model";
 
 export class Transaction {
+  @prop({ required: [true, "Please provide a description!"] })
+  public desc: string;
+
   @prop({ required: [true, "Please provide a sender!"], ref: () => User })
   public sender: Ref<User>;
 
@@ -13,7 +16,7 @@ export class Transaction {
   @prop({ required: [true, "Please provide a amount!"] })
   public amount: number;
 
-  @prop({ required: [true, "Please provide a purchase!"], ref: () => Purchase })
+  @prop({ ref: () => Purchase })
   public purchase: Ref<Purchase>;
 
   public static async createTransaction(

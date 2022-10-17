@@ -310,6 +310,7 @@ export class Wallet {
                 : ((size - 1) / size) * purchasePrice
               : (1 / size) * -purchasePrice;
           const transaction = await TransactionModel.createTransaction({
+            desc: "Purchase",
             sender: new mongoose.Types.ObjectId(userId),
             recipient: assignedUser.user,
             purchase: id,
