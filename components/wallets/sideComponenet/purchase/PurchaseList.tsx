@@ -73,7 +73,7 @@ export default function PurchaseList() {
   }, []);
 
   return (
-    <div className="relative flex w-full flex-col pt-12">
+    <div className="relative flex w-full flex-col pt-3">
       <div className="flex h-12 items-center justify-between">
         <h1 className="text-center text-xl font-bold text-text">Purchases</h1>
         <div

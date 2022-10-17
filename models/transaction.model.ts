@@ -3,6 +3,8 @@ import { getModelForClass, prop } from "@typegoose/typegoose";
 import { Purchase } from "./purchase.model";
 import { User } from "./user.model";
 
+const Wallet = require("./wallet.model");
+
 export class Transaction {
   @prop({ required: [true, "Please provide a description!"] })
   public desc: string;
@@ -15,6 +17,12 @@ export class Transaction {
 
   @prop({ required: [true, "Please provide a amount!"] })
   public amount: number;
+
+  @prop({
+    required: [true, "Please provide a wallet!"],
+    ref: () => typeof Wallet,
+  })
+  public wallet: Ref<typeof Wallet>;
 
   @prop({ ref: () => Purchase })
   public purchase: Ref<Purchase>;

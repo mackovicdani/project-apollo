@@ -315,6 +315,7 @@ export class Wallet {
             recipient: assignedUser.user,
             purchase: id,
             amount: price,
+            wallet: wallet?._id,
           });
           if (transaction) {
             assignedUser.money += price;

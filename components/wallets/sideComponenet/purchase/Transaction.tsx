@@ -3,17 +3,18 @@ import moment from "moment";
 import "moment/locale/hu";
 import { useState } from "react";
 import Modal from "../../../global/modal/Modal";
-import PurchaseDetails from "./PurchaseDetails";
 
-export default function Purchase(props: any) {
+interface TransactionProps {
+  transaction: any;
+  index: number;
+}
+
+export default function Transaction(props: TransactionProps) {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
       <Modal isOpen={isOpen} size="max-w-md">
-        <PurchaseDetails
-          purchase={props.purchase}
-          handleClose={() => setIsOpen(false)}
-        />
+        <div>Helo</div>
       </Modal>
       <motion.div
         initial={{ scale: 1.05, opacity: 0 }}
@@ -25,23 +26,29 @@ export default function Purchase(props: any) {
           stiffness: 80,
         }}
         onClick={() => setIsOpen(true)}
-        className="relative flex h-16 min-h-[4rem] w-full items-center justify-between rounded-lg border border-border bg-gradient-to-l from-dark to-primary-main/10 pl-2 pr-4 font-semibold text-white shadow hover:cursor-pointer"
+        className={`${
+          props.transaction.amount < 0 ? "to-error/10" : "to-secondary/10"
+        } relative flex h-16 min-h-[4rem] w-full items-center justify-between rounded-lg border border-border bg-gradient-to-l from-dark to-secondary/10 pl-2 pr-4 font-semibold text-white shadow hover:cursor-pointer`}
       >
         <div className="h-12 w-12 rounded-md border border-border bg-card shadow"></div>
         <div className="absolute left-16">
           <h1 className="text-sm font-medium text-text">
-            {props.purchase.user.name}
+            {props.transaction.desc}
           </h1>
           <h1 className=" text-xs text-text-disabled">
-            {props.purchase.store.name}
+            {props.transaction.sender.name}
           </h1>
         </div>
         <div className="flex flex-col items-end">
-          <h1 className="text-base font-bold text-text">
-            {props.purchase.price} ft
+          <h1
+            className={`${
+              props.transaction.amount < 0 ? "text-error" : "text-secondary"
+            } text-base font-bold`}
+          >
+            {Math.round(props.transaction.amount)} ft
           </h1>
           <h1 className="text-xs text-text-disabled">
-            {moment(props.purchase.date).locale("hun").fromNow()}
+            {moment().locale("hun").fromNow()}
           </h1>
         </div>
       </motion.div>
