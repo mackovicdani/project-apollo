@@ -8,6 +8,7 @@ import TransactionModel from "./transaction.model";
 import { User } from "./user.model";
 var mongoose = require("mongoose");
 const crypto = require("crypto");
+var convert = require("convert-units");
 
 export class AssignedUser {
   @prop({ required: [true, "Please provide a user!"], ref: () => User })
@@ -240,6 +241,9 @@ export class Wallet {
       purchase.items.map(async (pItem: any) => {
         let found = false;
         const product = await ProductModel.findById(pItem.product);
+        pItem.quantity = convert(pItem.quantity)
+          .from(product!.quantityType)
+          .to(convert().from(product!.quantityType).possibilities()[2]);
         wallet?.inventory.forEach((category: any) => {
           if (category.name == product?.category) {
             category.items.forEach((item: any, index: number, array: any[]) => {
