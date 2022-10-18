@@ -48,7 +48,6 @@ export default function AddPurchase(props: any) {
   }, []);
 
   const submitHandler = async (values: any) => {
-    console.log(values);
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -110,7 +109,9 @@ export default function AddPurchase(props: any) {
               changed: item.changed,
             });
           });
-          submitHandler({ store, items: temp });
+          if (items.length > 0) {
+            submitHandler({ store, items: temp });
+          }
         }}
       >
         {({ values }) => (
@@ -332,7 +333,8 @@ export default function AddPurchase(props: any) {
               </button>
               <button
                 type="submit"
-                className="h-10 w-24 rounded-md border border-border bg-primary-main text-sm text-white shadow"
+                disabled={values.items.length < 1}
+                className="h-10 w-24 rounded-md border border-border bg-primary-main text-sm text-white shadow disabled:opacity-25"
               >
                 Create
               </button>
