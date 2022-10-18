@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useWallet } from "../../../../pages/wallets";
 import Modal from "../../../global/modal/Modal";
+import usePagination from "../../../global/pagination/Pagination";
 import AddPurchase from "./AddPurchase";
 import Purchase from "./Purchase";
 
@@ -54,6 +55,17 @@ export default function PurchaseList() {
   const [modal, setModal] = useState(null);
   const [isStoreListOpen, setStoreListOpen] = useState(false);
   const [stores, setStores] = useState([]);
+  const { slicedArray: purchases, Pagination } = usePagination(
+    selected.purchases.sort((a: any, b: any) => {
+      if (a.date < b.date) {
+        return 1;
+      }
+      if (a.date > b.date) {
+        return -1;
+      }
+      return 0;
+    })
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -127,27 +139,15 @@ export default function PurchaseList() {
         )}
       </AnimatePresence>
       <div className="scrollbar flex h-full flex-col gap-2 pt-4">
-        {selected?.purchases &&
-          selected.purchases
-            .sort((a: any, b: any) => {
-              if (a.date < b.date) {
-                return 1;
-              }
-              if (a.date > b.date) {
-                return -1;
-              }
-              return 0;
-            })
-            .slice(0, 5)
-            .map((purchase: any, index: number) => {
-              return (
-                <Purchase
-                  key={purchase._id}
-                  purchase={purchase}
-                  index={index}
-                ></Purchase>
-              );
-            })}
+        {purchases.map((purchase: any, index: number) => {
+          return (
+            <Purchase
+              key={purchase._id}
+              purchase={purchase}
+              index={index}
+            ></Purchase>
+          );
+        })}
         {selected?.purchases.length === 0 && (
           <motion.h2
             key={"nopurchase"}
@@ -159,6 +159,7 @@ export default function PurchaseList() {
           </motion.h2>
         )}
       </div>
+      {Pagination}
     </div>
   );
 }

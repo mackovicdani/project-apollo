@@ -28,7 +28,7 @@ export default function Transaction(props: TransactionProps) {
         onClick={() => setIsOpen(true)}
         className={`${
           props.transaction.amount < 0 ? "to-error/10" : "to-secondary/10"
-        } relative flex h-16 min-h-[4rem] w-full items-center justify-between rounded-lg border border-border bg-gradient-to-l from-dark to-secondary/10 pl-2 pr-4 font-semibold text-white shadow hover:cursor-pointer`}
+        } relative flex h-16 min-h-[4rem] w-full items-center justify-between rounded-lg border border-border bg-gradient-to-l from-dark pl-2 pr-4 font-semibold text-white shadow hover:cursor-pointer`}
       >
         <div className="h-12 w-12 rounded-md border border-border bg-card shadow"></div>
         <div className="absolute left-16">
