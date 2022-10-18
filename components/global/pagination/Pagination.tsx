@@ -13,20 +13,21 @@ function Pagination(
   }
 
   return (
-    <div className="mt-3 flex h-6 w-full justify-center gap-1">
-      {pages.map((page, index) => {
-        return (
-          <button
-            className={`${
-              currentPage === page ? "bg-secondary" : "bg-main"
-            } aspect-square h-full rounded-md border border-border  text-xs font-bold text-text`}
-            key={index}
-            onClick={() => setCurrentPage(page)}
-          >
-            {page}
-          </button>
-        );
-      })}
+    <div className="flex h-6 w-full justify-center gap-1">
+      {pages.length > 1 &&
+        pages.map((page, index) => {
+          return (
+            <button
+              className={`${
+                currentPage === page ? "bg-secondary" : "bg-main"
+              } aspect-square h-full rounded-md border border-border  text-xs font-bold text-text`}
+              key={index}
+              onClick={() => setCurrentPage(page)}
+            >
+              {page}
+            </button>
+          );
+        })}
     </div>
   );
 }

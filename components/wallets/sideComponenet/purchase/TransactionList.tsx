@@ -46,13 +46,13 @@ export default function TransactionList() {
     fetchData();
   }, []);
   return (
-    <div className="relative flex w-full flex-col pt-3">
+    <div className="relative mt-3 flex h-[29rem] w-full flex-col justify-between gap-2 rounded-lg border border-border bg-dark p-3">
       <div className="flex h-12 items-center justify-between">
         <h1 className="text-center text-xl font-bold text-text">
           Transactions
         </h1>
       </div>
-      <div className="scrollbar flex h-full flex-col gap-2 pt-4">
+      <div className="scrollbar flex grow flex-col gap-2">
         {slicedArray.map((transaction: any, index: number) => {
           return (
             <Transaction
