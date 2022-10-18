@@ -9,6 +9,9 @@ export class Transaction {
   @prop({ required: [true, "Please provide a description!"] })
   public desc: string;
 
+  @prop({ default: new Date() })
+  public date: Date;
+
   @prop({ required: [true, "Please provide a sender!"], ref: () => User })
   public sender: Ref<User>;
 

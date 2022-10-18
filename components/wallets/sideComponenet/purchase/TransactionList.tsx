@@ -42,6 +42,16 @@ export default function TransactionList() {
               transaction.recipient.name === username &&
               transaction.wallet === selected._id
           )
+          .slice(0, 5)
+          .sort((a: any, b: any) => {
+            if (a.date < b.date) {
+              return 1;
+            }
+            if (a.date > b.date) {
+              return -1;
+            }
+            return 0;
+          })
           .map((transaction: any, index: number) => {
             return (
               <Transaction

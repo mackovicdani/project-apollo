@@ -48,7 +48,7 @@ export default function Transaction(props: TransactionProps) {
             {Math.round(props.transaction.amount)} ft
           </h1>
           <h1 className="text-xs text-text-disabled">
-            {moment().locale("hun").fromNow()}
+            {moment(props.transaction.date).locale("hun").fromNow()}
           </h1>
         </div>
       </motion.div>
