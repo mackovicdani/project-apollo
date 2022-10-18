@@ -19,3 +19,15 @@ export const productSchema = Yup.object().shape({
   quantityType: Yup.string().required("Required"),
   price: Yup.string().required("Required"),
 });
+
+export const purchaseSchema = Yup.object().shape({
+  store: Yup.string().required("Required"),
+  items: Yup.array().of(
+    Yup.object().shape({
+      product: Yup.string().required("Required"),
+      price: Yup.number().min(1).required("Required"),
+      quantity: Yup.number().min(1).required("Required"),
+      changed: Yup.boolean().required("Required"),
+    })
+  ),
+});

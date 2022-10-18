@@ -4,12 +4,13 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Router from "next/router";
 import { useEffect, useState } from "react";
-import { IoArrowDown, IoArrowForward } from "react-icons/io5";
+import { IoArrowDown, IoArrowForward, IoTrash } from "react-icons/io5";
 import { Item } from "../../../../models/item.model";
 import { useWallet } from "../../../../pages/wallets";
 import CustomDropDownList from "../../../global/customDropDownList/CustomDropDownList";
 import CustomDropDownListItem from "../../../global/customDropDownList/CustomDropDownListItem";
 import Modal from "../../../global/modal/Modal";
+import { purchaseSchema } from "../../../validation/validation";
 import AddProduct from "./AddProduct";
 
 interface Values {
@@ -98,6 +99,7 @@ export default function AddPurchase(props: any) {
       </h1>
       <Formik
         initialValues={initialValues}
+        validationSchema={purchaseSchema}
         onSubmit={(values) => {
           let { store, items } = values;
           let temp: any[] = [];
@@ -205,6 +207,7 @@ export default function AddPurchase(props: any) {
                       } h-full w-10`}
                       onClick={() => {
                         if (values.newItemId != "") {
+                          if (values.quantity < 1) values.quantity = 1;
                           arrayHelpers.push({
                             product: values.newItemId,
                             productName: values.newItem,
@@ -262,16 +265,31 @@ export default function AddPurchase(props: any) {
                             initial={{ x: 100 }}
                             animate={{ x: 0 }}
                             key={index}
-                            className=" relative flex h-10 min-h-[2.5rem] w-full rounded text-text"
+                            className="group relative flex h-10 min-h-[2.5rem] w-full rounded text-text"
                           >
                             <div className="h-full w-10 rounded">
-                              <div className="relative flex h-full w-full">
+                              <div
+                                className="relative flex h-full w-full"
+                                onClick={() => {
+                                  arrayHelpers.form.setValues({
+                                    ...values,
+                                    sum:
+                                      values.sum -
+                                      values.items[index].quantity *
+                                        values.items[index].price,
+                                  });
+                                  arrayHelpers.remove(index);
+                                }}
+                              >
                                 <Image
                                   src={`/products/${item.product}.png`}
                                   objectFit="contain"
                                   layout="fill"
                                   alt="logo"
                                 />
+                                <div className="absolute flex h-full w-full items-center justify-center rounded border border-border bg-dark text-xl text-secondary opacity-0 transition-all duration-150 hover:text-2xl group-hover:opacity-100">
+                                  <IoTrash />
+                                </div>
                               </div>
                             </div>
                             <div className="flex flex-col">
