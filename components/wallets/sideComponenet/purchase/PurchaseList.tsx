@@ -21,7 +21,7 @@ export default function PurchaseList() {
   );
 
   return (
-    <div className="relative mt-3 flex h-[29rem] w-full flex-col justify-between gap-2 overflow-hidden rounded-lg border border-border bg-dark p-3">
+    <div className="relative flex h-full w-full flex-col justify-between gap-2 overflow-hidden rounded-lg border border-border bg-dark p-3">
       <div className="flex h-12 items-center justify-between">
         <h1 className="text-center text-xl font-bold text-text">Purchases</h1>
         <div
@@ -37,7 +37,7 @@ export default function PurchaseList() {
         setIsOpen={setStoreListOpen}
       ></StoreList>
 
-      <div className="scrollbar flex grow flex-col gap-2">
+      <div className="scrollbar flex grow flex-col gap-1">
         {purchases.map((purchase: any, index: number) => {
           return (
             <Purchase

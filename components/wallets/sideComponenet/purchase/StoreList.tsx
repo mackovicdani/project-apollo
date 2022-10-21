@@ -87,7 +87,7 @@ export default function StoreList({ isOpen, setIsOpen }: StoreListProps) {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="scrollbar absolute top-0 left-0 z-10 flex h-full w-full flex-col gap-2 rounded bg-back p-3"
+            className="scrollbar absolute top-0 left-0 z-10 flex h-full w-full flex-col gap-2 rounded bg-main p-3"
           >
             <motion.div
               exit={{ opacity: 0 }}
@@ -115,12 +115,12 @@ export default function StoreList({ isOpen, setIsOpen }: StoreListProps) {
                   stiffness: 80,
                 }}
                 key={store._id}
-                className="relative flex h-20 min-h-[5rem] w-full rounded-md border border-border bg-main  p-2 shadow-md hover:cursor-pointer"
+                className="relative flex h-20 min-h-[5rem] w-full rounded-md border border-border bg-card  p-2 shadow-md hover:cursor-pointer"
                 onClick={() => {
                   setModal(store);
                 }}
               >
-                <div className="flex h-full w-1/5 justify-center rounded border border-border bg-card p-2 shadow-md">
+                <div className="flex h-full w-1/5 justify-center rounded border border-border bg-elev p-2 shadow-md">
                   <div className="relative flex h-full w-full">
                     <Image
                       src={`/${store.name.toLowerCase()}.png`}

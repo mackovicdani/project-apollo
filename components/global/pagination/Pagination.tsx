@@ -34,12 +34,17 @@ function Pagination(
 
 export default function usePagination(array: any[]) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(5);
+  const [postsPerPage] = useState(6);
   const lastIndex = currentPage * postsPerPage;
   const firstIndex = lastIndex - postsPerPage;
   const slicedArray = array.slice(firstIndex, lastIndex);
   return {
     slicedArray,
-    Pagination: Pagination(array.length, 5, currentPage, setCurrentPage),
+    Pagination: Pagination(
+      array.length,
+      postsPerPage,
+      currentPage,
+      setCurrentPage
+    ),
   };
 }
