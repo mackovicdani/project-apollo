@@ -1,20 +1,41 @@
 import type { Ref, ReturnModelType } from "@typegoose/typegoose";
 import { getModelForClass, prop } from "@typegoose/typegoose";
-import ProductModel, { Product } from "./product.model";
-import { Wallet } from "./wallet.model";
+import { Product } from "./product.model";
+
+class Ingredient {
+  @prop()
+  public type: string;
+
+  @prop({ ref: () => Product })
+  public product: Ref<Product>[];
+
+  @prop()
+  public quantity?: number;
+
+  @prop()
+  public optional?: boolean;
+}
+
+class Step {
+  @prop()
+  public title: string;
+
+  @prop({ required: true })
+  public desc: string;
+}
 
 export class Recipe {
-  @prop({ required: true, default: "" })
+  @prop({ required: true })
   public name: string;
 
-  @prop({})
-  public category: string;
+  @prop({ type: () => [String] })
+  public category: string[];
 
-  @prop({ ref: () => Wallet })
-  public inventory: Ref<Wallet>;
+  @prop({ type: () => Ingredient })
+  public ingredients: Ingredient[];
 
-  @prop({ type: () => Product })
-  public products: Product[];
+  @prop({ type: () => [Step] })
+  public steps: Step[];
 
   @prop({})
   public description: string;
@@ -39,7 +60,7 @@ export class Recipe {
     return await this.findById(recipeId);
   }
 
-  public static async getRecipiesContainsProductId(
+  /* public static async getRecipiesContainsProductId(
     this: ReturnModelType<typeof Recipe>,
     productId: string
   ) {
@@ -99,7 +120,7 @@ export class Recipe {
       }
     });
     return foundRecipies;
-  }
+  } */
 
   public static async createRecipe(
     this: ReturnModelType<typeof Recipe>,
@@ -118,8 +139,7 @@ export class Recipe {
       {
         name: recipe.name,
         category: recipe.category,
-        inventory: recipe.inventory,
-        products: recipe.products,
+        ingredients: recipe.ingredients,
         description: recipe.description,
         prepareTime: recipe.prepareTime,
         portionSize: recipe.portionSize,
