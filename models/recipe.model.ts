@@ -50,7 +50,7 @@ export class Recipe {
   public lastMade: Date;
 
   public static async getAllRecipies(this: ReturnModelType<typeof Recipe>) {
-    return await this.find({});
+    return await this.find({}).populate("ingredients.product");
   }
 
   public static async getRecipeById(
