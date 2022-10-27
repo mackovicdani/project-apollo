@@ -2,7 +2,7 @@ import { useLayoutEffect } from "react";
 import create, { UseBoundStore } from "zustand";
 import createContext from "zustand/context";
 import { combine } from "zustand/middleware";
-import Notification from "../models/types/Notification";
+import { Notification } from "../models/types/types";
 import { Wallet } from "../models/wallet.model";
 const crypto = require("crypto");
 
