@@ -14,10 +14,12 @@ export default function RecipeList({ recipes }: RecipeListProps) {
           <h2 className="ml-2 text-base text-text-disabled">All</h2>
         </div>
         <div className="flex items-center justify-center">
-          <div
-            className="h-12 w-12 rounded-lg border border-border bg-primary-main shadow hover:cursor-pointer"
+          <button
+            className="h-12 rounded-lg border border-border bg-primary-main px-3 font-bold text-text shadow"
             onClick={() => {}}
-          ></div>
+          >
+            Add Recipe
+          </button>
         </div>
       </div>
       <div className="flex h-[calc(100%-4rem)] w-full gap-2 rounded-lg border border-border bg-back p-10">

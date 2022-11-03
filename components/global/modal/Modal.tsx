@@ -17,7 +17,7 @@ export default function Modal(props: any) {
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
-                className={`${props.size} container relative w-[90%] overflow-hidden rounded-xl border border-border bg-back shadow-md`}
+                className={`${props.size} container relative w-[90%] overflow-hidden rounded-lg border border-border bg-back shadow-md`}
               >
                 {props.children}
               </motion.div>
