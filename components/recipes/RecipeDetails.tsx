@@ -6,11 +6,13 @@ import { Recipe } from "../../models/types/types";
 interface RecipeDetailsProps {
   recipe: Recipe;
   handleClose: () => void;
+  handleTakeOut: () => void;
 }
 
 export default function RecipeDetails({
   recipe,
   handleClose,
+  handleTakeOut,
 }: RecipeDetailsProps) {
   return (
     <div className="relative flex flex-col gap-1 p-3 text-text">
@@ -20,13 +22,13 @@ export default function RecipeDetails({
         </button>
         <button
           type="button"
-          onClick={handleClose}
+          onClick={handleTakeOut}
           className="bg-primary-main p-1"
         >
           <GiCampCookingPot />
         </button>
       </div>
-      <div className="relative h-44 w-full border border-border">
+      <div className="relative h-56 w-full border border-border">
         <Image
           src={`/tomatopasta.jpg`}
           objectFit="cover"
@@ -55,14 +57,19 @@ export default function RecipeDetails({
           {recipe.ingredients.map((ingredient, index) => (
             <div
               key={index}
-              className="flex items-center justify-start gap-1 px-2 text-sm font-semibold"
+              className="flex flex-col items-start justify-center gap-1 px-2 text-sm font-semibold"
             >
-              <div className="aspect-square h-1 rounded-full bg-white"></div>
-              <p>{ingredient.quantity}</p>
-              <p>{ingredient.type}</p>
-              <div className="flex">
-                {ingredient.product.map((prod) => (
-                  <div key={prod._id} className="aspect-square w-10">
+              <div className="flex w-full items-center gap-1">
+                <div className="aspect-square h-1 rounded-full bg-white"></div>
+                <p>{ingredient.quantity}</p>
+                <p>{ingredient.type}</p>
+              </div>
+              <div className="flex gap-1 px-2">
+                {ingredient.product.map((prod, index) => (
+                  <div
+                    key={prod._id}
+                    className="aspect-square w-12 rounded border border-border bg-main p-1 shadow"
+                  >
                     <div className="relative flex h-full w-full">
                       <Image
                         src={`/products/${prod._id}.png`}

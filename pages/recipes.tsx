@@ -2,6 +2,7 @@ import axios from "axios";
 import type { GetServerSideProps, NextPage } from "next";
 import MealTable from "../components/recipes/MealTable";
 import RecipeList from "../components/recipes/RecipeList";
+import { initializeStore } from "../lib/store";
 import { Recipe } from "../models/types/types";
 
 interface RecipesProps {
@@ -25,18 +26,28 @@ const Recipes: NextPage<RecipesProps> = ({ recipes }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const zustandStore = initializeStore();
+
   const cookie = context.req.headers.cookie;
   const config = {
     headers: {
       cookie: cookie!,
     },
   };
-  let one = "http://localhost:3000/api/recipe/";
+  let recipeEndPoint = "http://localhost:3000/api/recipe/";
+  let walletEndPoint = "http://localhost:3000/api/wallet/";
 
-  const [firstResponse] = await Promise.all([axios.get(one, config)]);
+  const [firstResponse, secondResponse] = await Promise.all([
+    axios.get(recipeEndPoint, config),
+    axios.get(walletEndPoint, config),
+  ]);
+
+  zustandStore.getState().setWallets(secondResponse.data.data);
+  zustandStore.getState().selectWallet(secondResponse.data.data[0]);
 
   return {
     props: {
+      initialZustandState: JSON.parse(JSON.stringify(zustandStore.getState())),
       recipes: firstResponse.data.data,
     },
   };

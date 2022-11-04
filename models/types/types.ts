@@ -40,3 +40,10 @@ export interface Recipe {
   portionSize: number;
   lastMade: Date;
 }
+
+export interface Item {
+  product: Product;
+  quantity: number;
+  price: number;
+  changed?: boolean;
+}

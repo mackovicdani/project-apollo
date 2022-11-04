@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Recipe } from "../../models/types/types";
 import Modal from "../global/modal/Modal";
 import RecipeDetails from "./RecipeDetails";
+import TakeOut from "./TakeOut";
 
 var convert = require("convert-units");
 
@@ -12,6 +13,7 @@ interface RecipeCardProps {
 
 export default function RecipeCard({ recipe }: RecipeCardProps) {
   const [isRecipeDetailsOpen, setIsRecipeDetailsOpen] = useState(false);
+  const [isTakeOutOpen, setIsTakeOutOpen] = useState(false);
 
   let priceCount = 0;
   recipe.ingredients.forEach((ingredient) => {
@@ -30,6 +32,18 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
         <RecipeDetails
           recipe={recipe}
           handleClose={(): void => setIsRecipeDetailsOpen(false)}
+          handleTakeOut={(): void => {
+            setIsRecipeDetailsOpen(false);
+            setTimeout(() => {
+              setIsTakeOutOpen(true);
+            }, 300);
+          }}
+        />
+      </Modal>
+      <Modal isOpen={isTakeOutOpen} size="max-w-xl">
+        <TakeOut
+          recipe={recipe}
+          handleClose={(): void => setIsTakeOutOpen(false)}
         />
       </Modal>
       <div
@@ -38,7 +52,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
         }}
         className="relative flex h-full w-1/4 justify-center overflow-hidden bg-main"
       >
-        <div className="absolute top-[1px] bottom-[1px] left-[1px] right-[1px] flex opacity-50">
+        <div className="absolute top-[1px] bottom-[1px] left-[1px] right-[1px] flex opacity-70">
           <Image
             src={`/tomatopasta.jpg`}
             objectFit="cover"
