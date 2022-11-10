@@ -108,6 +108,7 @@ export default function AddPurchase(props: any) {
               product: item.product,
               price: item.price,
               quantity: item.quantity,
+              quantityPerUser: [],
               changed: item.changed,
             });
           });

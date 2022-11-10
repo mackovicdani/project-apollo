@@ -244,12 +244,30 @@ export class Wallet {
         pItem.quantity = convert(pItem.quantity)
           .from(product!.quantityType)
           .to(convert().from(product!.quantityType).possibilities()[2]);
+        wallet?.assignedUsers.map((assignedUser: any) => {
+          pItem.quantityPerUser.push({
+            user: assignedUser.user,
+            quantity: pItem.quantity / wallet!.assignedUsers.length,
+          });
+        });
         wallet?.inventory.forEach((category: any) => {
           if (category.name == product?.category) {
             category.items.forEach((item: any, index: number, array: any[]) => {
               if (item.product == pItem.product) {
+                //*item found in the inventory
                 array[index].quantity += pItem.quantity;
                 found = true;
+                //TODO:add quantity to quantityPerUser
+                array[index].quantityPerUser.forEach(
+                  (
+                    qPerUser: any,
+                    index: number,
+                    quantityPerUserArray: any[]
+                  ) => {
+                    quantityPerUserArray[index].quantity +=
+                      pItem.quantity / wallet!.assignedUsers.length;
+                  }
+                );
               }
             });
             if (!found) category.items.push(pItem);

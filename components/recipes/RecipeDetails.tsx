@@ -75,7 +75,7 @@ export default function RecipeDetails({
   handleTakeOut,
 }: RecipeDetailsProps) {
   const { selected } = useWallet();
-  const [servingNumber, SetServingNumber] = useState(1);
+  const [servingNumber, SetServingNumber] = useState(2);
   const [ingredients, setIngredients] = useState([] as Ingredient[]);
 
   useEffect(() => {
@@ -84,6 +84,7 @@ export default function RecipeDetails({
 
   return (
     <div className="relative flex flex-col gap-1 p-3 text-text">
+      {/* menu */}
       <div className="absolute right-3 top-3 z-10 flex w-8 flex-col gap-y-px border border-border bg-border">
         <button
           type="button"
@@ -110,6 +111,7 @@ export default function RecipeDetails({
           ))}
         </div>
       </div>
+      {/* recipe image */}
       <div className="relative h-56 w-full border border-border">
         <Image
           src={`/tomatopasta.jpg`}
@@ -131,25 +133,28 @@ export default function RecipeDetails({
           </div>
         </div>
       </div>
-
-      <p>{recipe.description}</p>
+      {/* recipe details */}
+      <p className="p-3">{recipe.description}</p>
       <div className="flex flex-col gap-1 lg:flex-row">
-        <div className="w-full p-3 lg:w-1/3">
-          <div className="flex justify-between">
+        {/* ingredients */}
+        <div className="w-full border border-border bg-dark p-3 lg:w-1/3">
+          <div className="flex items-center justify-between">
             <h3 className="text-xl font-bold text-secondary">Ingredients:</h3>
-            <div className="flex items-center justify-center">
+            <div className="flex h-full items-center justify-center">
               <div className="aspect-square h-full hover:cursor-pointer">
                 <IoRemove
                   className="mx-auto my-auto h-full text-secondary"
-                  onClick={(event) => {
+                  onClick={() => {
                     if (servingNumber > 1) SetServingNumber(servingNumber - 1);
                   }}
                 />
               </div>
-              <p className="font-bold">{servingNumber}</p>
+              <p className="w-5 select-none text-center font-bold">
+                {servingNumber}
+              </p>
               <div
                 className="aspect-square h-full hover:cursor-pointer"
-                onClick={(event) => {
+                onClick={() => {
                   if (servingNumber < 11) SetServingNumber(servingNumber + 1);
                 }}
               >
@@ -182,7 +187,7 @@ export default function RecipeDetails({
                     key={inventoryIndex}
                     className={`${
                       item.quantity < 1 && " opacity-60"
-                    } aspect-square w-12 rounded border border-border bg-main p-1 shadow`}
+                    } aspect-square w-12 rounded border border-border bg-back p-1 shadow`}
                     onClick={() => {
                       const temp = [...ingredients];
                       if (
@@ -211,7 +216,7 @@ export default function RecipeDetails({
                           animate={{ scale: 1 }}
                           className="z-10 border border-border bg-secondary"
                         >
-                          <IoCheckmark color="white" />
+                          <IoCheckmark color="white" size={12} />
                         </motion.div>
                       )}
                     </div>
