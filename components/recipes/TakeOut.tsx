@@ -5,7 +5,7 @@ import Image from "next/image";
 import Router from "next/router";
 import { useEffect, useState } from "react";
 import { IoArrowDown, IoTrash } from "react-icons/io5";
-import { Item, Recipe } from "../../models/types/types";
+import { Ingredient, Item, Recipe } from "../../models/types/types";
 import { useWallet } from "../../pages/wallets";
 import CustomDropDownList from "../global/customDropDownList/CustomDropDownList";
 import CustomDropDownListItem from "../global/customDropDownList/CustomDropDownListItem";
@@ -19,12 +19,14 @@ interface Values {
   newItem: string;
   newItemId: Item | null;
   quantity: number | "";
+  recipe: Recipe | null;
   items: Item[];
 }
 let initialValues: Values = {
   newItem: "",
   newItemId: null,
   quantity: 1,
+  recipe: null,
   items: [],
 };
 
@@ -48,21 +50,34 @@ export default function TakeOut({ recipe, handleClose }: TakeOutProps) {
     };
 
     const addItemsFromRecipe = () => {
-      let temp = [] as Item[];
-      recipe?.ingredients.map((ingredient) => {
-        if (ingredient.product.length > 0) {
-          temp.push({
-            product: ingredient.product[0],
-            quantity: ingredient.quantity,
-            price: ingredient.product[0].price,
-            changed: true,
-          });
-        }
+      let tempRecipe: Recipe = { ...recipe!, ingredients: [] };
+      recipe?.ingredients.map((ingredient, index) => {
+        let tempIngredient: Ingredient = { ...ingredient, inventory: [] };
+        let sum = ingredient.quantity;
+        ingredient.inventory!.map((item) => {
+          let tempQuantity = 0;
+          if (sum - item.quantity > 0) {
+            tempQuantity = item.quantity;
+            sum -= item.quantity;
+          } else {
+            tempQuantity = sum;
+            sum = 0;
+          }
+          item.changed &&
+            tempIngredient.inventory?.push({
+              product: item.product,
+              quantity: tempQuantity,
+              price: item.price,
+              changed: true,
+              inStock: item.quantity,
+            });
+        });
+        tempRecipe.ingredients.push(tempIngredient);
       });
-      initialValues.items = temp;
+      return tempRecipe!;
     };
 
-    addItemsFromRecipe();
+    initialValues.recipe = addItemsFromRecipe();
     fetchData();
   }, []);
 
@@ -97,9 +112,10 @@ export default function TakeOut({ recipe, handleClose }: TakeOutProps) {
       <Formik
         initialValues={initialValues}
         onSubmit={(values) => {
-          let { items } = values;
+          console.log(values.recipe);
+          /* let { recipe } = values;
           let temp: any[] = [];
-          items.map((item: any) => {
+          recipe?.ingredients.map((item: any) => {
             temp.push({
               product: item.product,
               price: item.price,
@@ -109,7 +125,7 @@ export default function TakeOut({ recipe, handleClose }: TakeOutProps) {
           });
           if (items.length > 0) {
             submitHandler({ items: temp });
-          }
+          } */
         }}
       >
         {({ values }) => (
@@ -199,120 +215,155 @@ export default function TakeOut({ recipe, handleClose }: TakeOutProps) {
                     </button>
                   </div>
                   {/* Item list */}
-                  <div className="scrollbar flex h-full max-h-96 flex-col flex-nowrap gap-2 overflow-y-auto overflow-x-hidden p-3">
-                    <div className="rounded-md border border-border bg-primary-main/30 p-3">
+                  <div className="scrollbar flex h-full max-h-96 flex-col flex-nowrap gap-2 overflow-y-auto overflow-x-hidden">
+                    <div className="rounded-md border border-border p-3">
                       <h2 className=" font-bold text-text">{recipe?.name}:</h2>
                       <div className="flex flex-col gap-2 py-1">
-                        {values.items.length > 0 &&
-                          values.items
-                            .filter((item) => item.changed)
-                            .map((item, index: number) => {
-                              return (
-                                <motion.div
-                                  initial={{ scale: 0.9 }}
-                                  animate={{ scale: 1 }}
-                                  key={index}
-                                  className="group relative flex h-10 min-h-[2.5rem] w-full rounded text-text"
-                                >
-                                  <div className="h-full w-10 rounded">
-                                    <div
-                                      className="relative flex h-full w-full"
-                                      onClick={() => {
-                                        arrayHelpers.remove(index);
-                                      }}
-                                    >
-                                      <Image
-                                        src={`/products/${item.product._id}.png`}
-                                        objectFit="contain"
-                                        layout="fill"
-                                        alt="logo"
-                                      />
-                                      <div className="absolute flex h-full w-full items-center justify-center rounded border border-border bg-dark text-xl text-secondary opacity-0 transition-all duration-150 hover:text-2xl group-hover:opacity-100">
-                                        <IoTrash />
+                        {values.recipe?.ingredients.map(
+                          (ingredient, ingredientIndex) => {
+                            let sum = ingredient.inventory?.reduce(
+                              (sum, item) => {
+                                return item.changed ? sum + item.quantity : sum;
+                              },
+                              0
+                            );
+                            let percetage = (sum! / ingredient.quantity) * 100;
+                            return (
+                              <div
+                                key={ingredientIndex}
+                                className="flex flex-col overflow-hidden rounded border border-border bg-main text-text"
+                              >
+                                <div className="flex h-10 items-center justify-between border-b border-border bg-primary-main p-1 px-3">
+                                  <h3 className="text-semibold text-sm">
+                                    {ingredient.type}:
+                                  </h3>
+                                  <div className="flex items-center gap-3 text-sm">
+                                    <p className={`font-semibold`}>
+                                      {sum}/{ingredient.quantity}
+                                    </p>
+                                    {percetage != 100 && (
+                                      <p
+                                        className={`${
+                                          percetage < 100
+                                            ? "bg-error"
+                                            : "bg-secondary"
+                                        } border border-border p-1 font-bold`}
+                                      >
+                                        {Math.round(percetage)}%
+                                      </p>
+                                    )}
+                                  </div>
+                                </div>
+
+                                <div className="flex flex-col gap-1 p-2">
+                                  {ingredient.inventory?.map(
+                                    (item, itemIndex) => (
+                                      <motion.div
+                                        initial={{ scale: 0.9 }}
+                                        animate={{ scale: 1 }}
+                                        key={itemIndex}
+                                        className="relative flex h-10 min-h-[2.5rem] w-full items-center rounded text-text"
+                                      >
+                                        <div className="h-full w-10 rounded">
+                                          <div
+                                            className="relative flex h-full w-full"
+                                            onClick={() => {
+                                              arrayHelpers.remove(
+                                                ingredientIndex
+                                              );
+                                            }}
+                                          >
+                                            <Image
+                                              src={`/products/${item.product._id}.png`}
+                                              objectFit="contain"
+                                              layout="fill"
+                                              alt="logo"
+                                            />
+                                          </div>
+                                        </div>
+                                        <div className="flex flex-col">
+                                          <h2 className="ml-2">
+                                            {item.product.name}
+                                          </h2>
+                                          <h2 className="ml-3 -mt-1 text-xs font-bold text-secondary">
+                                            {item.product.type}-
+                                            {item.product.subtype}
+                                          </h2>
+                                        </div>
+                                        <div className="group absolute right-0">
+                                          <div className="flex items-center gap-1">
+                                            <h2 className="text-xs text-white">
+                                              {item.quantity}
+                                            </h2>
+                                            <Field
+                                              className="slider h-1 w-20 appearance-none rounded border border-border bg-dark transition-all group-hover:w-48"
+                                              type="range"
+                                              min={0}
+                                              max={item.inStock}
+                                              step={10}
+                                              name={`recipe.ingredients[${ingredientIndex}].inventory[${itemIndex}].quantity`}
+                                            />
+                                          </div>
+                                        </div>
+                                      </motion.div>
+                                    )
+                                  )}
+                                </div>
+                              </div>
+                            );
+                          }
+                        )}
+                        {values.items.length > 0 && (
+                          <div className="flex flex-col overflow-hidden rounded border border-border bg-main text-text">
+                            <div className="flex flex-col gap-1 p-2">
+                              {values.items.map((item, index: number) => {
+                                return (
+                                  <motion.div
+                                    initial={{ scale: 0.9 }}
+                                    animate={{ scale: 1 }}
+                                    key={index}
+                                    className="group relative flex h-10 min-h-[2.5rem] w-full items-center rounded text-text"
+                                  >
+                                    <div className="h-full w-10 rounded">
+                                      <div
+                                        className="relative flex h-full w-full"
+                                        onClick={() => {
+                                          arrayHelpers.remove(index);
+                                        }}
+                                      >
+                                        <Image
+                                          src={`/products/${item.product._id}.png`}
+                                          objectFit="contain"
+                                          layout="fill"
+                                          alt="logo"
+                                        />
+                                        <div className="absolute flex h-full w-full items-center justify-center rounded border border-border bg-dark text-xl text-secondary opacity-0 transition-all duration-150 hover:text-2xl group-hover:opacity-100">
+                                          <IoTrash />
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-                                  <div className="flex flex-col">
-                                    <h2 className="ml-2">
-                                      {item.product.name}
-                                    </h2>
-                                    <h2 className="ml-3 -mt-1 text-xs font-bold text-secondary">
-                                      {item.product.type}-{item.product.subtype}
-                                    </h2>
-                                  </div>
-                                  <div className="absolute right-0">
-                                    <div className="flex items-center gap-1">
-                                      <Field
-                                        className="form-field h-auto border-transparent bg-transparent p-2 text-end shadow-none focus:border-border"
-                                        type="number"
-                                        autoComplete="off"
-                                        name={`items[${index}].quantity`}
-                                      />
-                                      <h2 className=" text-white">
-                                        <span className="text-xs font-bold text-text-disabled">
-                                          {item.product.quantityType}
-                                        </span>
+                                    <div className="flex flex-col">
+                                      <h2 className="ml-2">
+                                        {item.product.name}
+                                      </h2>
+                                      <h2 className="ml-3 -mt-1 text-xs font-bold text-secondary">
+                                        {item.product.type}-
+                                        {item.product.subtype}
                                       </h2>
                                     </div>
-                                  </div>
-                                </motion.div>
-                              );
-                            })}
-                      </div>
-                    </div>
-                    <div className="rounded-md border border-border bg-secondary/30 p-3">
-                      <h2 className=" font-bold text-text">Egyéb:</h2>
-                      <div className="flex flex-col gap-2 py-1">
-                        {values.items.length > 0 &&
-                          values.items
-                            .filter((item) => !item.changed)
-                            .map((item, index: number) => {
-                              return (
-                                <motion.div
-                                  initial={{ scale: 0.9 }}
-                                  animate={{ scale: 1 }}
-                                  key={index}
-                                  className="group relative flex h-10 min-h-[2.5rem] w-full rounded text-text"
-                                >
-                                  <div className="h-full w-10 rounded">
-                                    <div
-                                      className="relative flex h-full w-full"
-                                      onClick={() => {
-                                        arrayHelpers.remove(index);
-                                      }}
-                                    >
-                                      <Image
-                                        src={`/products/${item.product._id}.png`}
-                                        objectFit="contain"
-                                        layout="fill"
-                                        alt="logo"
-                                      />
-                                      <div className="absolute flex h-full w-full items-center justify-center rounded border border-border bg-dark text-xl text-secondary opacity-0 transition-all duration-150 hover:text-2xl group-hover:opacity-100">
-                                        <IoTrash />
+                                    <div className="absolute right-0">
+                                      <div className="flex items-center gap-1">
+                                        <h2 className="text-xs text-white">
+                                          {item.quantity}
+                                        </h2>
                                       </div>
                                     </div>
-                                  </div>
-                                  <div className="flex flex-col">
-                                    <h2 className="ml-2">
-                                      {item.product.name}
-                                    </h2>
-                                    <h2 className="ml-3 -mt-1 text-xs font-bold text-secondary">
-                                      {item.product.type}-{item.product.subtype}
-                                    </h2>
-                                  </div>
-                                  <div className="absolute right-0">
-                                    <div className="flex items-center">
-                                      <h2 className=" text-white">
-                                        {item.quantity}
-                                        <span className="text-xs font-bold text-text-disabled">
-                                          {item.product.quantityType}
-                                        </span>
-                                      </h2>
-                                    </div>
-                                  </div>
-                                </motion.div>
-                              );
-                            })}
+                                  </motion.div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -331,7 +382,6 @@ export default function TakeOut({ recipe, handleClose }: TakeOutProps) {
               </button>
               <button
                 type="submit"
-                disabled={values.items.length < 1}
                 className="h-10 w-24 rounded-md border border-border bg-primary-main text-sm text-white shadow disabled:opacity-25"
               >
                 Create

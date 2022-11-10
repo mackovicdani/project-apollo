@@ -14,6 +14,7 @@ interface RecipeCardProps {
 export default function RecipeCard({ recipe }: RecipeCardProps) {
   const [isRecipeDetailsOpen, setIsRecipeDetailsOpen] = useState(false);
   const [isTakeOutOpen, setIsTakeOutOpen] = useState(false);
+  const [takeOutRecipe, setTakeOutRecipe] = useState<null | Recipe>(null);
 
   let priceCount = 0;
   recipe.ingredients.forEach((ingredient) => {
@@ -32,9 +33,10 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
         <RecipeDetails
           recipe={recipe}
           handleClose={(): void => setIsRecipeDetailsOpen(false)}
-          handleTakeOut={(): void => {
+          handleTakeOut={(recipe: Recipe): void => {
             setIsRecipeDetailsOpen(false);
             setTimeout(() => {
+              setTakeOutRecipe(recipe);
               setIsTakeOutOpen(true);
             }, 300);
           }}
@@ -42,7 +44,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
       </Modal>
       <Modal isOpen={isTakeOutOpen} size="max-w-xl">
         <TakeOut
-          recipe={recipe}
+          recipe={takeOutRecipe!}
           handleClose={(): void => setIsTakeOutOpen(false)}
         />
       </Modal>

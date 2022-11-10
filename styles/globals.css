@@ -48,4 +48,16 @@
   .scrollbar::-webkit-scrollbar-thumb:hover {
     @apply bg-primary-hover;
   }
+  .slider {
+    @apply bg-main;
+  }
+  .slider::-webkit-slider-thumb {
+    @apply aspect-square w-3 appearance-none rounded bg-secondary;
+  }
+  .slider::-moz-range-thumb {
+    @apply aspect-square w-3 appearance-none rounded bg-secondary;
+  }
+  .slider::-webkit-slider-thumb:active {
+    @apply bg-secondary/70;
+  }
 }

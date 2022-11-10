@@ -1,5 +1,6 @@
 import axios from "axios";
 import type { GetServerSideProps, NextPage } from "next";
+import CardPicker from "../components/recipes/CardPicker";
 import MealTable from "../components/recipes/MealTable";
 import RecipeList from "../components/recipes/RecipeList";
 import { initializeStore } from "../lib/store";
@@ -15,8 +16,8 @@ const Recipes: NextPage<RecipesProps> = ({ recipes }) => {
       <div className="flex flex-col gap-4 p-6 lg:p-12">
         <MealTable></MealTable>
       </div>
-      <div className="row-span-2 overflow-hidden p-6 pt-0 lg:p-12 lg:pt-0 xl:p-0">
-        Side
+      <div className="row-span-2 overflow-hidden border border-border bg-back p-3 pt-0 lg:p-12 lg:pt-0 xl:p-3">
+        <CardPicker />
       </div>
       <div className="p-6 pt-0 lg:p-12 lg:pt-0">
         <RecipeList recipes={recipes} />

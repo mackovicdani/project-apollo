@@ -17,9 +17,10 @@ export interface Product {
   origin: string;
 }
 
-interface Ingredient {
+export interface Ingredient {
   type: string;
   product: Product[];
+  inventory?: Item[];
   quantity: number;
   optional: boolean;
 }
@@ -46,4 +47,10 @@ export interface Item {
   quantity: number;
   price: number;
   changed?: boolean;
+  inStock?: number;
+}
+
+export interface Category {
+  name: string;
+  items: Item[];
 }
