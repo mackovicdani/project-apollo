@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { GiCampCookingPot } from "react-icons/gi";
-import { IoCheckmark, IoClose } from "react-icons/io5";
+import { IoAdd, IoCheckmark, IoClose, IoRemove } from "react-icons/io5";
 import {
   Category,
   Ingredient,
@@ -75,7 +75,7 @@ export default function RecipeDetails({
   handleTakeOut,
 }: RecipeDetailsProps) {
   const { selected } = useWallet();
-  const [servingNumber, SetServingNumber] = useState(2);
+  const [servingNumber, SetServingNumber] = useState(1);
   const [ingredients, setIngredients] = useState([] as Ingredient[]);
 
   useEffect(() => {
@@ -137,17 +137,25 @@ export default function RecipeDetails({
         <div className="w-full p-3 lg:w-1/3">
           <div className="flex justify-between">
             <h3 className="text-xl font-bold text-secondary">Ingredients:</h3>
-            <input
-              className=" form-field h-6 w-12 border border-border text-center text-xs"
-              type={"number"}
-              value={servingNumber}
-              onChange={(event) => {
-                const value = Number(event.currentTarget.value);
-                if (value > 0 && value < 11) SetServingNumber(value);
-              }}
-              min={1}
-              max={10}
-            ></input>
+            <div className="flex items-center justify-center">
+              <div className="aspect-square h-full hover:cursor-pointer">
+                <IoRemove
+                  className="mx-auto my-auto h-full text-secondary"
+                  onClick={(event) => {
+                    if (servingNumber > 1) SetServingNumber(servingNumber - 1);
+                  }}
+                />
+              </div>
+              <p className="font-bold">{servingNumber}</p>
+              <div
+                className="aspect-square h-full hover:cursor-pointer"
+                onClick={(event) => {
+                  if (servingNumber < 11) SetServingNumber(servingNumber + 1);
+                }}
+              >
+                <IoAdd className="mx-auto my-auto h-full text-secondary" />
+              </div>
+            </div>
           </div>
           {ingredients.map((ingredient, ingredientIndex) => (
             <div
