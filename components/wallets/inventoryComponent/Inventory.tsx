@@ -17,13 +17,15 @@ export default function Inventory() {
             })}
           {selectedCategory?.items &&
             selectedCategory?.items.map((item: any, index: number) => {
-              return (
-                <ItemCard
-                  key={item._id}
-                  item={item}
-                  animationDelay={index * 0.05}
-                ></ItemCard>
-              );
+              if (item.quantity > 0) {
+                return (
+                  <ItemCard
+                    key={item._id}
+                    item={item}
+                    animationDelay={index * 0.05}
+                  ></ItemCard>
+                );
+              }
             })}
         </div>
       </div>
