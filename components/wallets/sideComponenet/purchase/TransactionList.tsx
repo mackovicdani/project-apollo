@@ -8,7 +8,6 @@ import Transaction from "./Transaction";
 
 export default function TransactionList() {
   const { selected } = useWallet();
-  const [modal, setModal] = useState(null);
   const [transactions, setTransactions] = useState([]);
   const { username } = useUser();
   const { slicedArray, Pagination } = usePagination(

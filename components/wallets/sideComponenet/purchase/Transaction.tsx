@@ -1,8 +1,6 @@
 import { motion } from "framer-motion";
 import moment from "moment";
 import "moment/locale/hu";
-import { useState } from "react";
-import Modal from "../../../global/modal/Modal";
 
 interface TransactionProps {
   transaction: any;
@@ -10,25 +8,19 @@ interface TransactionProps {
 }
 
 export default function Transaction(props: TransactionProps) {
-  const [isOpen, setIsOpen] = useState(false);
   return (
     <>
-      <Modal isOpen={isOpen} size="max-w-md">
-        <div>Helo</div>
-      </Modal>
       <motion.div
         initial={{ scale: 1.05, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        whileHover={{ scale: 1.01, transition: { delay: 0 } }}
         transition={{
           delay: 0.3 + props.index * 0.05,
           type: "spring",
           stiffness: 80,
         }}
-        onClick={() => setIsOpen(true)}
         className={`${
           props.transaction.amount < 0 ? "to-error/10" : "to-secondary/10"
-        } relative flex h-16 min-h-[4rem] w-full items-center rounded-lg border border-border bg-gradient-to-l from-dark pl-2 pr-4 font-semibold text-white shadow hover:cursor-pointer`}
+        } relative flex h-16 min-h-[4rem] w-full items-center rounded-lg border border-border bg-gradient-to-l from-dark pl-2 pr-4 font-semibold text-white shadow`}
       >
         <div className="h-12 w-12 shrink-0 rounded-md border border-border bg-card shadow"></div>
         <div className="grow px-2">
