@@ -28,23 +28,24 @@ export default function Transaction(props: TransactionProps) {
         onClick={() => setIsOpen(true)}
         className={`${
           props.transaction.amount < 0 ? "to-error/10" : "to-secondary/10"
-        } relative flex h-16 min-h-[4rem] w-full items-center justify-between rounded-lg border border-border bg-gradient-to-l from-dark pl-2 pr-4 font-semibold text-white shadow hover:cursor-pointer`}
+        } relative flex h-16 min-h-[4rem] w-full items-center rounded-lg border border-border bg-gradient-to-l from-dark pl-2 pr-4 font-semibold text-white shadow hover:cursor-pointer`}
       >
-        <div className="h-12 w-12 rounded-md border border-border bg-card shadow"></div>
-        <div className="absolute left-16">
-          <h1 className="text-sm font-medium text-text">
+        <div className="h-12 w-12 shrink-0 rounded-md border border-border bg-card shadow"></div>
+        <div className="grow px-2">
+          <h1 className="max-h-8 max-w-[12rem] flex-nowrap overflow-hidden text-ellipsis text-xs font-medium text-text">
             {props.transaction.desc}
           </h1>
-          <h1 className=" text-xs text-text-disabled">
+          <h1 className="text-xs text-text-disabled">
             {props.transaction.sender.name}
           </h1>
         </div>
-        <div className="flex flex-col items-end">
+        <div className="flex shrink-0 flex-col items-end">
           <h1
             className={`${
               props.transaction.amount < 0 ? "text-error" : "text-secondary"
             } text-base font-bold`}
           >
+            {props.transaction.amount > 0 ? "+" : ""}
             {Math.round(props.transaction.amount)} ft
           </h1>
           <h1 className="text-xs text-text-disabled">
