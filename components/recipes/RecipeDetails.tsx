@@ -76,8 +76,11 @@ export default function RecipeDetails({
 }: RecipeDetailsProps) {
   const { selected } = useWallet();
   const [servingNumber, SetServingNumber] = useState(1);
+  const [isSomeoneAssignedError, SetIsSomeoneAssignedError] = useState(false);
   const [ingredients, setIngredients] = useState([] as Ingredient[]);
-  const [assignedUsers, setAssignedUsers] = useState<number[]>([]);
+  const [assignedUsers, setAssignedUsers] = useState<number[]>(
+    Array.from(Array(selected.assignedUsers.length).keys())
+  );
 
   useEffect(() => {
     setIngredients(ingredientCheck(recipe, selected.inventory, servingNumber));
@@ -97,12 +100,19 @@ export default function RecipeDetails({
         <div className="flex h-8 flex-col gap-y-px overflow-hidden transition-all hover:h-32">
           <button
             type="button"
-            onClick={() =>
-              handleTakeOut(
-                { ...recipe, ingredients: ingredients },
-                assignedUsers
-              )
-            }
+            onClick={() => {
+              if (assignedUsers.length > 0) {
+                handleTakeOut(
+                  { ...recipe, ingredients: ingredients },
+                  assignedUsers
+                );
+              } else {
+                SetIsSomeoneAssignedError(true);
+                setTimeout(() => {
+                  SetIsSomeoneAssignedError(false);
+                }, 1000);
+              }
+            }}
             className=" flex min-h-[2rem] w-full items-center justify-center bg-primary-main"
           >
             <GiCampCookingPot />
@@ -110,7 +120,9 @@ export default function RecipeDetails({
           {selected.assignedUsers.map((assignedUser: any, index: number) => (
             <button
               key={index}
-              className={`relative h-8 w-full bg-card text-sm`}
+              className={`${
+                isSomeoneAssignedError ? "bg-error" : "bg-card"
+              } relative h-8 w-full text-sm`}
               onClick={() => {
                 if (assignedUsers.includes(index))
                   setAssignedUsers(
