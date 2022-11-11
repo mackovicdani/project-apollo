@@ -2,6 +2,7 @@ import axios from "axios";
 import { Field, FieldArray, Form, Formik } from "formik";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Router from "next/router";
 import { useEffect, useState } from "react";
 import { IoArrowDown, IoTrash } from "react-icons/io5";
 import { Ingredient, Item, Recipe } from "../../models/types/types";
@@ -105,7 +106,8 @@ export default function TakeOut({
       );
 
       if (data) {
-        console.log(data);
+        Router.replace("/recipes");
+        handleClose();
       }
     } catch (error: any) {
       console.log(error);
