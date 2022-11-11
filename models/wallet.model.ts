@@ -10,6 +10,13 @@ var mongoose = require("mongoose");
 const crypto = require("crypto");
 var convert = require("convert-units");
 
+interface Dept {
+  userId: string;
+  quantity: number;
+  itemId: string;
+  walletId: string;
+}
+
 export class AssignedUser {
   @prop({ required: [true, "Please provide a user!"], ref: () => User })
   public user: Ref<User>;
@@ -247,7 +254,7 @@ export class Wallet {
         wallet?.assignedUsers.map((assignedUser: any) => {
           pItem.quantityPerUser.push({
             user: assignedUser.user,
-            quantity: pItem.quantity / wallet!.assignedUsers.length,
+            quantity: Math.floor(pItem.quantity / wallet!.assignedUsers.length),
           });
         });
         wallet?.inventory.forEach((category: any) => {
@@ -264,8 +271,9 @@ export class Wallet {
                     index: number,
                     quantityPerUserArray: any[]
                   ) => {
-                    quantityPerUserArray[index].quantity +=
-                      pItem.quantity / wallet!.assignedUsers.length;
+                    quantityPerUserArray[index].quantity += Math.floor(
+                      pItem.quantity / wallet!.assignedUsers.length
+                    );
                   }
                 );
               }
@@ -280,26 +288,6 @@ export class Wallet {
         }
       })
     );
-
-    /* wallet?.inventory.forEach((item: any, index, array) => {
-      purchase.items.forEach((pItem: any) => {
-        if (item.product == pItem.product) {
-          array[index].quantity += pItem.quantity;
-        }
-      });
-    });
-
-    purchase.items.forEach((pItem: any) => {
-      let found = false;
-      wallet?.inventory.forEach((item: any) => {
-        if (item.product == pItem.product) {
-          found = true;
-        }
-      });
-      if (!found) {
-        wallet?.inventory.push(pItem);
-      }
-    }); */
 
     await wallet?.save();
 
@@ -327,18 +315,23 @@ export class Wallet {
                 ? purchasePrice
                 : ((size - 1) / size) * purchasePrice
               : (1 / size) * -purchasePrice;
-          const transaction = await TransactionModel.createTransaction({
-            desc: "Purchase",
-            date: new Date(),
-            sender: new mongoose.Types.ObjectId(userId),
-            recipient: assignedUser.user,
-            purchase: id,
-            amount: price,
-            wallet: wallet?._id,
-          });
-          if (transaction) {
+          const { transaction, wallet: walletCopy } =
+            await TransactionModel.createTransaction(
+              {
+                desc: "Purchase",
+                date: new Date(),
+                sender: userId,
+                recipient: assignedUser.user,
+                purchase: id,
+                amount: price,
+                wallet: wallet?._id,
+              },
+              wallet
+            );
+          wallet = walletCopy;
+          /* if (transaction) {
             assignedUser.money += price;
-          }
+          } */
           array[index] = assignedUser;
         })
       );
@@ -394,8 +387,145 @@ export class Wallet {
       await wallet?.save();
     });
   }
+
+  public static async takeOutItemsFromInventory(
+    this: ReturnModelType<typeof Wallet>,
+    walletId: string,
+    items: Item[],
+    assignedUsers: number[]
+  ) {
+    let wallet = await this.findById(walletId);
+    if (!wallet) return;
+
+    let deptArray = [] as Dept[];
+
+    await Promise.all(
+      items.map(async (item: any) => {
+        const unitPrice =
+          item.product.price /
+          convert(item.product.packageSize)
+            .from(item.product.quantityType)
+            .to(convert().from(item.product!.quantityType).possibilities()[2]);
+        const unit = convert()
+          .from(item.product!.quantityType)
+          .possibilities()[2];
+
+        for (let i = 0; i < wallet!.inventory.length; i++) {
+          const category = wallet!.inventory[i];
+          for (let j = 0; j < category.items.length; j++) {
+            const inventoryItem: any = category.items[j];
+            if (item.product._id == inventoryItem.product._id.toString()) {
+              //van legalább annyi mint amennyit ki akarunk venni
+              inventoryItem.quantity -= item.quantity;
+              if (inventoryItem.quantity < 0) inventoryItem.quantity = 0;
+              const userQuantity = item.quantity / assignedUsers.length;
+              for (let k = 0; k < inventoryItem.quantityPerUser.length; k++) {
+                const qPerUser = inventoryItem.quantityPerUser[k];
+                if (!assignedUsers.includes(k)) continue;
+                qPerUser.quantity -= Math.floor(userQuantity);
+                if (qPerUser.quantity < 0) {
+                  deptArray.push({
+                    userId: qPerUser.user,
+                    quantity: qPerUser.quantity * -1,
+                    itemId: inventoryItem._id,
+                    walletId: walletId,
+                  });
+                  qPerUser.quantity = 0;
+                }
+              }
+              await Promise.all(
+                deptArray.map(async (dept) => {
+                  let tempQuantity = dept.quantity;
+                  for (
+                    let k = 0;
+                    k < inventoryItem.quantityPerUser.length;
+                    k++
+                  ) {
+                    const qPerUser = inventoryItem.quantityPerUser[k];
+                    if (tempQuantity == 0) {
+                      break;
+                    }
+                    if (
+                      qPerUser.user.toString() == dept.userId.toString() ||
+                      qPerUser.quantity == 0
+                    ) {
+                      continue;
+                    }
+                    if (qPerUser.quantity - tempQuantity >= 0) {
+                      qPerUser.quantity -= Math.floor(tempQuantity);
+                      const { wallet: walletCopy } =
+                        await TransactionModel.createTransaction(
+                          {
+                            desc: `Compensation for ${Math.round(
+                              tempQuantity
+                            )}${unit} of ${item.product.name}`,
+                            date: new Date(),
+                            sender: dept.userId,
+                            recipient: qPerUser.user,
+                            purchase: undefined,
+                            amount: tempQuantity * unitPrice,
+                            wallet: wallet?._id,
+                          },
+                          wallet
+                        );
+                      wallet = walletCopy;
+                      break;
+                    } else {
+                      tempQuantity -= qPerUser.quantity;
+                      const value = qPerUser.quantity;
+                      qPerUser.quantity = 0;
+                      const { wallet: walletCopy } =
+                        await TransactionModel.createTransaction(
+                          {
+                            desc: `Compensation for ${Math.round(
+                              value
+                            )}${unit} of ${item.product.name}`,
+                            date: new Date(),
+                            sender: dept.userId,
+                            recipient: qPerUser.user,
+                            purchase: undefined,
+                            amount: value * unitPrice,
+                            wallet: wallet?._id,
+                          },
+                          wallet
+                        );
+                      wallet = walletCopy;
+                    }
+                  }
+                })
+              );
+            }
+          }
+        }
+      })
+    );
+    return wallet;
+  }
 }
 
 const WalletModel = getModelForClass(Wallet);
 
 export default WalletModel;
+
+/* if (qPerUser.quantity - dept.quantity < 0) {
+                  await TransactionModel.createTransaction({
+                    desc: "Compensation",
+                    date: new Date(),
+                    sender: dept.userId,
+                    recipient: qPerUser.user,
+                    purchase: undefined,
+                    amount: qPerUser.quantity,
+                    wallet: wallet?._id,
+                  });
+                  dept.quantity -= qPerUser.quantity;
+                  qPerUser.quantity = 0;
+                } else {
+                  await TransactionModel.createTransaction({
+                    desc: "Compensation",
+                    date: new Date(),
+                    sender: dept.userId,
+                    recipient: qPerUser.user,
+                    purchase: undefined,
+                    amount: dept.quantity,
+                    wallet: wallet?._id,
+                  }); */

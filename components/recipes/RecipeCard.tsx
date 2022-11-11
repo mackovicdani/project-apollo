@@ -14,6 +14,7 @@ interface RecipeCardProps {
 export default function RecipeCard({ recipe }: RecipeCardProps) {
   const [isRecipeDetailsOpen, setIsRecipeDetailsOpen] = useState(false);
   const [isTakeOutOpen, setIsTakeOutOpen] = useState(false);
+  const [assignedUsers, setAssignedUsers] = useState<number[]>([]);
   const [takeOutRecipe, setTakeOutRecipe] = useState<null | Recipe>(null);
 
   let priceCount = 0;
@@ -33,9 +34,10 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
         <RecipeDetails
           recipe={recipe}
           handleClose={(): void => setIsRecipeDetailsOpen(false)}
-          handleTakeOut={(recipe: Recipe): void => {
+          handleTakeOut={(recipe: Recipe, assignedUsers: number[]): void => {
             setIsRecipeDetailsOpen(false);
             setTimeout(() => {
+              setAssignedUsers(assignedUsers);
               setTakeOutRecipe(recipe);
               setIsTakeOutOpen(true);
             }, 300);
@@ -46,6 +48,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
         <TakeOut
           recipe={takeOutRecipe!}
           handleClose={(): void => setIsTakeOutOpen(false)}
+          assignedUsers={assignedUsers}
         />
       </Modal>
       <div

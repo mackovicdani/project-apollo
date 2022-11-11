@@ -66,7 +66,7 @@ const ingredientCheck = (
 interface RecipeDetailsProps {
   recipe: Recipe;
   handleClose: () => void;
-  handleTakeOut: (recipe: Recipe) => void;
+  handleTakeOut: (recipe: Recipe, assignedUsers: number[]) => void;
 }
 
 export default function RecipeDetails({
@@ -75,8 +75,9 @@ export default function RecipeDetails({
   handleTakeOut,
 }: RecipeDetailsProps) {
   const { selected } = useWallet();
-  const [servingNumber, SetServingNumber] = useState(2);
+  const [servingNumber, SetServingNumber] = useState(1);
   const [ingredients, setIngredients] = useState([] as Ingredient[]);
+  const [assignedUsers, setAssignedUsers] = useState<number[]>([]);
 
   useEffect(() => {
     setIngredients(ingredientCheck(recipe, selected.inventory, servingNumber));
@@ -97,14 +98,32 @@ export default function RecipeDetails({
           <button
             type="button"
             onClick={() =>
-              handleTakeOut({ ...recipe, ingredients: ingredients })
+              handleTakeOut(
+                { ...recipe, ingredients: ingredients },
+                assignedUsers
+              )
             }
             className=" flex min-h-[2rem] w-full items-center justify-center bg-primary-main"
           >
             <GiCampCookingPot />
           </button>
           {selected.assignedUsers.map((assignedUser: any, index: number) => (
-            <button key={index} className="h-8 w-full bg-card text-sm">
+            <button
+              key={index}
+              className={`relative h-8 w-full bg-card text-sm`}
+              onClick={() => {
+                if (assignedUsers.includes(index))
+                  setAssignedUsers(
+                    assignedUsers.filter((value) => value != index)
+                  );
+                else setAssignedUsers([...assignedUsers, index]);
+              }}
+            >
+              {assignedUsers.includes(index) ? (
+                <div className="absolute top-0 flex h-full w-full items-center justify-center bg-secondary/50">
+                  <IoCheckmark className="text-lg text-white" />
+                </div>
+              ) : undefined}
               {assignedUser.user.name.split(" ")[0].charAt(0) +
                 assignedUser.user.name.split(" ")[1].charAt(0)}
             </button>

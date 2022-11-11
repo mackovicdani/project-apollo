@@ -1,6 +1,8 @@
 import type { Ref, ReturnModelType } from "@typegoose/typegoose";
 import { getModelForClass, prop } from "@typegoose/typegoose";
+import { Item } from "./item.model";
 import { Product } from "./product.model";
+import WalletModel from "./wallet.model";
 
 class Ingredient {
   @prop()
@@ -154,6 +156,23 @@ export class Recipe {
     recipeId: string
   ) {
     return await this.findByIdAndDelete(recipeId);
+  }
+
+  public static async cookRecipe(
+    this: ReturnModelType<typeof Recipe>,
+    recipeId: string,
+    recipe: Recipe,
+    items: Item[],
+    walletId: string,
+    assignedUsers: number[]
+  ) {
+    const wallet = await WalletModel.takeOutItemsFromInventory(
+      walletId,
+      items,
+      assignedUsers
+    );
+
+    wallet?.save();
   }
 }
 

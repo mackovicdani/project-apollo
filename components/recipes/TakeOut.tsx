@@ -2,7 +2,6 @@ import axios from "axios";
 import { Field, FieldArray, Form, Formik } from "formik";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Router from "next/router";
 import { useEffect, useState } from "react";
 import { IoArrowDown, IoTrash } from "react-icons/io5";
 import { Ingredient, Item, Recipe } from "../../models/types/types";
@@ -12,6 +11,7 @@ import CustomDropDownListItem from "../global/customDropDownList/CustomDropDownL
 
 interface TakeOutProps {
   recipe?: Recipe;
+  assignedUsers: number[];
   handleClose: () => void;
 }
 
@@ -30,7 +30,11 @@ let initialValues: Values = {
   items: [],
 };
 
-export default function TakeOut({ recipe, handleClose }: TakeOutProps) {
+export default function TakeOut({
+  recipe,
+  assignedUsers,
+  handleClose,
+}: TakeOutProps) {
   const { selected } = useWallet();
   const [data, setData] = useState<any>([]);
 
@@ -81,7 +85,7 @@ export default function TakeOut({ recipe, handleClose }: TakeOutProps) {
     fetchData();
   }, []);
 
-  const submitHandler = async (values: any) => {
+  const submitHandler = async (recipe: Recipe, values: any) => {
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -89,15 +93,19 @@ export default function TakeOut({ recipe, handleClose }: TakeOutProps) {
     };
 
     try {
-      const { data } = await axios.put(
-        `http://localhost:3000/api/wallet/${selected._id}/purchases/`,
-        values,
+      const { data } = await axios.post(
+        `http://localhost:3000/api/recipe/${recipe._id}/cook/`,
+        {
+          recipe,
+          items: values,
+          walletId: selected._id,
+          assignedUsers: assignedUsers,
+        },
         config
       );
 
       if (data) {
-        Router.replace("/wallets");
-        handleClose();
+        console.log(data);
       }
     } catch (error: any) {
       console.log(error);
@@ -112,20 +120,21 @@ export default function TakeOut({ recipe, handleClose }: TakeOutProps) {
       <Formik
         initialValues={initialValues}
         onSubmit={(values) => {
-          console.log(values.recipe);
-          /* let { recipe } = values;
-          let temp: any[] = [];
-          recipe?.ingredients.map((item: any) => {
-            temp.push({
-              product: item.product,
-              price: item.price,
-              quantity: item.quantity,
-              changed: item.changed,
+          let { recipe } = values;
+          let temp: Item[] = [];
+          recipe?.ingredients.map((ingredient) => {
+            ingredient.inventory!.map((item) => {
+              temp.push({
+                product: item.product,
+                price: item.price,
+                quantity: item.quantity,
+                changed: false,
+              });
             });
           });
-          if (items.length > 0) {
-            submitHandler({ items: temp });
-          } */
+          if (temp.length > 0) {
+            submitHandler(recipe!, temp);
+          }
         }}
       >
         {({ values }) => (

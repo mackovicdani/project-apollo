@@ -32,9 +32,18 @@ export class Transaction {
 
   public static async createTransaction(
     this: ReturnModelType<typeof Transaction>,
-    transaction: Transaction
+    transaction: any,
+    wallet: typeof Wallet
   ) {
-    return await this.create(transaction);
+    wallet.assignedUsers.forEach(
+      (assignedUser: any, index: number, array: any[]) => {
+        if (transaction.recipient.toString() == assignedUser.user.toString()) {
+          array[index].money += transaction.amount;
+        }
+      }
+    );
+
+    return { transaction: await this.create(transaction), wallet };
   }
 }
 
