@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
 import { Recipe } from "../../models/types/types";
@@ -51,11 +52,12 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
           assignedUsers={assignedUsers}
         />
       </Modal>
-      <div
+      <motion.div
+        whileHover={{ scale: 1.01 }}
         onClick={() => {
           setIsRecipeDetailsOpen(true);
         }}
-        className="relative flex h-full w-1/4 justify-center overflow-hidden bg-main"
+        className="relative flex h-full justify-center overflow-hidden rounded border border-border bg-main shadow"
       >
         <div className="absolute top-[1px] bottom-[1px] left-[1px] right-[1px] flex opacity-70">
           <Image
@@ -85,7 +87,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 }

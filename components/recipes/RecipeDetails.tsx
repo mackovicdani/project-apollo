@@ -110,7 +110,7 @@ export default function RecipeDetails({
                 SetIsSomeoneAssignedError(true);
                 setTimeout(() => {
                   SetIsSomeoneAssignedError(false);
-                }, 1000);
+                }, 300);
               }
             }}
             className=" flex min-h-[2rem] w-full items-center justify-center bg-primary-main"

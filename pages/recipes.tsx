@@ -1,7 +1,6 @@
 import axios from "axios";
 import type { GetServerSideProps, NextPage } from "next";
 import CardPicker from "../components/recipes/CardPicker";
-import MealTable from "../components/recipes/MealTable";
 import RecipeList from "../components/recipes/RecipeList";
 import { initializeStore } from "../lib/store";
 import { Recipe } from "../models/types/types";
@@ -12,14 +11,17 @@ interface RecipesProps {
 
 const Recipes: NextPage<RecipesProps> = ({ recipes }) => {
   return (
-    <div className="grid h-full w-full grid-cols-xs grid-rows-xs xl:grid-cols-xl xl:grid-rows-xl 2xl:grid-cols-2xl 2xl:grid-rows-2xl">
-      <div className="flex flex-col gap-4 p-6 lg:p-12">
+    <div className="grid h-full min-h-screen w-full grid-cols-xs grid-rows-xs xl:grid-cols-xl xl:grid-rows-xl 2xl:grid-cols-2xl 2xl:grid-rows-2xl">
+      <div></div>
+      {/* <div className="flex flex-col gap-4 p-6 lg:p-12">
         <MealTable></MealTable>
+      </div> */}
+      <div className="row-span-2 p-6 pb-3 pt-0 lg:p-12 xl:p-0">
+        <div className="h-full w-full border border-border bg-back p-3">
+          <CardPicker />
+        </div>
       </div>
-      <div className="row-span-2 overflow-hidden border border-border bg-back p-3 pt-0 lg:p-12 lg:pt-0 xl:p-3">
-        <CardPicker />
-      </div>
-      <div className="p-6 pt-0 lg:p-12 lg:pt-0">
+      <div className="p-6 py-6 lg:p-12 lg:pt-0">
         <RecipeList recipes={recipes} />
       </div>
     </div>
