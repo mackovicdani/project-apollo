@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { GiCampCookingPot } from "react-icons/gi";
 import { IoAdd, IoCheckmark, IoClose, IoRemove } from "react-icons/io5";
+import useWindowDimensions from "../../lib/windowDimensions";
 import {
   Category,
   Ingredient,
@@ -74,6 +75,7 @@ export default function RecipeDetails({
   handleClose,
   handleTakeOut,
 }: RecipeDetailsProps) {
+  const { device } = useWindowDimensions();
   const { selected } = useWallet();
   const [servingNumber, SetServingNumber] = useState(1);
   const [isSomeoneAssignedError, SetIsSomeoneAssignedError] = useState(false);
@@ -97,7 +99,11 @@ export default function RecipeDetails({
         >
           <IoClose />
         </button>
-        <div className="flex h-8 flex-col gap-y-px overflow-hidden transition-all hover:h-32">
+        <div
+          className={`${
+            device == "desktop" ? " hover:h-32" : "h-32"
+          } flex h-8 flex-col gap-y-px overflow-hidden transition-all`}
+        >
           <button
             type="button"
             onClick={() => {

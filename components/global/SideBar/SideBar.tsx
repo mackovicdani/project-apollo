@@ -8,9 +8,9 @@ import useWindowDimensions from "../../../lib/windowDimensions";
 import SideBarItems from "./SideBarItems";
 
 export default function SideBar() {
-  const { width } = useWindowDimensions();
+  const { windowDimensions } = useWindowDimensions();
   const { username, email } = useUser();
-  const isOpened = width >= 1536;
+  const isOpened = windowDimensions.width >= 1536;
   const router = useRouter();
   const selected = router.asPath;
 

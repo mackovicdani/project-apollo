@@ -25,5 +25,10 @@ export default function useWindowDimensions() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  return windowDimensions;
+  let device;
+  if (windowDimensions.width > 1024) device = "desktop";
+  else if (windowDimensions.width > 768) device = "tablet";
+  else device = "mobile";
+
+  return { windowDimensions, device };
 }
