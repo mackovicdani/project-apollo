@@ -128,11 +128,11 @@ export default function AddProduct(props: any) {
         initialValues={{
           name: name,
           image: "",
-          category: "vegetables",
+          category: "Vegetables",
           type: "",
           subtype: "",
           packageSize: "",
-          quantityType: "db",
+          quantityType: "kg",
           price: price,
           origin: [],
         }}
@@ -205,8 +205,23 @@ export default function AddProduct(props: any) {
               name="category"
               autoComplete="off"
             >
-              <option value="vegetables">Vegetables</option>
-              <option value="fruits">Fruits</option>
+              <option value="Vegetables">Vegetables</option>
+              <option value="Fruits">Fruits</option>
+              <option value="Canned goods">Canned goods</option>
+              <option value="Froozen foods">Froozen foods</option>
+              <option value="Meat">Meat</option>
+              <option value="Fish">Fish</option>
+              <option value="Deli">Deli</option>
+              <option value="Condiments&Spices">Condiments&Spices</option>
+              <option value="Snacks">Snacks</option>
+              <option value="Bread&Bakery">Bread&Bakery</option>
+              <option value="Beverages">Beverages</option>
+              <option value="Pasta&Rice">Pasta&Rice</option>
+              <option value="Sereal">Sereal</option>
+              <option value="Personal Items">Personal Items</option>
+              <option value="Health Care">Health Care</option>
+              <option value="Paper">Paper</option>
+              <option value="Household">Household</option>
             </Field>
 
             <div className="flex gap-2">
@@ -226,11 +241,11 @@ export default function AddProduct(props: any) {
                 placeholder="QuantityType"
                 autoComplete="off"
               >
-                <option value="db">db</option>
-                <option value="gr">gr</option>
-                <option value="kg">kg</option>
-                <option value="kg">kg</option>
-                <option value="l">l</option>
+                <option value="gr">kg</option>
+                <option value="kg">g</option>
+                <option value="kg">l</option>
+                <option value="l">ml</option>
+                <option value="l">db</option>
               </Field>
             </div>
             <Field

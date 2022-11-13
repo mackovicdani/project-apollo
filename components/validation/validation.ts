@@ -24,7 +24,15 @@ export const purchaseSchema = Yup.object().shape({
   store: Yup.string().required("Required"),
   items: Yup.array().of(
     Yup.object().shape({
-      product: Yup.string().required("Required"),
+      product: Yup.object().shape({
+        name: Yup.string().required("Required"),
+        category: Yup.string().required("Required"),
+        type: Yup.string().required("Required"),
+        subtype: Yup.string().required("Required"),
+        price: Yup.number().min(1).required("Required"),
+        packageSize: Yup.number().min(1).required("Required"),
+        quantityType: Yup.string().required("Required"),
+      }),
       price: Yup.number().min(1).required("Required"),
       quantity: Yup.number().min(1).required("Required"),
       changed: Yup.boolean().required("Required"),

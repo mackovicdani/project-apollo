@@ -5,7 +5,7 @@ import Image from "next/image";
 import Router from "next/router";
 import { useEffect, useState } from "react";
 import { IoArrowDown, IoArrowForward, IoTrash } from "react-icons/io5";
-import { Item } from "../../../../models/item.model";
+import { Item } from "../../../../models/types/types";
 import { useWallet } from "../../../../pages/wallets";
 import CustomDropDownList from "../../../global/customDropDownList/CustomDropDownList";
 import CustomDropDownListItem from "../../../global/customDropDownList/CustomDropDownListItem";
@@ -15,12 +15,10 @@ import AddProduct from "./AddProduct";
 
 interface Values {
   newItem: string;
-  newItemId: string;
-  type: string;
+  newItemId: Item | null;
   store: string;
-  priceChanged: number;
+  priceChanged: number | "";
   quantity: number | "";
-  price: number | "";
   items: Item[];
   sum: number;
 }
@@ -73,12 +71,10 @@ export default function AddPurchase(props: any) {
 
   const initialValues: Values = {
     newItem: "",
-    newItemId: "",
-    type: "konyha",
+    newItemId: null,
     store: props.store._id,
-    priceChanged: 0,
+    priceChanged: "",
     quantity: 1,
-    price: "",
     items: [] as Item[],
     sum: 0,
   };
@@ -102,8 +98,8 @@ export default function AddPurchase(props: any) {
         validationSchema={purchaseSchema}
         onSubmit={(values) => {
           let { store, items } = values;
-          let temp: any[] = [];
-          items.map((item: any) => {
+          let temp: Item[] = [];
+          items.map((item: Item) => {
             temp.push({
               product: item.product,
               price: item.price,
@@ -127,11 +123,13 @@ export default function AddPurchase(props: any) {
                     <div className="relative h-full flex-grow">
                       {/* dropdownlist */}
                       <CustomDropDownList
-                        isOpen={values.newItem != "" && values.newItemId == ""}
+                        isOpen={
+                          values.newItem != "" && values.newItemId == null
+                        }
                         id={"newItem"}
                         placeholder="Name"
                         onKeyUp={() => {
-                          if (values.newItemId != "") {
+                          if (values.newItemId != null) {
                             arrayHelpers.form.setValues({
                               ...values,
                               newItemId: "",
@@ -164,9 +162,8 @@ export default function AddPurchase(props: any) {
                                 onClick={(): void => {
                                   arrayHelpers.form.setValues({
                                     ...values,
-                                    newItemId: product._id,
+                                    newItemId: product,
                                     newItem: product.name,
-                                    price: product.price,
                                     priceChanged: product.price,
                                     quantity: 1,
                                   });
@@ -180,12 +177,12 @@ export default function AddPurchase(props: any) {
                     <Field
                       onKeyUp={() => {}}
                       className={`form-field h-full w-[20%] ${
-                        values.priceChanged !== values.price
+                        values.priceChanged !== values.newItemId?.price
                           ? "bg-main"
                           : "bg-secondary font-bold text-white"
                       } disabled:bg-main`}
-                      id="price"
-                      name="price"
+                      id="priceChanged"
+                      name="priceChanged"
                       type="number"
                       placeholder="Price"
                       autoComplete="off"
@@ -202,47 +199,42 @@ export default function AddPurchase(props: any) {
                     <button
                       type="button"
                       className={`form-button z-10 flex items-center justify-center border border-border ${
-                        values.newItemId == ""
+                        values.newItemId == null
                           ? "bg-primary-main"
                           : "bg-secondary"
                       } h-full w-10`}
                       onClick={() => {
-                        if (values.newItemId != "") {
+                        if (values.newItemId != null) {
                           if (values.quantity < 1) values.quantity = 1;
                           arrayHelpers.push({
                             product: values.newItemId,
-                            productName: values.newItem,
                             quantity: values.quantity,
-                            price: values.price,
-                            oldPrice:
-                              values.priceChanged !== values.price
-                                ? values.priceChanged
-                                : null,
-                            changed: values.priceChanged !== values.price,
-                            type: "konyha",
+                            price: values.priceChanged,
+                            changed: false,
                           });
-                          if (values.price && values.quantity)
-                            values.sum += values.quantity * values.price;
+                          if (values.newItemId.price && values.quantity)
+                            values.sum +=
+                              values.quantity * values.newItemId.price;
                           values.newItem = "";
-                          values.newItemId = "";
-                          values.price = "";
+                          values.priceChanged = "";
+                          values.newItemId = null;
                           values.quantity = 1;
                         } else {
                           setModal(true);
                         }
                       }}
                     >
-                      {values.newItemId !== "" && (
+                      {values.newItemId !== null && (
                         <IoArrowDown className="text-xl text-white" />
                       )}
-                      {values.newItemId == "" && (
+                      {values.newItemId == null && (
                         <IoArrowForward className="text-xl text-white" />
                       )}
                     </button>
                     <Modal isOpen={modal} size="max-w-md">
                       <AddProduct
                         name={values.newItem}
-                        price={values.price}
+                        price={1}
                         handleClose={() => setModal(false)}
                         addProduct={(product: any) => {
                           arrayHelpers.form.setValues({
@@ -260,7 +252,7 @@ export default function AddPurchase(props: any) {
                   {/* Item list */}
                   <div className="scrollbar flex h-full max-h-96 flex-col flex-nowrap gap-2 overflow-y-auto overflow-x-hidden border-b-[1px] border-elev p-3">
                     {values.items.length > 0 &&
-                      values.items.map((item: any, index: number) => {
+                      values.items.map((item: Item, index: number) => {
                         return (
                           <motion.div
                             initial={{ x: 100 }}
@@ -283,7 +275,7 @@ export default function AddPurchase(props: any) {
                                 }}
                               >
                                 <Image
-                                  src={`/products/${item.product}.png`}
+                                  src={`/products/${item.product._id}.png`}
                                   objectFit="contain"
                                   layout="fill"
                                   alt="logo"
@@ -294,24 +286,24 @@ export default function AddPurchase(props: any) {
                               </div>
                             </div>
                             <div className="flex flex-col">
-                              <h2 className="ml-2">{item.productName}</h2>
+                              <h2 className="ml-2">{item.product.name}</h2>
                               <h2 className="ml-3 -mt-1 text-xs font-bold text-secondary">
-                                {item.type.toUpperCase()}
+                                {item.product.type.toUpperCase()}
                               </h2>
                             </div>
                             <div className="absolute right-0">
                               <div className="flex items-center">
-                                {item.oldPrice && (
-                                  <Field
-                                    className=" m-1 accent-secondary"
-                                    type="checkbox"
-                                    name={`items.${index}.changed`}
-                                  />
-                                )}
-                                {item.oldPrice && (
-                                  <h2 className=" text-xs text-text line-through">
-                                    {item.oldPrice + " "}
-                                  </h2>
+                                {item.price != item.product.price && (
+                                  <>
+                                    <Field
+                                      className=" m-1 accent-secondary"
+                                      type="checkbox"
+                                      name={`items.${index}.changed`}
+                                    />
+                                    <h2 className=" text-xs text-text line-through">
+                                      {item.product.price + " "}
+                                    </h2>
+                                  </>
                                 )}
                                 <h2 className=" text-white">
                                   {item.price + " "}
