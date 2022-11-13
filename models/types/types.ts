@@ -45,7 +45,9 @@ export interface Recipe {
 export interface Item {
   product: Product;
   quantity: number;
+  quantityPerUser?: [];
   price: number;
+  oldPrice?: number;
   changed?: boolean;
   inStock?: number;
 }
