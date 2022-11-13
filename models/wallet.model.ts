@@ -109,6 +109,7 @@ export class Wallet {
     const wallet = await this.findById(walletId)
       .populate("assignedUsers.user", "name email")
       .populate("purchases.user", "name email")
+      .populate("inventory.items.product")
       .populate("purchases.store", "name location distance openHours")
       .populate({
         path: "purchases.items",
