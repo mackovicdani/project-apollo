@@ -270,6 +270,7 @@ export default function TakeOut({
                     <div className="relative h-full flex-grow">
                       {/* dropdownlist */}
                       <CustomDropDownList
+                        isSelected={values.newItemId != null}
                         isOpen={
                           values.newItem != "" && values.newItemId == null
                         }
@@ -334,6 +335,7 @@ export default function TakeOut({
                           inStock: values.newItemId!.quantity,
                         });
                         values.newItem = "";
+                        values.newItemId = null;
                       }}
                       disabled={values.newItemId == null}
                     >
@@ -412,7 +414,6 @@ export default function TakeOut({
               </button>
               <button
                 type="submit"
-                disabled={values.items.length < 1}
                 className="h-10 w-24 rounded-md border border-border bg-primary-main text-sm text-white shadow disabled:opacity-25"
               >
                 Create

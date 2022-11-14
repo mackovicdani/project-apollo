@@ -126,14 +126,15 @@ export default function AddPurchase(props: any) {
                         isOpen={
                           values.newItem != "" && values.newItemId == null
                         }
+                        isSelected={values.newItemId != null}
                         id={"newItem"}
                         placeholder="Name"
                         onKeyUp={() => {
                           if (values.newItemId != null) {
                             arrayHelpers.form.setValues({
                               ...values,
-                              newItemId: "",
-                              price: "",
+                              newItemId: null,
+                              priceChanged: "",
                               quantity: 1,
                             });
                           }
@@ -175,7 +176,6 @@ export default function AddPurchase(props: any) {
                     </div>
 
                     <Field
-                      onKeyUp={() => {}}
                       className={`form-field h-full w-[20%] ${
                         values.priceChanged !== values.newItemId?.price
                           ? "bg-main"

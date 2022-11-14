@@ -4,6 +4,7 @@ import { useState } from "react";
 
 interface CustomDropDownListProps {
   isOpen: boolean;
+  isSelected: boolean;
   children: JSX.Element;
   id: string;
   placeholder?: string;
@@ -16,7 +17,9 @@ export default function CustomDropDownList(props: CustomDropDownListProps) {
   return (
     <div className="relative h-auto w-full">
       <Field
-        className={`form-field bg-main`}
+        className={`${
+          props.isSelected ? "bg-secondary font-bold text-white" : "bg-main"
+        } form-field`}
         id={props.id}
         name={props.id}
         autoComplete="off"
