@@ -1,25 +1,42 @@
 import { UniversalPortal } from "@jesstelford/react-portal-universal";
 import { AnimatePresence, motion } from "framer-motion";
+import { ReactElement } from "react";
 
-export default function Modal(props: any) {
+interface ModalProps {
+  isOpen: boolean;
+  size:
+    | "max-w-xs"
+    | "max-w-sm"
+    | "max-w-md"
+    | "max-w-lg"
+    | "max-w-xl"
+    | "max-w-2xl"
+    | "max-w-3xl"
+    | "max-w-4xl"
+    | "max-w-5xl"
+    | "max-w-6xl";
+  children: ReactElement;
+}
+
+export default function Modal({ isOpen, size, children }: ModalProps) {
   return (
     <>
       <AnimatePresence>
-        {props.isOpen && (
+        {isOpen && (
           <UniversalPortal selector="#modal">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed top-0 bottom-0 right-0 left-0 z-[1000] flex items-center justify-center bg-dark/90"
+              className="max-w fixed top-0 bottom-0 right-0 left-0 z-[1000] flex items-center justify-center bg-dark/90"
             >
               <motion.div
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
-                className={`${props.size} container relative w-[90%] overflow-hidden rounded-lg border border-border bg-back shadow-md`}
+                className={`${size} container relative w-[90%] overflow-hidden rounded-lg border border-border bg-back shadow-md`}
               >
-                {props.children}
+                {children}
               </motion.div>
             </motion.div>
           </UniversalPortal>
