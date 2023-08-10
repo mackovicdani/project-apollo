@@ -6,6 +6,7 @@ import Modal from "../../../global/modal/Modal";
 import AddPurchase from "./AddPurchase";
 interface StoreListProps {
   isOpen: boolean;
+  // eslint-disable-next-line no-unused-vars
   setIsOpen: (value: boolean) => void;
 }
 
@@ -31,7 +32,7 @@ export default function StoreList({ isOpen, setIsOpen }: StoreListProps) {
   const [modal, setModal] = useState(null);
   return (
     <>
-      <Modal isOpen={modal} size="max-w-xl">
+      <Modal isOpen={modal || false} size="max-w-xl">
         <AddPurchase
           store={modal}
           handleClose={() => {
@@ -53,7 +54,7 @@ export default function StoreList({ isOpen, setIsOpen }: StoreListProps) {
               Close
             </div>
           </motion.div>
-          {stores.map((store: any, index: number) => (
+          {stores.map((store: any) => (
             <motion.div
               initial={{ scale: 1.05, opacity: 0 }}
               animate={{
