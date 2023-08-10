@@ -161,7 +161,11 @@ export default function AddProduct(props: any) {
                 setFieldValue("image", event.target.files![0])
               }
             />
-            <CustomDropDownList isOpen={values.type != ""} id="type">
+            <CustomDropDownList
+              isOpen={values.type != ""}
+              id="type"
+              isSelected={false}
+            >
               <>
                 {uniqueTypes
                   .filter((product: any) =>
@@ -181,7 +185,7 @@ export default function AddProduct(props: any) {
               </>
             </CustomDropDownList>
 
-            <CustomDropDownList isOpen={true} id="subtype">
+            <CustomDropDownList isOpen={true} id="subtype" isSelected={false}>
               <>
                 {uniqueSubTypes.get(values.type) &&
                   uniqueSubTypes.get(values.type).map((product: any) => {
